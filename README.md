@@ -1,2 +1,3 @@
-# 10-worlds-navigator
-10 Worlds Navigator
+# 10 Worlds Navigator
+
+Tools for tracking interstellar travel in the 10 Worlds setting.
