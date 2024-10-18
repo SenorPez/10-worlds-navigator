@@ -1,0 +1,2762 @@
+[
+  {
+    "name": "Beta Canum Venacticorum",
+    "transitTimes": [
+      1,
+      0.8,
+      0.6
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD+36°2219",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "GJ 1151",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "NN 3789",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "AC+23°468-46",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD+36°2219",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "61 Ursae Majoris",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD+11°2440",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 1156",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "BD+36°2219",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Beta Canum Venacticorum",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "61 Ursae Majoris",
+        "jumpLevel": "Alpha"
+      },
+      {
+        "destination": "AC+23°468-46",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "61 Ursae Majoris",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "AC+23°468-46",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD+36°2219",
+        "jumpLevel": "Alpha"
+      }
+    ]
+  },
+  {
+    "name": "GJ 1151",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Beta Canum Venacticorum",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "Groombridge 1830",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "Groombridge 1830",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "GJ 1151",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "BD+11°2440",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "AT Microscopii",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "CD-45°13677",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "HR 7703",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "BD+11°2440",
+    "transitTimes": [
+      3,
+      2,
+      1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "AC+23°468-46",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Groombridge 1830",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "FL Virginis",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Wolf 358",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "GJ 1156",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "AC+23°468-46",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Wolf 358",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "FL Virginis",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "GJ 2097",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Lalande 21185",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Lalande 21258",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD+11°2440",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Lalande 21258",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "FL Virginis",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "NN 3522",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "AD Leonis",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Wolf 358",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "GJ 1156",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD+11°2440",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "AD Leonis",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "41 Arae (A)",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "HR 7703",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "CD-34°11626",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "HR 7703",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "41 Arae (A)",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "CD-34°11626",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "AT Microscopii",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "CD-40°9712",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "CD-44°11909",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "36 Ophiuchi",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "CD-26°12036",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "CD-26°12036",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "CD-40°9712",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD+02°3312",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "BD+02°3312",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "CD-26°12036",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "36 Ophiuchi",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Wolf 629",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD-03°4233",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "Lalande 21185",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "FL Virginis",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "AD Leonis",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "CD-34°11626",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "41 Arae (A)",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "HR 7703",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "CD-44°11909",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD-20°4125",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "BD-20°4125",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "CD-34°11626",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "BD-12°4523",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD-07°4003",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "36 Ophiuchi",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "CD-40°9712",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD+02°3312",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "BD-03°4233",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD+02°3312",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "V1054 Ophiuchi",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Wolf 629",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD+02°3312",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD-07°4003",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "BD-07°4003",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD-20°4125",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "V1054 Ophiuchi",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Wolf 629",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "BD-12°4523",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD-20°4125",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "CD-44°11909",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Barnard's Star",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "V1054 Ophiuchi",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "CD-44°11909",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "CD-34°11626",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "AC-24°2833-183",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD-12°4523",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "CD-40°9712",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "AD Leonis",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Wolf 358",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Lalande 21258",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Lalande 21185",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Wolf 359",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD+50°1725",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Barnard's Star",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD-12°4523",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "AC-24°2833-183",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "AC-24°2833-183",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Alpha Centauri (B)",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Barnard's Star",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "CD-44°11909",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Wolf 359",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Alpha Centauri (B)",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Procyon",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "NN 3522",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "AD Leonis",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "BD+50°1725",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "AD Leonis",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Procyon",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "AC+79°3888",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "V1054 Ophiuchi",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD-07°4003",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD-12°4523",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "70 Ophiuchi",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD-03°4233",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "AC+79°3888",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD+50°1725",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Sigma Draconis",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Sirius",
+    "transitTimes": [
+      4,
+      2,
+      1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Procyon",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "Epsilon Eridani",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Alpha Centauri (B)",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Procyon",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "AC-24°2833-183",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Wolf 359",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Tau Ceti",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Epsilon Eridani",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "Procyon",
+    "transitTimes": [
+      4,
+      2,
+      1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Wolf 359",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Sirius",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "Alpha Centauri (B)",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "NN 3379",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "NN 3454",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 1116",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "DX Cancri",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "BD+50°1725",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "70 Ophiuchi",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "V1054 Ophiuchi",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "61 Cygni",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "V1581 Cygni",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Sigma Draconis",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "EV Lacertae",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD+68°946",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "61 Cygni",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "61 Cygni",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "70 Ophiuchi",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "V1581 Cygni",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "Krüger 60",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "Eta Cassiopeiae",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "HR 8832",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "HR 8832",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "61 Cygni",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Chi Draconis",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "Chi Draconis",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "HR 8832",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "GJ 1227",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "GJ 1227",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Chi Draconis",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "NN 3988",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "BD+68°946",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "V1581 Cygni",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Eta Cassiopeiae",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Kuiper 79",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "NN 3988",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "GJ 1227",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Mu Herculis",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "Eta Cassiopeiae",
+    "transitTimes": [
+      1,
+      0.8,
+      0.6
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Krüger 60",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD+68°946",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "61 Cygni",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "EV Lacertae",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Krüger 60",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "V1581 Cygni",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Sigma Draconis",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "AC+79°3888",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Vega",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Krüger 60",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "V1581 Cygni",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Krüger 60",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Sigma Draconis",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Eta Cassiopeiae",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "61 Cygni",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "EV Lacertae",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "Mu Herculis",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD+33°2777",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "USNO 752",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "NN 3988",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "Kuiper 79",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Vega",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD+68°946",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Vega",
+    "transitTimes": [
+      3,
+      2,
+      1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Sigma Draconis",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "BD+33°2777",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Kuiper 79",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD+43°2796",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "BD+33°2777",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD+43°2796",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "USNO 752",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Mu Herculis",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Vega",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "USNO 752",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD+33°2777",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Mu Herculis",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "DX Cancri",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Procyon",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "NN 3522",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "NN 3522",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Lalande 21258",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Wolf 359",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "DX Cancri",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "NN 3454",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "YZ Canis Minoris",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Ross 619",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "GJ 1116",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Procyon",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "NN 3454",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Luyten's Star",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "YZ Canis Minoris",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "NN 3454",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Procyon",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "NN 3379",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "V577 Monocerotis",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 1116",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "NN 3522",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "NN 3379",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Procyon",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "40 (O2) Eridani",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 1087",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "NN 3454",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD-03°1123",
+        "jumpLevel": "Beta"
+      }
+    ]
+  },
+  {
+    "name": "40 (O2) Eridani",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD-13°544",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "BD+06°398",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Gamma Leporis",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "V577 Monocerotis",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "NN 3379",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Ross 619",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "NN 3522",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Luyten 961-1",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "YZ Canis Minoris",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "NN 3522",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 1116",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Luyten's Star",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Luyten 961-1",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Luyten's Star",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "GJ 1116",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "YZ Canis Minoris",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "V577 Monocerotis",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "NN 3454",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "40 (O2) Eridani",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "AC+12°1800-213",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "GJ 1087",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "NN 3379",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD-03°1123",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Ross 41",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "BD+43°2796",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Vega",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD+33°2777",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Luyten 961-1",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "YZ Canis Minoris",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Ross 619",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD-05°1844",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "BD-05°1844",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Luyten 961-1",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "1 Pi(3)Orionis",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "AC+12°1800-213",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "V577 Monocerotis",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Steph 538",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "Steph 538",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "AC+12°1800-213",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "BD+18°683",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Ross 41",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "GJ 1087",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD+18°683",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "BD+18°683",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Ross 41",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Steph 538",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "1 Pi(3)Orionis",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "BD-03°1123",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "NN 3379",
+        "jumpLevel": "Beta"
+      },
+      {
+        "destination": "GJ 1087",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "1 Pi(3)Orionis",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "GJ 2097",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD+11°2576",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "FL Virginis",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "BD+11°2576",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "NN 3789",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 2097",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "NN 3789",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Beta Canum Venacticorum",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD+11°2576",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "CD-45°13677",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "CD-39°14192",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "AT Microscopii",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "CD-39°14192",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "CD-37°15492",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "IL Aquarii",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "CD-45°13677",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "IL Aquarii",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "CD-39°14192",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Luyten 725-32",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 1002",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "CD-37°15492",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "CD-39°14192",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Fomalhaut",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "UV Ceti",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Luyten 725-32",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "IL Aquarii",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 1002",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "Fomalhaut",
+    "transitTimes": [
+      3,
+      2,
+      1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "FK Aquarii",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "CD-23°17699",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "GJ 2005",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Luyten 722-22",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "CD-37°15492",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "GJ 2005",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Fomalhaut",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "CD-23°17699",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "NN 4360",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Luyten 722-22",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "FK Aquarii",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Fomalhaut",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "NN 4360",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "CD-23°17699",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Fomalhaut",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "GJ 2005",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "NN 4360",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "FK Aquarii",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 1286",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 2005",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "GJ 1286",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "NN 4360",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD+04°123",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Luyten 722-22",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 1002",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "BD+04°123",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "GJ 1286",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "107 Piscium",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "UV Ceti",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "CD-37°15492",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 1002",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Luyten 1159-016",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Epsilon Eridani",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "GJ 1061",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Lacaille 9352",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "GJ 1002",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Luyten 722-22",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Tau Ceti",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Luyten 1159-016",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "UV Ceti",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Epsilon Eridani",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "GJ 1002",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Luyten 725-32",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "GJ 1286",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Luyten 722-22",
+        "jumpLevel": "Beta"
+      },
+      {
+        "destination": "Lacaille 9352",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "UV Ceti",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "IL Aquarii",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "Luyten 722-22",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "GJ 1002",
+        "jumpLevel": "Beta"
+      },
+      {
+        "destination": "Fomalhaut",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 2005",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 1286",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "EZ Aquarii",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Lacaille 9352",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "GJ 1061",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "UV Ceti",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Tau Ceti",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Epsilon Eridani",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Tau Ceti",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Lacaille 9352",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "EZ Aquarii",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Epsilon Eridani",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "GJ 1061",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Alpha Centauri (B)",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "Epsilon Eridani",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "UV Ceti",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "Luyten 1159-016",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "82 Eridani",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Epsilon Indi",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Alpha Centauri (B)",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Sirius",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 1061",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Tau Ceti",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "EZ Aquarii",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Luyten 722-22",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Epsilon Indi",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Tau Ceti",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Delta Pavonis",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "CP-68°41",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "CP-73°2299",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Rho Eridani",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Epsilon Indi",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Epsilon Indi",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Epsilon Eridani",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Rho Eridani",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Zeta Tucanae",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "EZ Aquarii",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Delta Pavonis",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Rho Eridani",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Delta Pavonis",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Epsilon Indi",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Beta Hydri",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Zeta Tucanae",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "CP-73°2299",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Delta Pavonis",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Zeta Tucanae",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Zeta Tucanae",
+    "transitTimes": [
+      1,
+      0.8,
+      0.6
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Epsilon Indi",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Rho Eridani",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "CP-73°2299",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "82 Eridani",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Beta Hydri",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "Alpha Mensae",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "82 Eridani",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Epsilon Eridani",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Zeta Tucanae",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Beta Hydri",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "CP-68°41",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "BD-13°544",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "Alpha Mensae",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Zeta Tucanae",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "GJ 2034",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "Beta Hydri",
+    "transitTimes": [
+      1,
+      0.8,
+      0.6
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Rho Eridani",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Zeta Tucanae",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "Luyten 119-44",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "82 Eridani",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "Luyten 119-44",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Beta Hydri",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "CP-68°41",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "CP-68°41",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Delta Pavonis",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "82 Eridani",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "GJ 2034",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Luyten 119-44",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "GJ 2034",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "CP-68°41",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Gamma Leporis",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Alpha Mensae",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "Gamma Leporis",
+    "transitTimes": [
+      1,
+      0.8,
+      0.6
+    ],
+    "jumpLinks": [
+      {
+        "destination": "GJ 2034",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "1 Pi(3)Orionis",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "40 (O2) Eridani",
+        "jumpLevel": "Epsilon"
+      }
+    ]
+  },
+  {
+    "name": "1 Pi(3)Orionis",
+    "transitTimes": [
+      1,
+      0.8,
+      0.6
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Gamma Leporis",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Delta Eridani",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "BD+06°398",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Kappa Ceti",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "BD-05°1123",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "BD-05°1844",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "BD+18°683",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD-03°1123",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Delta Eridani",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD+06°398",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "1 Pi(3)Orionis",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "BD-13°544",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Kappa Ceti",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "BD-13°544",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "82 Eridani",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "40 (O2) Eridani",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "GJ 1057",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Delta Eridani",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "BD+06°398",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "40 (O2) Eridani",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "Delta Eridani",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "1 Pi(3)Orionis",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "GJ 1057",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "BD-05°1123",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Kappa Ceti",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "1 Pi(3)Orionis",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "BD-21°1051",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "BD-21°1051",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Luyten 806-34",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD-05°1123",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Kappa Ceti",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "1 Pi(3)Orionis",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "BD-05°1123",
+        "jumpLevel": "Epsilon"
+      },
+      {
+        "destination": "107 Piscium",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "Delta Eridani",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "Luyten 806-34",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD-21°1051",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 1065",
+        "jumpLevel": "Gamma"
+      }
+    ]
+  },
+  {
+    "name": "GJ 1065",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Luyten 806-34",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "GJ 1057",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "GJ 1057",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "BD+06°398",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "BD-13°544",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "GJ 1065",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "USNO 694",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "USNO 694",
+    "transitTimes": [
+      0.5,
+      0.2,
+      0.1
+    ],
+    "jumpLinks": [
+      {
+        "destination": "107 Piscium",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "GJ 1057",
+        "jumpLevel": "Delta"
+      }
+    ]
+  },
+  {
+    "name": "107 Piscium",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "USNO 694",
+        "jumpLevel": "Gamma"
+      },
+      {
+        "destination": "Kappa Ceti",
+        "jumpLevel": "Delta"
+      },
+      {
+        "destination": "BD+04°123",
+        "jumpLevel": "Delta"
+      }
+    ]
+  }
+]
