@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/10-worlds-navigator.iml" filepath="$PROJECT_DIR$/.idea/10-worlds-navigator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/navigator.iml" filepath="$PROJECT_DIR$/navigator.iml" />
     </modules>
   </component>
 </project>
