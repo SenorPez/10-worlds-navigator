@@ -4,6 +4,7 @@
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "module": "CommonJs",
+    "target": "es2016",
     "types": ["jest"]
   },
   "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]

@@ -1,0 +1,14 @@
+<mat-form-field id="formField_starSystem">
+  <mat-label>Star System</mat-label>
+  <mat-select id="select_starSystem" [(value)]="selectedStarSystem">
+    @for (starSystem of starSystems | sortBy: 'name'; track starSystem) {
+      <mat-option [value]="starSystem">{{starSystem.name}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<mat-list id="list_jumpLinks">
+  @for (jumpLink of selectedStarSystem.jumpLinks | sortBy: 'destination'; track jumpLink) {
+    <mat-list-item>{{jumpLink.destination}}, Jump Level {{jumpLink.jumpLevel}}</mat-list-item>
+  }
+</mat-list>
