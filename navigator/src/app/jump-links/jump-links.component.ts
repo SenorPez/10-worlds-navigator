@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {StarSystemService} from '../star-system.service';
 import {MatFormField, MatLabel, MatOption, MatSelect} from '@angular/material/select';
 import {StarSystem} from '../star-system';
+import {MatList, MatListItem} from "@angular/material/list";
+import {SortByPipe} from "../sort-by.pipe";
 
 @Component({
   selector: 'app-jump-links',
@@ -10,7 +12,10 @@ import {StarSystem} from '../star-system';
     MatSelect,
     MatFormField,
     MatLabel,
-    MatOption
+    MatOption,
+    MatList,
+    MatListItem,
+    SortByPipe
   ],
   templateUrl: './jump-links.component.html',
   styleUrl: './jump-links.component.css'
@@ -20,12 +25,7 @@ export class JumpLinksComponent {
   selectedStarSystem!: StarSystem;
 
   constructor(private starSystemsService: StarSystemService) {
-    this.starSystems = starSystemsService.getStarSystems()
-      .sort((a, b) => {
-        if (a.name < b.name) return -1;
-        if (a.name > b.name) return 1;
-        return 0;
-      });
+    this.starSystems = starSystemsService.getStarSystems();
     this.selectedStarSystem = this.starSystems[0];
   }
 }
