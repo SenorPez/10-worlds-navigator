@@ -1,6 +1,6 @@
 [
   {
-    "name": "Beta Canum Venacticorum",
+    "name": "Beta Canum Venaticorum",
     "transitTimes": [
       1,
       0.8,
@@ -19,7 +19,10 @@
         "destination": "NN 3789",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x":-1.59, "y":1.53, "z":8.43
+    }
   },
   {
     "name": "AC+23°468-46",
@@ -45,7 +48,12 @@
         "destination": "GJ 1156",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -2.4,
+      "y": -1.77,
+      "z": 6.24
+    }
   },
   {
     "name": "BD+36°2219",
@@ -56,7 +64,7 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Beta Canum Venacticorum",
+        "destination": "Beta Canum Venaticorum",
         "jumpLevel": "Gamma"
       },
       {
@@ -67,7 +75,12 @@
         "destination": "AC+23°468-46",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -2.12,
+      "y": 0.12,
+      "z": 7.81
+    }
   },
   {
     "name": "61 Ursae Majoris",
@@ -85,7 +98,12 @@
         "destination": "BD+36°2219",
         "jumpLevel": "Alpha"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -2.47,
+      "y": -0.15,
+      "z": 8.26
+    }
   },
   {
     "name": "GJ 1151",
@@ -96,14 +114,19 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Beta Canum Venacticorum",
+        "destination": "Beta Canum Venaticorum",
         "jumpLevel": "Gamma"
       },
       {
         "destination": "Groombridge 1830",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -2.86,
+      "y": 1.8,
+      "z": 7.48
+    }
   },
   {
     "name": "Groombridge 1830",
@@ -121,7 +144,12 @@
         "destination": "BD+11°2440",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -2.37,
+      "y": 0.49,
+      "z": 8.27
+    }
   },
   {
     "name": "AT Microscopii",
@@ -139,7 +167,12 @@
         "destination": "HR 7703",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 6.43,
+      "y": 1.27,
+      "z": -4.83
+    }
   },
   {
     "name": "BD+11°2440",
@@ -165,7 +198,10 @@
         "destination": "Wolf 358",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x":  0.12, "y": -2.21, "z":  6.41
+    }
   },
   {
     "name": "GJ 1156",
@@ -183,7 +219,12 @@
         "destination": "Wolf 358",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 0.21,
+      "y": -1.98,
+      "z": 6.23
+    }
   },
   {
     "name": "FL Virginis",
@@ -209,7 +250,12 @@
         "destination": "BD+11°2440",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 0.45,
+      "y": -1.3,
+      "z": 4.08
+    }
   },
   {
     "name": "Lalande 21258",
@@ -231,7 +277,12 @@
         "destination": "AD Leonis",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -0.53,
+      "y": -3.36,
+      "z": 2.99
+    }
   },
   {
     "name": "Wolf 358",
@@ -253,7 +304,12 @@
         "destination": "AD Leonis",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -1.81,
+      "y": -3.52,
+      "z": 5.64
+    }
   },
   {
     "name": "41 Arae (A)",
@@ -271,7 +327,10 @@
         "destination": "CD-34°11626",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x":7.19, "y":-2.3, "z":-0.69
+    }
   },
   {
     "name": "HR 7703",
@@ -293,7 +352,12 @@
         "destination": "AT Microscopii",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 4.82,
+      "y": 0.44,
+      "z": -2.9
+    }
   },
   {
     "name": "CD-40°9712",
@@ -315,7 +379,12 @@
         "destination": "CD-26°12036",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 5.26,
+      "y": -2.72,
+      "z": 1.27
+    }
   },
   {
     "name": "CD-26°12036",
@@ -333,7 +402,12 @@
         "destination": "BD+02°3312",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 5.45,
+      "y": -0.15,
+      "z": 0.65
+    }
   },
   {
     "name": "BD+02°3312",
@@ -359,7 +433,12 @@
         "destination": "BD-03°4233",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 6.62,
+      "y": 3.06,
+      "z": 2.65
+    }
   },
   {
     "name": "Lalande 21185",
@@ -377,7 +456,12 @@
         "destination": "AD Leonis",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -1.04,
+      "y": -0.09,
+      "z": 2.29
+    }
   },
   {
     "name": "CD-34°11626",
@@ -403,7 +487,12 @@
         "destination": "BD-20°4125",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 7.07,
+      "y": -1.01,
+      "z": 0.18
+    }
   },
   {
     "name": "BD-20°4125",
@@ -425,7 +514,12 @@
         "destination": "BD-07°4003",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 4.49,
+      "y": -1.79,
+      "z": 3.1
+    }
   },
   {
     "name": "36 Ophiuchi",
@@ -443,7 +537,12 @@
         "destination": "BD+02°3312",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 5.29,
+      "y": -0.16,
+      "z": 0.64
+    }
   },
   {
     "name": "BD-03°4233",
@@ -461,7 +560,12 @@
         "destination": "V1054 Ophiuchi",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 7.12,
+      "y": 3.3,
+      "z": 1.23
+    }
   },
   {
     "name": "Wolf 629",
@@ -479,7 +583,12 @@
         "destination": "BD-07°4003",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 5.32,
+      "y": 1.04,
+      "z": 2.1
+    }
   },
   {
     "name": "BD-07°4003",
@@ -501,7 +610,12 @@
         "destination": "Wolf 629",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 4.83,
+      "y": -0.5,
+      "z": 4.07
+    }
   },
   {
     "name": "BD-12°4523",
@@ -527,7 +641,12 @@
         "destination": "V1054 Ophiuchi",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 3.74,
+      "y": 0.22,
+      "z": 1.64
+    }
   },
   {
     "name": "CD-44°11909",
@@ -553,7 +672,12 @@
         "destination": "CD-40°9712",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 4.55,
+      "y": -1.14,
+      "z": -0.55
+    }
   },
   {
     "name": "AD Leonis",
@@ -583,7 +707,12 @@
         "destination": "BD+50°1725",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -2.29,
+      "y": -1.69,
+      "z": 4
+    }
   },
   {
     "name": "Barnard's Star",
@@ -601,7 +730,12 @@
         "destination": "AC-24°2833-183",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 1.53,
+      "y": 0.91,
+      "z": 0.44
+    }
   },
   {
     "name": "AC-24°2833-183",
@@ -623,7 +757,12 @@
         "destination": "CD-44°11909",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 2.83,
+      "y": 0.57,
+      "z": -0.52
+    }
   },
   {
     "name": "Wolf 359",
@@ -649,7 +788,12 @@
         "destination": "AD Leonis",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -0.58,
+      "y": -1.2,
+      "z": 1.99
+    }
   },
   {
     "name": "BD+50°1725",
@@ -671,7 +815,12 @@
         "destination": "AC+79°3888",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -2.79,
+      "y": 0.7,
+      "z": 3.7
+    }
   },
   {
     "name": "V1054 Ophiuchi",
@@ -697,7 +846,12 @@
         "destination": "BD-03°4233",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 5.95,
+      "y": 1.16,
+      "z": 2.34
+    }
   },
   {
     "name": "AC+79°3888",
@@ -715,7 +869,12 @@
         "destination": "Sigma Draconis",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -2.47,
+      "y": 3.29,
+      "z": 3.21
+    }
   },
   {
     "name": "Sirius",
@@ -733,7 +892,12 @@
         "destination": "Epsilon Eridani",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -1.76,
+      "y": -1.91,
+      "z": -0.41
+    }
   },
   {
     "name": "Alpha Centauri (B)",
@@ -763,7 +927,10 @@
         "destination": "Epsilon Eridani",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x":0.96, "y":-0.93, "z":-0.02
+    }
   },
   {
     "name": "Procyon",
@@ -805,7 +972,12 @@
         "destination": "BD+50°1725",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -2.84,
+      "y": -1.89,
+      "z": 0.79
+    }
   },
   {
     "name": "70 Ophiuchi",
@@ -823,7 +995,12 @@
         "destination": "61 Cygni",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 4.27,
+      "y": 2.46,
+      "z": 0.99
+    }
   },
   {
     "name": "V1581 Cygni",
@@ -849,7 +1026,12 @@
         "destination": "61 Cygni",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 0.9,
+      "y": 4.58,
+      "z": 0.7
+    }
   },
   {
     "name": "61 Cygni",
@@ -879,7 +1061,12 @@
         "destination": "HR 8832",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 0.46,
+      "y": 3.41,
+      "z": -0.35
+    }
   },
   {
     "name": "HR 8832",
@@ -897,7 +1084,12 @@
         "destination": "Chi Draconis",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -2.32,
+      "y": 6.41,
+      "z": -0.38
+    }
   },
   {
     "name": "Chi Draconis",
@@ -915,7 +1107,12 @@
         "destination": "GJ 1227",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -1.55,
+      "y": 6.47,
+      "z": 3.55
+    }
   },
   {
     "name": "GJ 1227",
@@ -933,7 +1130,12 @@
         "destination": "NN 3988",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -0.19,
+      "y": 7.34,
+      "z": 3.75
+    }
   },
   {
     "name": "BD+68°946",
@@ -955,7 +1157,12 @@
         "destination": "Kuiper 79",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -0.6,
+      "y": 3.94,
+      "z": 2.49
+    }
   },
   {
     "name": "NN 3988",
@@ -973,7 +1180,12 @@
         "destination": "Mu Herculis",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 1.51,
+      "y": 7.39,
+      "z": 5.79
+    }
   },
   {
     "name": "Eta Cassiopeiae",
@@ -995,7 +1207,12 @@
         "destination": "61 Cygni",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -3.19,
+      "y": 4.98,
+      "z": -0.52
+    }
   },
   {
     "name": "EV Lacertae",
@@ -1013,7 +1230,12 @@
         "destination": "V1581 Cygni",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -0.91,
+      "y": 4.86,
+      "z": -1.15
+    }
   },
   {
     "name": "Sigma Draconis",
@@ -1039,7 +1261,12 @@
         "destination": "V1581 Cygni",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -1.02,
+      "y": 5.11,
+      "z": 2.09
+    }
   },
   {
     "name": "Krüger 60",
@@ -1065,7 +1292,12 @@
         "destination": "EV Lacertae",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -1.01,
+      "y": 3.84,
+      "z": 0
+    }
   },
   {
     "name": "Mu Herculis",
@@ -1087,7 +1319,12 @@
         "destination": "NN 3988",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 4.77,
+      "y": 6.21,
+      "z": 3.76
+    }
   },
   {
     "name": "Kuiper 79",
@@ -1105,7 +1342,12 @@
         "destination": "BD+68°946",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 1.62,
+      "y": 4.81,
+      "z": 3.68
+    }
   },
   {
     "name": "Vega",
@@ -1131,7 +1373,12 @@
         "destination": "BD+43°2796",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 2.79,
+      "y": 6.73,
+      "z": 2.54
+    }
   },
   {
     "name": "BD+33°2777",
@@ -1157,7 +1404,12 @@
         "destination": "Vega",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 4.24,
+      "y": 6.12,
+      "z": 6.21
+    }
   },
   {
     "name": "USNO 752",
@@ -1175,7 +1427,12 @@
         "destination": "Mu Herculis",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 2.33,
+      "y": 6.01,
+      "z": 4.74
+    }
   },
   {
     "name": "DX Cancri",
@@ -1193,7 +1450,12 @@
         "destination": "NN 3522",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -2.93,
+      "y": -0.9,
+      "z": 1.95
+    }
   },
   {
     "name": "NN 3522",
@@ -1227,7 +1489,12 @@
         "destination": "Ross 619",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -2.89,
+      "y": -2.44,
+      "z": 2.38
+    }
   },
   {
     "name": "GJ 1116",
@@ -1253,7 +1520,12 @@
         "destination": "YZ Canis Minoris",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -3.73,
+      "y": -1.95,
+      "z": 3.11
+    }
   },
   {
     "name": "NN 3454",
@@ -1283,7 +1555,12 @@
         "destination": "NN 3522",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -5.11,
+      "y": -3.15,
+      "z": 1.41
+    }
   },
   {
     "name": "NN 3379",
@@ -1313,7 +1590,12 @@
         "destination": "BD-03°1123",
         "jumpLevel": "Beta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -4.8,
+      "y": -2.2,
+      "z": -0.95
+    }
   },
   {
     "name": "40 (O2) Eridani",
@@ -1343,7 +1625,10 @@
         "destination": "NN 3379",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x":-3.56, "y":-1.35, "z":-2.97
+    }
   },
   {
     "name": "Ross 619",
@@ -1361,7 +1646,12 @@
         "destination": "Luyten 961-1",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -5.19,
+      "y": -3.51,
+      "z": 2.52
+    }
   },
   {
     "name": "YZ Canis Minoris",
@@ -1387,7 +1677,12 @@
         "destination": "Luyten 961-1",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -4.89,
+      "y": -3.54,
+      "z": 1.45
+    }
   },
   {
     "name": "Luyten's Star",
@@ -1405,7 +1700,12 @@
         "destination": "YZ Canis Minoris",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -3.14,
+      "y": -1.99,
+      "z": 0.68
+    }
   },
   {
     "name": "V577 Monocerotis",
@@ -1427,7 +1727,12 @@
         "destination": "AC+12°1800-213",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -3.45,
+      "y": -2.23,
+      "z": -0.45
+    }
   },
   {
     "name": "GJ 1087",
@@ -1449,7 +1754,12 @@
         "destination": "Ross 41",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -7.32,
+      "y": -2.92,
+      "z": -1.34
+    }
   },
   {
     "name": "BD+43°2796",
@@ -1467,7 +1777,12 @@
         "destination": "BD+33°2777",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 2.99,
+      "y": 7.97,
+      "z": 4.93
+    }
   },
   {
     "name": "Luyten 961-1",
@@ -1489,7 +1804,12 @@
         "destination": "BD-05°1844",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -6.55,
+      "y": -5.49,
+      "z": 2.04
+    }
   },
   {
     "name": "BD-05°1844",
@@ -1504,10 +1824,15 @@
         "jumpLevel": "Delta"
       },
       {
-        "destination": "1 Pi(3)Orionis",
+        "destination": "1 Pi(3) Orionis",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -7.26,
+      "y": -5.6,
+      "z": -0.35
+    }
   },
   {
     "name": "AC+12°1800-213",
@@ -1525,7 +1850,12 @@
         "destination": "Steph 538",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -5.76,
+      "y": -1.4,
+      "z": -0.96
+    }
   },
   {
     "name": "Steph 538",
@@ -1543,7 +1873,12 @@
         "destination": "BD+18°683",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -6.55,
+      "y": -1.22,
+      "z": -2.28
+    }
   },
   {
     "name": "Ross 41",
@@ -1561,7 +1896,12 @@
         "destination": "BD+18°683",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -9.44,
+      "y": -2.42,
+      "z": -2.37
+    }
   },
   {
     "name": "BD+18°683",
@@ -1580,10 +1920,15 @@
         "jumpLevel": "Delta"
       },
       {
-        "destination": "1 Pi(3)Orionis",
+        "destination": "1 Pi(3) Orionis",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -8.88,
+      "y": 0,
+      "z": -2.79
+    }
   },
   {
     "name": "BD-03°1123",
@@ -1602,10 +1947,15 @@
         "jumpLevel": "Delta"
       },
       {
-        "destination": "1 Pi(3)Orionis",
+        "destination": "1 Pi(3) Orionis",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -4.88,
+      "y": -2.48,
+      "z": -1.93
+    }
   },
   {
     "name": "GJ 2097",
@@ -1623,7 +1973,12 @@
         "destination": "FL Virginis",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 0.72,
+      "y": -0.36,
+      "z": 6.36
+    }
   },
   {
     "name": "BD+11°2576",
@@ -1641,7 +1996,12 @@
         "destination": "GJ 2097",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 2.1,
+      "y": -1.06,
+      "z": 6.82
+    }
   },
   {
     "name": "NN 3789",
@@ -1652,14 +2012,19 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Beta Canum Venacticorum",
+        "destination": "Beta Canum Venaticorum",
         "jumpLevel": "Delta"
       },
       {
         "destination": "BD+11°2576",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 0.83,
+      "y": 0.95,
+      "z": 7.84
+    }
   },
   {
     "name": "CD-45°13677",
@@ -1677,7 +2042,12 @@
         "destination": "AT Microscopii",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 5.1,
+      "y": -0.46,
+      "z": -3.32
+    }
   },
   {
     "name": "CD-39°14192",
@@ -1699,7 +2069,12 @@
         "destination": "CD-45°13677",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 2.76,
+      "y": 0.19,
+      "z": -2.7
+    }
   },
   {
     "name": "IL Aquarii",
@@ -1721,7 +2096,12 @@
         "destination": "GJ 1002",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 1.47,
+      "y": 1.89,
+      "z": -4.08
+    }
   },
   {
     "name": "CD-37°15492",
@@ -1743,7 +2123,12 @@
         "destination": "UV Ceti",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 1.06,
+      "y": -0.31,
+      "z": -4.37
+    }
   },
   {
     "name": "Luyten 725-32",
@@ -1761,7 +2146,12 @@
         "destination": "GJ 1002",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -0.63,
+      "y": 0.37,
+      "z": -3.67
+    }
   },
   {
     "name": "Fomalhaut",
@@ -1791,7 +2181,12 @@
         "destination": "CD-37°15492",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 2.58,
+      "y": 0.97,
+      "z": -5.89
+    }
   },
   {
     "name": "GJ 2005",
@@ -1817,7 +2212,12 @@
         "destination": "Luyten 722-22",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 0.67,
+      "y": 0.4,
+      "z": -7.49
+    }
   },
   {
     "name": "FK Aquarii",
@@ -1835,7 +2235,12 @@
         "destination": "NN 4360",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 3.52,
+      "y": 2.73,
+      "z": -7.43
+    }
   },
   {
     "name": "CD-23°17699",
@@ -1853,7 +2258,12 @@
         "destination": "GJ 2005",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 2.68,
+      "y": 2.03,
+      "z": -7.03
+    }
   },
   {
     "name": "NN 4360",
@@ -1875,7 +2285,12 @@
         "destination": "GJ 2005",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 1.21,
+      "y": 2.64,
+      "z": -8.53
+    }
   },
   {
     "name": "GJ 1286",
@@ -1901,7 +2316,12 @@
         "destination": "GJ 1002",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 0.43,
+      "y": 3.66,
+      "z": -6.2
+    }
   },
   {
     "name": "BD+04°123",
@@ -1919,7 +2339,12 @@
         "destination": "107 Piscium",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -2.06,
+      "y": 3.37,
+      "z": -6.21
+    }
   },
   {
     "name": "UV Ceti",
@@ -1949,7 +2374,12 @@
         "destination": "GJ 1061",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -0.65,
+      "y": 0.05,
+      "z": -2.55
+    }
   },
   {
     "name": "Lacaille 9352",
@@ -1971,7 +2401,12 @@
         "destination": "Tau Ceti",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 1.43,
+      "y": 0.13,
+      "z": -3.2
+    }
   },
   {
     "name": "Luyten 1159-016",
@@ -1989,7 +2424,12 @@
         "destination": "Epsilon Eridani",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -2.6,
+      "y": 1.65,
+      "z": -3.24
+    }
   },
   {
     "name": "GJ 1002",
@@ -2023,7 +2463,12 @@
         "destination": "IL Aquarii",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -0.08,
+      "y": 1.78,
+      "z": -4.35
+    }
   },
   {
     "name": "Luyten 722-22",
@@ -2057,7 +2502,12 @@
         "destination": "Lacaille 9352",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 0.13,
+      "y": 1.26,
+      "z": -5.15
+    }
   },
   {
     "name": "GJ 1061",
@@ -2079,7 +2529,12 @@
         "destination": "Epsilon Eridani",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -0.81,
+      "y": -2.46,
+      "z": -3.42
+    }
   },
   {
     "name": "Tau Ceti",
@@ -2109,7 +2564,12 @@
         "destination": "Alpha Centauri (B)",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -0.99,
+      "y": 0.12,
+      "z": -3.35
+    }
   },
   {
     "name": "Epsilon Eridani",
@@ -2151,7 +2611,12 @@
         "destination": "Tau Ceti",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -2.11,
+      "y": -0.6,
+      "z": -2.43
+    }
   },
   {
     "name": "EZ Aquarii",
@@ -2173,7 +2638,12 @@
         "destination": "Tau Ceti",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 1.26,
+      "y": 1.36,
+      "z": -2.85
+    }
   },
   {
     "name": "Delta Pavonis",
@@ -2199,7 +2669,12 @@
         "destination": "Epsilon Indi",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 4.16,
+      "y": -2.42,
+      "z": -3.06
+    }
   },
   {
     "name": "Epsilon Indi",
@@ -2229,7 +2704,12 @@
         "destination": "Delta Pavonis",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 2.12,
+      "y": -0.93,
+      "z": -2.57
+    }
   },
   {
     "name": "Rho Eridani",
@@ -2255,7 +2735,10 @@
         "destination": "Zeta Tucanae",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x":1.14, "y":-3.19, "z":-5.8
+    }
   },
   {
     "name": "CP-73°2299",
@@ -2273,7 +2756,12 @@
         "destination": "Zeta Tucanae",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 4.36,
+      "y": -5.17,
+      "z": -6.4
+    }
   },
   {
     "name": "Zeta Tucanae",
@@ -2307,7 +2795,12 @@
         "destination": "Alpha Mensae",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 2.75,
+      "y": -3.48,
+      "z": -5.66
+    }
   },
   {
     "name": "82 Eridani",
@@ -2337,7 +2830,12 @@
         "destination": "BD-13°544",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -1.15,
+      "y": -3.3,
+      "z": -5.2
+    }
   },
   {
     "name": "Alpha Mensae",
@@ -2355,7 +2853,12 @@
         "destination": "GJ 2034",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 2.09,
+      "y": -7.39,
+      "z": -4.22
+    }
   },
   {
     "name": "Beta Hydri",
@@ -2381,7 +2884,12 @@
         "destination": "82 Eridani",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 2.82,
+      "y": -4.06,
+      "z": -4.12
+    }
   },
   {
     "name": "Luyten 119-44",
@@ -2399,7 +2907,12 @@
         "destination": "CP-68°41",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 3.71,
+      "y": -2.91,
+      "z": -4.9
+    }
   },
   {
     "name": "CP-68°41",
@@ -2425,7 +2938,12 @@
         "destination": "Luyten 119-44",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": 2.69,
+      "y": -4.64,
+      "z": -6.3
+    }
   },
   {
     "name": "GJ 2034",
@@ -2447,7 +2965,12 @@
         "destination": "Alpha Mensae",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -1.43,
+      "y": -5.62,
+      "z": -5.7
+    }
   },
   {
     "name": "Gamma Leporis",
@@ -2462,17 +2985,22 @@
         "jumpLevel": "Epsilon"
       },
       {
-        "destination": "1 Pi(3)Orionis",
+        "destination": "1 Pi(3) Orionis",
         "jumpLevel": "Epsilon"
       },
       {
         "destination": "40 (O2) Eridani",
         "jumpLevel": "Epsilon"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -5,
+      "y": -5.32,
+      "z": -3.29
+    }
   },
   {
-    "name": "1 Pi(3)Orionis",
+    "name": "1 Pi(3) Orionis",
     "transitTimes": [
       1,
       0.8,
@@ -2511,7 +3039,10 @@
         "destination": "BD-03°1123",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x":-6.78, "y":-1.37, "z":-2.94
+    }
   },
   {
     "name": "Delta Eridani",
@@ -2526,7 +3057,7 @@
         "jumpLevel": "Epsilon"
       },
       {
-        "destination": "1 Pi(3)Orionis",
+        "destination": "1 Pi(3) Orionis",
         "jumpLevel": "Epsilon"
       },
       {
@@ -2537,7 +3068,12 @@
         "destination": "Kappa Ceti",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -6.38,
+      "y": -2.09,
+      "z": -6.95
+    }
   },
   {
     "name": "BD-13°544",
@@ -2563,7 +3099,12 @@
         "destination": "Delta Eridani",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -4.27,
+      "y": -0.91,
+      "z": -7.06
+    }
   },
   {
     "name": "BD+06°398",
@@ -2582,14 +3123,19 @@
         "jumpLevel": "Epsilon"
       },
       {
-        "destination": "1 Pi(3)Orionis",
+        "destination": "1 Pi(3) Orionis",
         "jumpLevel": "Epsilon"
       },
       {
         "destination": "GJ 1057",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -4.99,
+      "y": 1.49,
+      "z": -5.71
+    }
   },
   {
     "name": "BD-05°1123",
@@ -2604,14 +3150,19 @@
         "jumpLevel": "Epsilon"
       },
       {
-        "destination": "1 Pi(3)Orionis",
+        "destination": "1 Pi(3) Orionis",
         "jumpLevel": "Epsilon"
       },
       {
         "destination": "BD-21°1051",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -7.28,
+      "y": -3.41,
+      "z": -4.13
+    }
   },
   {
     "name": "BD-21°1051",
@@ -2629,7 +3180,12 @@
         "destination": "BD-05°1123",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -4.83,
+      "y": -4.31,
+      "z": -4.21
+    }
   },
   {
     "name": "Kappa Ceti",
@@ -2640,7 +3196,7 @@
     ],
     "jumpLinks": [
       {
-        "destination": "1 Pi(3)Orionis",
+        "destination": "1 Pi(3) Orionis",
         "jumpLevel": "Epsilon"
       },
       {
@@ -2655,7 +3211,12 @@
         "destination": "Delta Eridani",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -6.99,
+      "y": 0.22,
+      "z": -6.54
+    }
   },
   {
     "name": "Luyten 806-34",
@@ -2673,7 +3234,12 @@
         "destination": "GJ 1065",
         "jumpLevel": "Gamma"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -6.47,
+      "y": -3.24,
+      "z": -6.06
+    }
   },
   {
     "name": "GJ 1065",
@@ -2691,7 +3257,12 @@
         "destination": "GJ 1057",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -6.79,
+      "y": -1.81,
+      "z": -6.44
+    }
   },
   {
     "name": "GJ 1057",
@@ -2717,7 +3288,12 @@
         "destination": "USNO 694",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -6.15,
+      "y": 0.5,
+      "z": -5.8
+    }
   },
   {
     "name": "USNO 694",
@@ -2735,7 +3311,12 @@
         "destination": "GJ 1057",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -5.37,
+      "y": 2.8,
+      "z": -5.91
+    }
   },
   {
     "name": "107 Piscium",
@@ -2757,6 +3338,11 @@
         "destination": "BD+04°123",
         "jumpLevel": "Delta"
       }
-    ]
+    ],
+    "coordinates": {
+      "x": -4.5,
+      "y": 3.92,
+      "z": -5.19
+    }
   }
 ]

@@ -7,6 +7,22 @@
       "items": {
         "type": "object",
         "properties": {
+          "coordinates": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            },
+            "requiredProperties": ["x", "y", "z"],
+            "additionalProperties": false
+          },
           "name": {
             "$ref": "#/$defs/starSystemName"
           },
@@ -37,7 +53,7 @@
             "minItems": 1
           }
         },
-        "required": ["name", "transitTimes", "jumpLinks"],
+        "required": ["name", "transitTimes", "jumpLinks", "coordinates"],
         "additionalProperties": false
   },
   "required": ["starSystems"],
@@ -46,7 +62,7 @@
     "starSystemName": {
       "type": "string",
       "enum": [
-        "1 Pi(3)Orionis",
+        "1 Pi(3) Orionis",
         "107 Piscium",
         "36 Ophiuchi",
         "40 (O2) Eridani",
@@ -84,7 +100,7 @@
         "BD-20°4125",
         "BD-21°1051",
         "Barnard's Star",
-        "Beta Canum Venacticorum",
+        "Beta Canum Venaticorum",
         "Beta Hydri",
         "CD-23°17699",
         "CD-26°12036",
