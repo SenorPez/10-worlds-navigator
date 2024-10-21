@@ -48,9 +48,12 @@
                 },
                 "discovered": {
                   "type": ["number", "null"]
+                },
+                "distance": {
+                  "type": "number"
                 }
               },
-              "required": ["destination", "jumpLevel", "discovered"],
+              "required": ["destination", "jumpLevel", "discovered", "distance"],
               "additionalProperties": false
             },
             "minItems": 1
