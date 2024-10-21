@@ -45,9 +45,12 @@
                 "jumpLevel": {
                   "type": "string",
                   "enum": ["Alpha", "Beta", "Gamma", "Delta", "Epsilon"]
+                },
+                "discovered": {
+                  "type": ["number", "null"]
                 }
               },
-              "required": ["destination", "jumpLevel"],
+              "required": ["destination", "jumpLevel", "discovered"],
               "additionalProperties": false
             },
             "minItems": 1
@@ -166,6 +169,7 @@
         "Rho Eridani",
         "Ross 41",
         "Ross 619",
+        "Sol",
         "Sigma Draconis",
         "Sirius",
         "Steph 538",

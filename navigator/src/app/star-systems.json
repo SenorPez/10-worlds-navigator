@@ -1,5 +1,35 @@
 [
   {
+    "name": "Sol",
+    "transitTimes": [
+      1,
+      0.6,
+      0.2
+    ],
+    "jumpLinks": [
+      {
+        "destination": "Sirius",
+        "jumpLevel": "Delta",
+        "discovered": 2111
+      },
+      {
+        "destination": "UV Ceti",
+        "jumpLevel": "Delta",
+        "discovered": 2118
+      },
+      {
+        "destination": "Lalande 21185",
+        "jumpLevel": "Delta",
+        "discovered": 2122
+      }
+    ],
+    "coordinates": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  {
     "name": "Beta Canum Venaticorum",
     "transitTimes": [
       1,
@@ -9,19 +39,24 @@
     "jumpLinks": [
       {
         "destination": "BD+36°2219",
-        "jumpLevel": "Gamma"
-      },
-      {
-        "destination": "GJ 1151",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2161
       },
       {
         "destination": "NN 3789",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2171
+      },
+      {
+        "destination": "GJ 1151",
+        "jumpLevel": "Gamma",
+        "discovered": 2190
       }
     ],
     "coordinates": {
-      "x":-1.59, "y":1.53, "z":8.43
+      "x": -1.59,
+      "y": 1.53,
+      "z": 8.43
     }
   },
   {
@@ -33,20 +68,19 @@
     ],
     "jumpLinks": [
       {
+        "destination": "GJ 1156",
+        "jumpLevel": "Delta",
+        "discovered": 2146
+      },
+      {
         "destination": "BD+36°2219",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2156
       },
       {
         "destination": "61 Ursae Majoris",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "BD+11°2440",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "GJ 1156",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2160
       }
     ],
     "coordinates": {
@@ -64,16 +98,19 @@
     ],
     "jumpLinks": [
       {
+        "destination": "AC+23°468-46",
+        "jumpLevel": "Delta",
+        "discovered": 2156
+      },
+      {
         "destination": "Beta Canum Venaticorum",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2161
       },
       {
         "destination": "61 Ursae Majoris",
-        "jumpLevel": "Alpha"
-      },
-      {
-        "destination": "AC+23°468-46",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Alpha",
+        "discovered": 2161
       }
     ],
     "coordinates": {
@@ -92,11 +129,13 @@
     "jumpLinks": [
       {
         "destination": "AC+23°468-46",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2160
       },
       {
         "destination": "BD+36°2219",
-        "jumpLevel": "Alpha"
+        "jumpLevel": "Alpha",
+        "discovered": 2161
       }
     ],
     "coordinates": {
@@ -115,11 +154,13 @@
     "jumpLinks": [
       {
         "destination": "Beta Canum Venaticorum",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2190
       },
       {
         "destination": "Groombridge 1830",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2191
       }
     ],
     "coordinates": {
@@ -138,11 +179,13 @@
     "jumpLinks": [
       {
         "destination": "GJ 1151",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2191
       },
       {
-        "destination": "BD+11°2440",
-        "jumpLevel": "Epsilon"
+        "destination": "GJ 1156",
+        "jumpLevel": "Epsilon",
+        "discovered": 2196
       }
     ],
     "coordinates": {
@@ -161,46 +204,19 @@
     "jumpLinks": [
       {
         "destination": "CD-45°13677",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2170
       },
       {
         "destination": "HR 7703",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2185
       }
     ],
     "coordinates": {
       "x": 6.43,
       "y": 1.27,
       "z": -4.83
-    }
-  },
-  {
-    "name": "BD+11°2440",
-    "transitTimes": [
-      3,
-      2,
-      1
-    ],
-    "jumpLinks": [
-      {
-        "destination": "AC+23°468-46",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "Groombridge 1830",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "FL Virginis",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "Wolf 358",
-        "jumpLevel": "Delta"
-      }
-    ],
-    "coordinates": {
-      "x":  0.12, "y": -2.21, "z":  6.41
     }
   },
   {
@@ -212,12 +228,19 @@
     ],
     "jumpLinks": [
       {
-        "destination": "AC+23°468-46",
-        "jumpLevel": "Delta"
+        "destination": "Wolf 358",
+        "jumpLevel": "Delta",
+        "discovered": 2145
       },
       {
-        "destination": "Wolf 358",
-        "jumpLevel": "Delta"
+        "destination": "AC+23°468-46",
+        "jumpLevel": "Delta",
+        "discovered": 2146
+      },
+      {
+        "destination": "Groombridge 1830",
+        "jumpLevel": "Epsilon",
+        "discovered": 2196
       }
     ],
     "coordinates": {
@@ -235,20 +258,19 @@
     ],
     "jumpLinks": [
       {
-        "destination": "GJ 2097",
-        "jumpLevel": "Delta"
-      },
-      {
         "destination": "Lalande 21185",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2128
       },
       {
         "destination": "Lalande 21258",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2142
       },
       {
-        "destination": "BD+11°2440",
-        "jumpLevel": "Delta"
+        "destination": "GJ 2097",
+        "jumpLevel": "Delta",
+        "discovered": 2144
       }
     ],
     "coordinates": {
@@ -266,16 +288,19 @@
     ],
     "jumpLinks": [
       {
-        "destination": "FL Virginis",
-        "jumpLevel": "Delta"
+        "destination": "AD Leonis",
+        "jumpLevel": "Delta",
+        "discovered": 2133
       },
       {
         "destination": "NN 3522",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2137
       },
       {
-        "destination": "AD Leonis",
-        "jumpLevel": "Delta"
+        "destination": "FL Virginis",
+        "jumpLevel": "Delta",
+        "discovered": 2142
       }
     ],
     "coordinates": {
@@ -293,16 +318,14 @@
     ],
     "jumpLinks": [
       {
-        "destination": "GJ 1156",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "BD+11°2440",
-        "jumpLevel": "Delta"
-      },
-      {
         "destination": "AD Leonis",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2141
+      },
+      {
+        "destination": "GJ 1156",
+        "jumpLevel": "Delta",
+        "discovered": 2145
       }
     ],
     "coordinates": {
@@ -320,16 +343,20 @@
     ],
     "jumpLinks": [
       {
-        "destination": "HR 7703",
-        "jumpLevel": "Epsilon"
+        "destination": "CD-34°11626",
+        "jumpLevel": "Gamma",
+        "discovered": 2139
       },
       {
-        "destination": "CD-34°11626",
-        "jumpLevel": "Gamma"
+        "destination": "HR 7703",
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       }
     ],
     "coordinates": {
-      "x":7.19, "y":-2.3, "z":-0.69
+      "x": 7.19,
+      "y": -2.3,
+      "z": -0.69
     }
   },
   {
@@ -342,15 +369,18 @@
     "jumpLinks": [
       {
         "destination": "41 Arae (A)",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "CD-34°11626",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "AT Microscopii",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2185
       }
     ],
     "coordinates": {
@@ -369,15 +399,18 @@
     "jumpLinks": [
       {
         "destination": "CD-44°11909",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2149
       },
       {
         "destination": "36 Ophiuchi",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2149
       },
       {
         "destination": "CD-26°12036",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2157
       }
     ],
     "coordinates": {
@@ -396,11 +429,13 @@
     "jumpLinks": [
       {
         "destination": "CD-40°9712",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2157
       },
       {
         "destination": "BD+02°3312",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2197
       }
     ],
     "coordinates": {
@@ -418,20 +453,24 @@
     ],
     "jumpLinks": [
       {
-        "destination": "CD-26°12036",
-        "jumpLevel": "Epsilon"
+        "destination": "36 Ophiuchi",
+        "jumpLevel": "Epsilon",
+        "discovered": 2197
       },
       {
-        "destination": "36 Ophiuchi",
-        "jumpLevel": "Epsilon"
+        "destination": "CD-26°12036",
+        "jumpLevel": "Epsilon",
+        "discovered": 2197
       },
       {
         "destination": "Wolf 629",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2197
       },
       {
         "destination": "BD-03°4233",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2204
       }
     ],
     "coordinates": {
@@ -449,12 +488,19 @@
     ],
     "jumpLinks": [
       {
-        "destination": "FL Virginis",
-        "jumpLevel": "Delta"
+        "destination": "Sol",
+        "jumpLevel": "Delta",
+        "discovered": 2122
       },
       {
         "destination": "AD Leonis",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2124
+      },
+      {
+        "destination": "FL Virginis",
+        "jumpLevel": "Delta",
+        "discovered": 2128
       }
     ],
     "coordinates": {
@@ -472,20 +518,24 @@
     ],
     "jumpLinks": [
       {
-        "destination": "41 Arae (A)",
-        "jumpLevel": "Gamma"
-      },
-      {
-        "destination": "HR 7703",
-        "jumpLevel": "Epsilon"
-      },
-      {
         "destination": "CD-44°11909",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2139
+      },
+      {
+        "destination": "41 Arae (A)",
+        "jumpLevel": "Gamma",
+        "discovered": 2139
       },
       {
         "destination": "BD-20°4125",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
+      },
+      {
+        "destination": "HR 7703",
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       }
     ],
     "coordinates": {
@@ -504,15 +554,18 @@
     "jumpLinks": [
       {
         "destination": "CD-34°11626",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "BD-12°4523",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2182
       },
       {
         "destination": "BD-07°4003",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2183
       }
     ],
     "coordinates": {
@@ -531,11 +584,13 @@
     "jumpLinks": [
       {
         "destination": "CD-40°9712",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2149
       },
       {
         "destination": "BD+02°3312",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2197
       }
     ],
     "coordinates": {
@@ -553,12 +608,14 @@
     ],
     "jumpLinks": [
       {
-        "destination": "BD+02°3312",
-        "jumpLevel": "Gamma"
+        "destination": "V1054 Ophiuchi",
+        "jumpLevel": "Delta",
+        "discovered": 2183
       },
       {
-        "destination": "V1054 Ophiuchi",
-        "jumpLevel": "Delta"
+        "destination": "BD+02°3312",
+        "jumpLevel": "Gamma",
+        "discovered": 2204
       }
     ],
     "coordinates": {
@@ -576,12 +633,14 @@
     ],
     "jumpLinks": [
       {
-        "destination": "BD+02°3312",
-        "jumpLevel": "Delta"
+        "destination": "BD-07°4003",
+        "jumpLevel": "Delta",
+        "discovered": 2191
       },
       {
-        "destination": "BD-07°4003",
-        "jumpLevel": "Delta"
+        "destination": "BD+02°3312",
+        "jumpLevel": "Delta",
+        "discovered": 2197
       }
     ],
     "coordinates": {
@@ -600,15 +659,18 @@
     "jumpLinks": [
       {
         "destination": "BD-20°4125",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2183
       },
       {
         "destination": "V1054 Ophiuchi",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2183
       },
       {
         "destination": "Wolf 629",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2191
       }
     ],
     "coordinates": {
@@ -626,20 +688,24 @@
     ],
     "jumpLinks": [
       {
-        "destination": "BD-20°4125",
-        "jumpLevel": "Delta"
-      },
-      {
         "destination": "CD-44°11909",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2160
       },
       {
         "destination": "Barnard's Star",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2172
+      },
+      {
+        "destination": "BD-20°4125",
+        "jumpLevel": "Delta",
+        "discovered": 2182
       },
       {
         "destination": "V1054 Ophiuchi",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2185
       }
     ],
     "coordinates": {
@@ -657,20 +723,24 @@
     ],
     "jumpLinks": [
       {
-        "destination": "CD-34°11626",
-        "jumpLevel": "Delta"
-      },
-      {
         "destination": "AC-24°2833-183",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2139
       },
       {
-        "destination": "BD-12°4523",
-        "jumpLevel": "Delta"
+        "destination": "CD-34°11626",
+        "jumpLevel": "Delta",
+        "discovered": 2139
       },
       {
         "destination": "CD-40°9712",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2149
+      },
+      {
+        "destination": "BD-12°4523",
+        "jumpLevel": "Delta",
+        "discovered": 2160
       }
     ],
     "coordinates": {
@@ -688,24 +758,29 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Wolf 358",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "Lalande 21258",
-        "jumpLevel": "Delta"
-      },
-      {
         "destination": "Lalande 21185",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2124
       },
       {
         "destination": "Wolf 359",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2126
+      },
+      {
+        "destination": "Lalande 21258",
+        "jumpLevel": "Delta",
+        "discovered": 2133
+      },
+      {
+        "destination": "Wolf 358",
+        "jumpLevel": "Delta",
+        "discovered": 2141
       },
       {
         "destination": "BD+50°1725",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2146
       }
     ],
     "coordinates": {
@@ -723,12 +798,14 @@
     ],
     "jumpLinks": [
       {
-        "destination": "BD-12°4523",
-        "jumpLevel": "Delta"
+        "destination": "AC-24°2833-183",
+        "jumpLevel": "Gamma",
+        "discovered": 2141
       },
       {
-        "destination": "AC-24°2833-183",
-        "jumpLevel": "Gamma"
+        "destination": "BD-12°4523",
+        "jumpLevel": "Delta",
+        "discovered": 2172
       }
     ],
     "coordinates": {
@@ -747,15 +824,23 @@
     "jumpLinks": [
       {
         "destination": "Alpha Centauri (B)",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2135
       },
       {
-        "destination": "Barnard's Star",
-        "jumpLevel": "Gamma"
+        "destination": "Epsilon Indi",
+        "jumpLevel": "Delta",
+        "discovered": 2136
       },
       {
         "destination": "CD-44°11909",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2139
+      },
+      {
+        "destination": "Barnard's Star",
+        "jumpLevel": "Gamma",
+        "discovered": 2141
       }
     ],
     "coordinates": {
@@ -773,20 +858,24 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Alpha Centauri (B)",
-        "jumpLevel": "Delta"
+        "destination": "AD Leonis",
+        "jumpLevel": "Delta",
+        "discovered": 2126
       },
       {
         "destination": "Procyon",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2128
+      },
+      {
+        "destination": "Alpha Centauri (B)",
+        "jumpLevel": "Delta",
+        "discovered": 2128
       },
       {
         "destination": "NN 3522",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "AD Leonis",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2137
       }
     ],
     "coordinates": {
@@ -805,15 +894,18 @@
     "jumpLinks": [
       {
         "destination": "AD Leonis",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "Procyon",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Delta",
+        "discovered": 2146
       },
       {
         "destination": "AC+79°3888",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2155
+      },
+      {
+        "destination": "Procyon",
+        "jumpLevel": "Epsilon",
+        "discovered": 2197
       }
     ],
     "coordinates": {
@@ -832,19 +924,23 @@
     "jumpLinks": [
       {
         "destination": "BD-07°4003",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "BD-12°4523",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2183
       },
       {
         "destination": "70 Ophiuchi",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2183
       },
       {
         "destination": "BD-03°4233",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2183
+      },
+      {
+        "destination": "BD-12°4523",
+        "jumpLevel": "Delta",
+        "discovered": 2185
       }
     ],
     "coordinates": {
@@ -863,11 +959,13 @@
     "jumpLinks": [
       {
         "destination": "BD+50°1725",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2155
       },
       {
         "destination": "Sigma Draconis",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2163
       }
     ],
     "coordinates": {
@@ -885,12 +983,19 @@
     ],
     "jumpLinks": [
       {
+        "destination": "Sol",
+        "jumpLevel": "Delta",
+        "discovered": 2111
+      },
+      {
         "destination": "Procyon",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2122
       },
       {
         "destination": "Epsilon Eridani",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2128
       }
     ],
     "coordinates": {
@@ -908,28 +1013,35 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Procyon",
-        "jumpLevel": "Epsilon"
+        "destination": "Wolf 359",
+        "jumpLevel": "Delta",
+        "discovered": 2128
       },
       {
         "destination": "AC-24°2833-183",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2135
       },
       {
-        "destination": "Wolf 359",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "Tau Ceti",
-        "jumpLevel": "Epsilon"
+        "destination": "Procyon",
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "Epsilon Eridani",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2190
+      },
+      {
+        "destination": "Tau Ceti",
+        "jumpLevel": "Epsilon",
+        "discovered": 2199
       }
     ],
     "coordinates": {
-      "x":0.96, "y":-0.93, "z":-0.02
+      "x": 0.96,
+      "y": -0.93,
+      "z": -0.02
     }
   },
   {
@@ -941,36 +1053,44 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Wolf 359",
-        "jumpLevel": "Delta"
-      },
-      {
         "destination": "Sirius",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2122
       },
       {
-        "destination": "Alpha Centauri (B)",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "NN 3379",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "NN 3454",
-        "jumpLevel": "Delta"
+        "destination": "Wolf 359",
+        "jumpLevel": "Delta",
+        "discovered": 2128
       },
       {
         "destination": "GJ 1116",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2128
       },
       {
         "destination": "DX Cancri",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2132
+      },
+      {
+        "destination": "NN 3454",
+        "jumpLevel": "Delta",
+        "discovered": 2133
+      },
+      {
+        "destination": "NN 3379",
+        "jumpLevel": "Delta",
+        "discovered": 2140
+      },
+      {
+        "destination": "Alpha Centauri (B)",
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "BD+50°1725",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2197
       }
     ],
     "coordinates": {
@@ -988,12 +1108,14 @@
     ],
     "jumpLinks": [
       {
-        "destination": "V1054 Ophiuchi",
-        "jumpLevel": "Delta"
+        "destination": "61 Cygni",
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
-        "destination": "61 Cygni",
-        "jumpLevel": "Epsilon"
+        "destination": "V1054 Ophiuchi",
+        "jumpLevel": "Delta",
+        "discovered": 2183
       }
     ],
     "coordinates": {
@@ -1012,19 +1134,23 @@
     "jumpLinks": [
       {
         "destination": "Sigma Draconis",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "EV Lacertae",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "BD+68°946",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2163
       },
       {
         "destination": "61 Cygni",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2163
+      },
+      {
+        "destination": "BD+68°946",
+        "jumpLevel": "Delta",
+        "discovered": 2170
+      },
+      {
+        "destination": "EV Lacertae",
+        "jumpLevel": "Delta",
+        "discovered": 2171
       }
     ],
     "coordinates": {
@@ -1042,24 +1168,29 @@
     ],
     "jumpLinks": [
       {
-        "destination": "70 Ophiuchi",
-        "jumpLevel": "Epsilon"
-      },
-      {
         "destination": "V1581 Cygni",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2163
       },
       {
         "destination": "Krüger 60",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2163
+      },
+      {
+        "destination": "70 Ophiuchi",
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "Eta Cassiopeiae",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "HR 8832",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2182
       }
     ],
     "coordinates": {
@@ -1078,11 +1209,13 @@
     "jumpLinks": [
       {
         "destination": "61 Cygni",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2182
       },
       {
         "destination": "Chi Draconis",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2183
       }
     ],
     "coordinates": {
@@ -1101,11 +1234,13 @@
     "jumpLinks": [
       {
         "destination": "HR 8832",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2183
       },
       {
         "destination": "GJ 1227",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2184
       }
     ],
     "coordinates": {
@@ -1124,11 +1259,13 @@
     "jumpLinks": [
       {
         "destination": "Chi Draconis",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2184
       },
       {
         "destination": "NN 3988",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2185
       }
     ],
     "coordinates": {
@@ -1147,15 +1284,18 @@
     "jumpLinks": [
       {
         "destination": "V1581 Cygni",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "Eta Cassiopeiae",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2170
       },
       {
         "destination": "Kuiper 79",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2178
+      },
+      {
+        "destination": "Eta Cassiopeiae",
+        "jumpLevel": "Epsilon",
+        "discovered": 2182
       }
     ],
     "coordinates": {
@@ -1174,11 +1314,13 @@
     "jumpLinks": [
       {
         "destination": "GJ 1227",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2185
       },
       {
         "destination": "Mu Herculis",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2186
       }
     ],
     "coordinates": {
@@ -1197,15 +1339,18 @@
     "jumpLinks": [
       {
         "destination": "Krüger 60",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "BD+68°946",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2163
       },
       {
         "destination": "61 Cygni",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
+      },
+      {
+        "destination": "BD+68°946",
+        "jumpLevel": "Epsilon",
+        "discovered": 2182
       }
     ],
     "coordinates": {
@@ -1224,11 +1369,13 @@
     "jumpLinks": [
       {
         "destination": "Krüger 60",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2163
       },
       {
         "destination": "V1581 Cygni",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2171
       }
     ],
     "coordinates": {
@@ -1247,19 +1394,23 @@
     "jumpLinks": [
       {
         "destination": "AC+79°3888",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "Vega",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "Krüger 60",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2163
       },
       {
         "destination": "V1581 Cygni",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2163
+      },
+      {
+        "destination": "Krüger 60",
+        "jumpLevel": "Delta",
+        "discovered": 2163
+      },
+      {
+        "destination": "Vega",
+        "jumpLevel": "Epsilon",
+        "discovered": 2196
       }
     ],
     "coordinates": {
@@ -1278,19 +1429,23 @@
     "jumpLinks": [
       {
         "destination": "Sigma Draconis",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2163
       },
       {
         "destination": "Eta Cassiopeiae",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2163
       },
       {
         "destination": "61 Cygni",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2163
       },
       {
         "destination": "EV Lacertae",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2163
       }
     ],
     "coordinates": {
@@ -1308,16 +1463,19 @@
     ],
     "jumpLinks": [
       {
-        "destination": "BD+33°2777",
-        "jumpLevel": "Delta"
+        "destination": "NN 3988",
+        "jumpLevel": "Epsilon",
+        "discovered": 2186
       },
       {
         "destination": "USNO 752",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2187
       },
       {
-        "destination": "NN 3988",
-        "jumpLevel": "Epsilon"
+        "destination": "BD+33°2777",
+        "jumpLevel": "Delta",
+        "discovered": 2187
       }
     ],
     "coordinates": {
@@ -1335,12 +1493,14 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Vega",
-        "jumpLevel": "Delta"
+        "destination": "BD+68°946",
+        "jumpLevel": "Delta",
+        "discovered": 2178
       },
       {
-        "destination": "BD+68°946",
-        "jumpLevel": "Delta"
+        "destination": "Vega",
+        "jumpLevel": "Delta",
+        "discovered": 2185
       }
     ],
     "coordinates": {
@@ -1358,20 +1518,24 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Sigma Draconis",
-        "jumpLevel": "Epsilon"
+        "destination": "Kuiper 79",
+        "jumpLevel": "Delta",
+        "discovered": 2185
       },
       {
         "destination": "BD+33°2777",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "Kuiper 79",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Epsilon",
+        "discovered": 2188
       },
       {
         "destination": "BD+43°2796",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2190
+      },
+      {
+        "destination": "Sigma Draconis",
+        "jumpLevel": "Epsilon",
+        "discovered": 2196
       }
     ],
     "coordinates": {
@@ -1389,20 +1553,24 @@
     ],
     "jumpLinks": [
       {
-        "destination": "BD+43°2796",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "USNO 752",
-        "jumpLevel": "Delta"
-      },
-      {
         "destination": "Mu Herculis",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2187
       },
       {
         "destination": "Vega",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2188
+      },
+      {
+        "destination": "BD+43°2796",
+        "jumpLevel": "Delta",
+        "discovered": 2188
+      },
+      {
+        "destination": "USNO 752",
+        "jumpLevel": "Delta",
+        "discovered": 2188
       }
     ],
     "coordinates": {
@@ -1420,12 +1588,14 @@
     ],
     "jumpLinks": [
       {
-        "destination": "BD+33°2777",
-        "jumpLevel": "Delta"
+        "destination": "Mu Herculis",
+        "jumpLevel": "Delta",
+        "discovered": 2187
       },
       {
-        "destination": "Mu Herculis",
-        "jumpLevel": "Delta"
+        "destination": "BD+33°2777",
+        "jumpLevel": "Delta",
+        "discovered": 2188
       }
     ],
     "coordinates": {
@@ -1444,11 +1614,13 @@
     "jumpLinks": [
       {
         "destination": "Procyon",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2132
       },
       {
         "destination": "NN 3522",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2149
       }
     ],
     "coordinates": {
@@ -1466,28 +1638,34 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Lalande 21258",
-        "jumpLevel": "Delta"
-      },
-      {
         "destination": "Wolf 359",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2137
       },
       {
-        "destination": "DX Cancri",
-        "jumpLevel": "Gamma"
-      },
-      {
-        "destination": "NN 3454",
-        "jumpLevel": "Delta"
+        "destination": "Lalande 21258",
+        "jumpLevel": "Delta",
+        "discovered": 2137
       },
       {
         "destination": "YZ Canis Minoris",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2139
       },
       {
         "destination": "Ross 619",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2147
+      },
+      {
+        "destination": "DX Cancri",
+        "jumpLevel": "Gamma",
+        "discovered": 2149
+      },
+      {
+        "destination": "NN 3454",
+        "jumpLevel": "Delta",
+        "discovered": 2155
       }
     ],
     "coordinates": {
@@ -1506,19 +1684,23 @@
     "jumpLinks": [
       {
         "destination": "Procyon",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2128
       },
       {
         "destination": "NN 3454",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2133
       },
       {
         "destination": "Luyten's Star",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2138
       },
       {
         "destination": "YZ Canis Minoris",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2139
       }
     ],
     "coordinates": {
@@ -1537,23 +1719,28 @@
     "jumpLinks": [
       {
         "destination": "Procyon",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "NN 3379",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "V577 Monocerotis",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2133
       },
       {
         "destination": "GJ 1116",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2133
+      },
+      {
+        "destination": "NN 3379",
+        "jumpLevel": "Delta",
+        "discovered": 2141
       },
       {
         "destination": "NN 3522",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2155
+      },
+      {
+        "destination": "V577 Monocerotis",
+        "jumpLevel": "Delta",
+        "discovered": 2166
       }
     ],
     "coordinates": {
@@ -1572,23 +1759,28 @@
     "jumpLinks": [
       {
         "destination": "Procyon",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2140
       },
       {
         "destination": "40 (O2) Eridani",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "GJ 1087",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2140
       },
       {
         "destination": "NN 3454",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2141
+      },
+      {
+        "destination": "GJ 1087",
+        "jumpLevel": "Delta",
+        "discovered": 2142
       },
       {
         "destination": "BD-03°1123",
-        "jumpLevel": "Beta"
+        "jumpLevel": "Beta",
+        "discovered": 2143
       }
     ],
     "coordinates": {
@@ -1606,28 +1798,35 @@
     ],
     "jumpLinks": [
       {
-        "destination": "BD-13°544",
-        "jumpLevel": "Epsilon"
+        "destination": "NN 3379",
+        "jumpLevel": "Delta",
+        "discovered": 2140
       },
       {
         "destination": "BD+06°398",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
+      },
+      {
+        "destination": "BD-13°544",
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "Gamma Leporis",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "V577 Monocerotis",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "NN 3379",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2180
       }
     ],
     "coordinates": {
-      "x":-3.56, "y":-1.35, "z":-2.97
+      "x": -3.56,
+      "y": -1.35,
+      "z": -2.97
     }
   },
   {
@@ -1639,12 +1838,14 @@
     ],
     "jumpLinks": [
       {
-        "destination": "NN 3522",
-        "jumpLevel": "Delta"
+        "destination": "Luyten 961-1",
+        "jumpLevel": "Delta",
+        "discovered": 2142
       },
       {
-        "destination": "Luyten 961-1",
-        "jumpLevel": "Delta"
+        "destination": "NN 3522",
+        "jumpLevel": "Delta",
+        "discovered": 2147
       }
     ],
     "coordinates": {
@@ -1662,20 +1863,24 @@
     ],
     "jumpLinks": [
       {
-        "destination": "NN 3522",
-        "jumpLevel": "Delta"
-      },
-      {
         "destination": "GJ 1116",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "Luyten's Star",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2139
       },
       {
         "destination": "Luyten 961-1",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2139
+      },
+      {
+        "destination": "NN 3522",
+        "jumpLevel": "Delta",
+        "discovered": 2139
+      },
+      {
+        "destination": "Luyten's Star",
+        "jumpLevel": "Delta",
+        "discovered": 2142
       }
     ],
     "coordinates": {
@@ -1694,11 +1899,13 @@
     "jumpLinks": [
       {
         "destination": "GJ 1116",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2138
       },
       {
         "destination": "YZ Canis Minoris",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2142
       }
     ],
     "coordinates": {
@@ -1717,15 +1924,18 @@
     "jumpLinks": [
       {
         "destination": "NN 3454",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2166
       },
       {
         "destination": "40 (O2) Eridani",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2180
       },
       {
         "destination": "AC+12°1800-213",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2183
       }
     ],
     "coordinates": {
@@ -1744,15 +1954,18 @@
     "jumpLinks": [
       {
         "destination": "NN 3379",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "BD-03°1123",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2142
       },
       {
         "destination": "Ross 41",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2151
+      },
+      {
+        "destination": "BD-03°1123",
+        "jumpLevel": "Delta",
+        "discovered": 2160
       }
     ],
     "coordinates": {
@@ -1770,12 +1983,14 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Vega",
-        "jumpLevel": "Delta"
+        "destination": "BD+33°2777",
+        "jumpLevel": "Delta",
+        "discovered": 2188
       },
       {
-        "destination": "BD+33°2777",
-        "jumpLevel": "Delta"
+        "destination": "Vega",
+        "jumpLevel": "Delta",
+        "discovered": 2190
       }
     ],
     "coordinates": {
@@ -1794,15 +2009,18 @@
     "jumpLinks": [
       {
         "destination": "YZ Canis Minoris",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "Ross 619",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2139
       },
       {
         "destination": "BD-05°1844",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2139
+      },
+      {
+        "destination": "Ross 619",
+        "jumpLevel": "Delta",
+        "discovered": 2142
       }
     ],
     "coordinates": {
@@ -1821,11 +2039,13 @@
     "jumpLinks": [
       {
         "destination": "Luyten 961-1",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2139
       },
       {
-        "destination": "1 Pi(3) Orionis",
-        "jumpLevel": "Epsilon"
+        "destination": "BD-05°1123",
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       }
     ],
     "coordinates": {
@@ -1844,11 +2064,13 @@
     "jumpLinks": [
       {
         "destination": "V577 Monocerotis",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2183
       },
       {
         "destination": "Steph 538",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2184
       }
     ],
     "coordinates": {
@@ -1867,11 +2089,13 @@
     "jumpLinks": [
       {
         "destination": "AC+12°1800-213",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2184
       },
       {
         "destination": "BD+18°683",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2185
       }
     ],
     "coordinates": {
@@ -1890,11 +2114,13 @@
     "jumpLinks": [
       {
         "destination": "GJ 1087",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2151
       },
       {
         "destination": "BD+18°683",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2157
       }
     ],
     "coordinates": {
@@ -1913,15 +2139,18 @@
     "jumpLinks": [
       {
         "destination": "Ross 41",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2157
       },
       {
         "destination": "Steph 538",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2185
       },
       {
         "destination": "1 Pi(3) Orionis",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2186
       }
     ],
     "coordinates": {
@@ -1940,15 +2169,18 @@
     "jumpLinks": [
       {
         "destination": "NN 3379",
-        "jumpLevel": "Beta"
+        "jumpLevel": "Beta",
+        "discovered": 2143
       },
       {
         "destination": "GJ 1087",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2160
       },
       {
         "destination": "1 Pi(3) Orionis",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2187
       }
     ],
     "coordinates": {
@@ -1966,12 +2198,14 @@
     ],
     "jumpLinks": [
       {
-        "destination": "BD+11°2576",
-        "jumpLevel": "Gamma"
+        "destination": "FL Virginis",
+        "jumpLevel": "Delta",
+        "discovered": 2144
       },
       {
-        "destination": "FL Virginis",
-        "jumpLevel": "Delta"
+        "destination": "BD+11°2576",
+        "jumpLevel": "Gamma",
+        "discovered": 2171
       }
     ],
     "coordinates": {
@@ -1989,12 +2223,14 @@
     ],
     "jumpLinks": [
       {
-        "destination": "NN 3789",
-        "jumpLevel": "Delta"
+        "destination": "GJ 2097",
+        "jumpLevel": "Gamma",
+        "discovered": 2171
       },
       {
-        "destination": "GJ 2097",
-        "jumpLevel": "Gamma"
+        "destination": "NN 3789",
+        "jumpLevel": "Delta",
+        "discovered": 2173
       }
     ],
     "coordinates": {
@@ -2013,11 +2249,13 @@
     "jumpLinks": [
       {
         "destination": "Beta Canum Venaticorum",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2171
       },
       {
         "destination": "BD+11°2576",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2173
       }
     ],
     "coordinates": {
@@ -2036,11 +2274,13 @@
     "jumpLinks": [
       {
         "destination": "CD-39°14192",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2154
       },
       {
         "destination": "AT Microscopii",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2170
       }
     ],
     "coordinates": {
@@ -2059,15 +2299,18 @@
     "jumpLinks": [
       {
         "destination": "CD-37°15492",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2152
       },
       {
         "destination": "IL Aquarii",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2154
       },
       {
         "destination": "CD-45°13677",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2154
       }
     ],
     "coordinates": {
@@ -2086,15 +2329,18 @@
     "jumpLinks": [
       {
         "destination": "CD-39°14192",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "Luyten 725-32",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2154
       },
       {
         "destination": "GJ 1002",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2157
+      },
+      {
+        "destination": "Luyten 725-32",
+        "jumpLevel": "Delta",
+        "discovered": 2157
       }
     ],
     "coordinates": {
@@ -2112,16 +2358,19 @@
     ],
     "jumpLinks": [
       {
-        "destination": "CD-39°14192",
-        "jumpLevel": "Delta"
+        "destination": "UV Ceti",
+        "jumpLevel": "Delta",
+        "discovered": 2138
       },
       {
         "destination": "Fomalhaut",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2147
       },
       {
-        "destination": "UV Ceti",
-        "jumpLevel": "Delta"
+        "destination": "CD-39°14192",
+        "jumpLevel": "Delta",
+        "discovered": 2152
       }
     ],
     "coordinates": {
@@ -2140,11 +2389,13 @@
     "jumpLinks": [
       {
         "destination": "IL Aquarii",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2157
       },
       {
         "destination": "GJ 1002",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2160
       }
     ],
     "coordinates": {
@@ -2162,24 +2413,29 @@
     ],
     "jumpLinks": [
       {
-        "destination": "FK Aquarii",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "CD-23°17699",
-        "jumpLevel": "Gamma"
-      },
-      {
-        "destination": "GJ 2005",
-        "jumpLevel": "Delta"
-      },
-      {
         "destination": "Luyten 722-22",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2147
       },
       {
         "destination": "CD-37°15492",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2147
+      },
+      {
+        "destination": "FK Aquarii",
+        "jumpLevel": "Delta",
+        "discovered": 2150
+      },
+      {
+        "destination": "GJ 2005",
+        "jumpLevel": "Delta",
+        "discovered": 2151
+      },
+      {
+        "destination": "CD-23°17699",
+        "jumpLevel": "Gamma",
+        "discovered": 2151
       }
     ],
     "coordinates": {
@@ -2197,20 +2453,24 @@
     ],
     "jumpLinks": [
       {
+        "destination": "Luyten 722-22",
+        "jumpLevel": "Delta",
+        "discovered": 2150
+      },
+      {
         "destination": "Fomalhaut",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2151
       },
       {
         "destination": "CD-23°17699",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2152
       },
       {
         "destination": "NN 4360",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "Luyten 722-22",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2155
       }
     ],
     "coordinates": {
@@ -2229,11 +2489,13 @@
     "jumpLinks": [
       {
         "destination": "Fomalhaut",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2150
       },
       {
         "destination": "NN 4360",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2154
       }
     ],
     "coordinates": {
@@ -2252,11 +2514,13 @@
     "jumpLinks": [
       {
         "destination": "Fomalhaut",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2151
       },
       {
         "destination": "GJ 2005",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2152
       }
     ],
     "coordinates": {
@@ -2274,16 +2538,19 @@
     ],
     "jumpLinks": [
       {
-        "destination": "FK Aquarii",
-        "jumpLevel": "Delta"
+        "destination": "GJ 1286",
+        "jumpLevel": "Delta",
+        "discovered": 2154
       },
       {
-        "destination": "GJ 1286",
-        "jumpLevel": "Delta"
+        "destination": "FK Aquarii",
+        "jumpLevel": "Delta",
+        "discovered": 2154
       },
       {
         "destination": "GJ 2005",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2155
       }
     ],
     "coordinates": {
@@ -2301,20 +2568,24 @@
     ],
     "jumpLinks": [
       {
-        "destination": "NN 4360",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "BD+04°123",
-        "jumpLevel": "Delta"
-      },
-      {
         "destination": "Luyten 722-22",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2149
       },
       {
         "destination": "GJ 1002",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2149
+      },
+      {
+        "destination": "NN 4360",
+        "jumpLevel": "Delta",
+        "discovered": 2154
+      },
+      {
+        "destination": "BD+04°123",
+        "jumpLevel": "Delta",
+        "discovered": 2156
       }
     ],
     "coordinates": {
@@ -2333,11 +2604,13 @@
     "jumpLinks": [
       {
         "destination": "GJ 1286",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2156
       },
       {
         "destination": "107 Piscium",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2165
       }
     ],
     "coordinates": {
@@ -2355,24 +2628,34 @@
     ],
     "jumpLinks": [
       {
-        "destination": "CD-37°15492",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "GJ 1002",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "Luyten 1159-016",
-        "jumpLevel": "Delta"
+        "destination": "Sol",
+        "jumpLevel": "Delta",
+        "discovered": 2118
       },
       {
         "destination": "Epsilon Eridani",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2132
+      },
+      {
+        "destination": "Luyten 1159-016",
+        "jumpLevel": "Delta",
+        "discovered": 2135
+      },
+      {
+        "destination": "CD-37°15492",
+        "jumpLevel": "Delta",
+        "discovered": 2138
+      },
+      {
+        "destination": "GJ 1002",
+        "jumpLevel": "Delta",
+        "discovered": 2139
       },
       {
         "destination": "GJ 1061",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2140
       }
     ],
     "coordinates": {
@@ -2390,16 +2673,19 @@
     ],
     "jumpLinks": [
       {
-        "destination": "GJ 1002",
-        "jumpLevel": "Delta"
+        "destination": "Luyten 722-22",
+        "jumpLevel": "Delta",
+        "discovered": 2143
       },
       {
-        "destination": "Luyten 722-22",
-        "jumpLevel": "Delta"
+        "destination": "GJ 1002",
+        "jumpLevel": "Delta",
+        "discovered": 2147
       },
       {
         "destination": "Tau Ceti",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2147
       }
     ],
     "coordinates": {
@@ -2417,12 +2703,14 @@
     ],
     "jumpLinks": [
       {
-        "destination": "UV Ceti",
-        "jumpLevel": "Delta"
+        "destination": "Epsilon Eridani",
+        "jumpLevel": "Delta",
+        "discovered": 2135
       },
       {
-        "destination": "Epsilon Eridani",
-        "jumpLevel": "Delta"
+        "destination": "UV Ceti",
+        "jumpLevel": "Delta",
+        "discovered": 2135
       }
     ],
     "coordinates": {
@@ -2440,28 +2728,34 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Luyten 725-32",
-        "jumpLevel": "Gamma"
-      },
-      {
-        "destination": "GJ 1286",
-        "jumpLevel": "Delta"
+        "destination": "UV Ceti",
+        "jumpLevel": "Delta",
+        "discovered": 2139
       },
       {
         "destination": "Luyten 722-22",
-        "jumpLevel": "Beta"
+        "jumpLevel": "Beta",
+        "discovered": 2140
       },
       {
         "destination": "Lacaille 9352",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2147
       },
       {
-        "destination": "UV Ceti",
-        "jumpLevel": "Delta"
+        "destination": "GJ 1286",
+        "jumpLevel": "Delta",
+        "discovered": 2149
       },
       {
         "destination": "IL Aquarii",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2157
+      },
+      {
+        "destination": "Luyten 725-32",
+        "jumpLevel": "Gamma",
+        "discovered": 2160
       }
     ],
     "coordinates": {
@@ -2480,27 +2774,33 @@
     "jumpLinks": [
       {
         "destination": "GJ 1002",
-        "jumpLevel": "Beta"
-      },
-      {
-        "destination": "Fomalhaut",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "GJ 2005",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "GJ 1286",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Beta",
+        "discovered": 2140
       },
       {
         "destination": "EZ Aquarii",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2142
       },
       {
         "destination": "Lacaille 9352",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2143
+      },
+      {
+        "destination": "Fomalhaut",
+        "jumpLevel": "Delta",
+        "discovered": 2147
+      },
+      {
+        "destination": "GJ 1286",
+        "jumpLevel": "Delta",
+        "discovered": 2149
+      },
+      {
+        "destination": "GJ 2005",
+        "jumpLevel": "Delta",
+        "discovered": 2150
       }
     ],
     "coordinates": {
@@ -2518,16 +2818,19 @@
     ],
     "jumpLinks": [
       {
+        "destination": "Epsilon Eridani",
+        "jumpLevel": "Delta",
+        "discovered": 2137
+      },
+      {
         "destination": "UV Ceti",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2140
       },
       {
         "destination": "Tau Ceti",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "Epsilon Eridani",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2140
       }
     ],
     "coordinates": {
@@ -2545,24 +2848,29 @@
     ],
     "jumpLinks": [
       {
+        "destination": "GJ 1061",
+        "jumpLevel": "Delta",
+        "discovered": 2140
+      },
+      {
         "destination": "Lacaille 9352",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2147
       },
       {
         "destination": "EZ Aquarii",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2152
       },
       {
         "destination": "Epsilon Eridani",
-        "jumpLevel": "Gamma"
-      },
-      {
-        "destination": "GJ 1061",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Gamma",
+        "discovered": 2170
       },
       {
         "destination": "Alpha Centauri (B)",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2199
       }
     ],
     "coordinates": {
@@ -2580,36 +2888,44 @@
     ],
     "jumpLinks": [
       {
+        "destination": "Sirius",
+        "jumpLevel": "Delta",
+        "discovered": 2128
+      },
+      {
         "destination": "UV Ceti",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2132
       },
       {
         "destination": "Luyten 1159-016",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "82 Eridani",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "Epsilon Indi",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "Alpha Centauri (B)",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "Sirius",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2135
       },
       {
         "destination": "GJ 1061",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2137
       },
       {
         "destination": "Tau Ceti",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2170
+      },
+      {
+        "destination": "Epsilon Indi",
+        "jumpLevel": "Epsilon",
+        "discovered": 2188
+      },
+      {
+        "destination": "Alpha Centauri (B)",
+        "jumpLevel": "Epsilon",
+        "discovered": 2190
+      },
+      {
+        "destination": "82 Eridani",
+        "jumpLevel": "Epsilon",
+        "discovered": 2203
       }
     ],
     "coordinates": {
@@ -2628,15 +2944,18 @@
     "jumpLinks": [
       {
         "destination": "Luyten 722-22",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2142
       },
       {
         "destination": "Epsilon Indi",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2148
       },
       {
         "destination": "Tau Ceti",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2152
       }
     ],
     "coordinates": {
@@ -2654,20 +2973,24 @@
     ],
     "jumpLinks": [
       {
-        "destination": "CP-68°41",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "CP-73°2299",
-        "jumpLevel": "Epsilon"
-      },
-      {
         "destination": "Rho Eridani",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "Epsilon Indi",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2183
+      },
+      {
+        "destination": "CP-73°2299",
+        "jumpLevel": "Epsilon",
+        "discovered": 2189
+      },
+      {
+        "destination": "CP-68°41",
+        "jumpLevel": "Epsilon",
+        "discovered": 2197
       }
     ],
     "coordinates": {
@@ -2685,24 +3008,34 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Epsilon Eridani",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "Rho Eridani",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "Zeta Tucanae",
-        "jumpLevel": "Epsilon"
+        "destination": "AC-24°2833-183",
+        "jumpLevel": "Delta",
+        "discovered": 2136
       },
       {
         "destination": "EZ Aquarii",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2148
+      },
+      {
+        "destination": "Rho Eridani",
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "Delta Pavonis",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2183
+      },
+      {
+        "destination": "Epsilon Eridani",
+        "jumpLevel": "Epsilon",
+        "discovered": 2188
+      },
+      {
+        "destination": "Zeta Tucanae",
+        "jumpLevel": "Epsilon",
+        "discovered": 2194
       }
     ],
     "coordinates": {
@@ -2720,24 +3053,30 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Delta Pavonis",
-        "jumpLevel": "Epsilon"
-      },
-      {
         "destination": "Epsilon Indi",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
-        "destination": "Beta Hydri",
-        "jumpLevel": "Delta"
+        "destination": "Delta Pavonis",
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "Zeta Tucanae",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2180
+      },
+      {
+        "destination": "Beta Hydri",
+        "jumpLevel": "Delta",
+        "discovered": 2180
       }
     ],
     "coordinates": {
-      "x":1.14, "y":-3.19, "z":-5.8
+      "x": 1.14,
+      "y": -3.19,
+      "z": -5.8
     }
   },
   {
@@ -2749,12 +3088,14 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Delta Pavonis",
-        "jumpLevel": "Epsilon"
+        "destination": "Zeta Tucanae",
+        "jumpLevel": "Delta",
+        "discovered": 2189
       },
       {
-        "destination": "Zeta Tucanae",
-        "jumpLevel": "Delta"
+        "destination": "Delta Pavonis",
+        "jumpLevel": "Epsilon",
+        "discovered": 2189
       }
     ],
     "coordinates": {
@@ -2772,28 +3113,34 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Epsilon Indi",
-        "jumpLevel": "Epsilon"
-      },
-      {
         "destination": "Rho Eridani",
-        "jumpLevel": "Gamma"
-      },
-      {
-        "destination": "CP-73°2299",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "82 Eridani",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Gamma",
+        "discovered": 2180
       },
       {
         "destination": "Beta Hydri",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2183
+      },
+      {
+        "destination": "CP-73°2299",
+        "jumpLevel": "Delta",
+        "discovered": 2189
+      },
+      {
+        "destination": "Epsilon Indi",
+        "jumpLevel": "Epsilon",
+        "discovered": 2194
       },
       {
         "destination": "Alpha Mensae",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2195
+      },
+      {
+        "destination": "82 Eridani",
+        "jumpLevel": "Epsilon",
+        "discovered": 2195
       }
     ],
     "coordinates": {
@@ -2811,24 +3158,29 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Epsilon Eridani",
-        "jumpLevel": "Epsilon"
-      },
-      {
         "destination": "Zeta Tucanae",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2195
       },
       {
         "destination": "Beta Hydri",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2195
+      },
+      {
+        "destination": "Epsilon Eridani",
+        "jumpLevel": "Epsilon",
+        "discovered": 2203
       },
       {
         "destination": "CP-68°41",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2210
       },
       {
         "destination": "BD-13°544",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2212
       }
     ],
     "coordinates": {
@@ -2846,12 +3198,14 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Zeta Tucanae",
-        "jumpLevel": "Epsilon"
+        "destination": "GJ 2034",
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
-        "destination": "GJ 2034",
-        "jumpLevel": "Epsilon"
+        "destination": "Zeta Tucanae",
+        "jumpLevel": "Epsilon",
+        "discovered": 2195
       }
     ],
     "coordinates": {
@@ -2870,19 +3224,23 @@
     "jumpLinks": [
       {
         "destination": "Rho Eridani",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2180
       },
       {
         "destination": "Zeta Tucanae",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2183
       },
       {
         "destination": "Luyten 119-44",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2186
       },
       {
         "destination": "82 Eridani",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2195
       }
     ],
     "coordinates": {
@@ -2901,11 +3259,13 @@
     "jumpLinks": [
       {
         "destination": "Beta Hydri",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2186
       },
       {
         "destination": "CP-68°41",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2195
       }
     ],
     "coordinates": {
@@ -2923,20 +3283,24 @@
     ],
     "jumpLinks": [
       {
+        "destination": "Luyten 119-44",
+        "jumpLevel": "Delta",
+        "discovered": 2195
+      },
+      {
         "destination": "Delta Pavonis",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2197
       },
       {
         "destination": "82 Eridani",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2210
       },
       {
         "destination": "GJ 2034",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "Luyten 119-44",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Epsilon",
+        "discovered": 2213
       }
     ],
     "coordinates": {
@@ -2954,16 +3318,19 @@
     ],
     "jumpLinks": [
       {
-        "destination": "CP-68°41",
-        "jumpLevel": "Epsilon"
-      },
-      {
         "destination": "Gamma Leporis",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "Alpha Mensae",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
+      },
+      {
+        "destination": "CP-68°41",
+        "jumpLevel": "Epsilon",
+        "discovered": 2213
       }
     ],
     "coordinates": {
@@ -2981,16 +3348,19 @@
     ],
     "jumpLinks": [
       {
+        "destination": "40 (O2) Eridani",
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
+      },
+      {
         "destination": "GJ 2034",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "1 Pi(3) Orionis",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "40 (O2) Eridani",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2202
       }
     ],
     "coordinates": {
@@ -3008,40 +3378,45 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Gamma Leporis",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "Delta Eridani",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "BD+06°398",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "Kappa Ceti",
-        "jumpLevel": "Epsilon"
-      },
-      {
         "destination": "BD-05°1123",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "BD-05°1844",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Delta",
+        "discovered": 2180
       },
       {
         "destination": "BD+18°683",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2186
       },
       {
         "destination": "BD-03°1123",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2187
+      },
+      {
+        "destination": "Kappa Ceti",
+        "jumpLevel": "Epsilon",
+        "discovered": 2198
+      },
+      {
+        "destination": "BD+06°398",
+        "jumpLevel": "Epsilon",
+        "discovered": 2198
+      },
+      {
+        "destination": "Delta Eridani",
+        "jumpLevel": "Epsilon",
+        "discovered": 2198
+      },
+      {
+        "destination": "Gamma Leporis",
+        "jumpLevel": "Epsilon",
+        "discovered": 2202
       }
     ],
     "coordinates": {
-      "x":-6.78, "y":-1.37, "z":-2.94
+      "x": -6.78,
+      "y": -1.37,
+      "z": -2.94
     }
   },
   {
@@ -3053,20 +3428,24 @@
     ],
     "jumpLinks": [
       {
-        "destination": "BD+06°398",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "1 Pi(3) Orionis",
-        "jumpLevel": "Epsilon"
-      },
-      {
         "destination": "BD-13°544",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2188
+      },
+      {
+        "destination": "BD+06°398",
+        "jumpLevel": "Epsilon",
+        "discovered": 2197
       },
       {
         "destination": "Kappa Ceti",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2197
+      },
+      {
+        "destination": "1 Pi(3) Orionis",
+        "jumpLevel": "Epsilon",
+        "discovered": 2198
       }
     ],
     "coordinates": {
@@ -3084,20 +3463,24 @@
     ],
     "jumpLinks": [
       {
-        "destination": "82 Eridani",
-        "jumpLevel": "Epsilon"
-      },
-      {
         "destination": "40 (O2) Eridani",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "GJ 1057",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "Delta Eridani",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2188
+      },
+      {
+        "destination": "GJ 1057",
+        "jumpLevel": "Delta",
+        "discovered": 2192
+      },
+      {
+        "destination": "82 Eridani",
+        "jumpLevel": "Epsilon",
+        "discovered": 2212
       }
     ],
     "coordinates": {
@@ -3115,20 +3498,29 @@
     ],
     "jumpLinks": [
       {
+        "destination": "107 Piscium",
+        "jumpLevel": "Delta",
+        "discovered": 2174
+      },
+      {
         "destination": "40 (O2) Eridani",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "Delta Eridani",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "1 Pi(3) Orionis",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "GJ 1057",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2181
+      },
+      {
+        "destination": "Delta Eridani",
+        "jumpLevel": "Epsilon",
+        "discovered": 2197
+      },
+      {
+        "destination": "1 Pi(3) Orionis",
+        "jumpLevel": "Epsilon",
+        "discovered": 2198
       }
     ],
     "coordinates": {
@@ -3146,16 +3538,24 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Kappa Ceti",
-        "jumpLevel": "Epsilon"
+        "destination": "BD-05°1844",
+        "jumpLevel": "Epsilon",
+        "discovered": 2180
       },
       {
         "destination": "1 Pi(3) Orionis",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Delta",
+        "discovered": 2180
       },
       {
         "destination": "BD-21°1051",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2184
+      },
+      {
+        "destination": "Kappa Ceti",
+        "jumpLevel": "Epsilon",
+        "discovered": 2201
       }
     ],
     "coordinates": {
@@ -3173,12 +3573,14 @@
     ],
     "jumpLinks": [
       {
-        "destination": "Luyten 806-34",
-        "jumpLevel": "Delta"
+        "destination": "BD-05°1123",
+        "jumpLevel": "Delta",
+        "discovered": 2184
       },
       {
-        "destination": "BD-05°1123",
-        "jumpLevel": "Delta"
+        "destination": "Luyten 806-34",
+        "jumpLevel": "Delta",
+        "discovered": 2187
       }
     ],
     "coordinates": {
@@ -3196,20 +3598,19 @@
     ],
     "jumpLinks": [
       {
+        "destination": "Delta Eridani",
+        "jumpLevel": "Delta",
+        "discovered": 2197
+      },
+      {
         "destination": "1 Pi(3) Orionis",
-        "jumpLevel": "Epsilon"
+        "jumpLevel": "Epsilon",
+        "discovered": 2198
       },
       {
         "destination": "BD-05°1123",
-        "jumpLevel": "Epsilon"
-      },
-      {
-        "destination": "107 Piscium",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "Delta Eridani",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Epsilon",
+        "discovered": 2201
       }
     ],
     "coordinates": {
@@ -3228,11 +3629,13 @@
     "jumpLinks": [
       {
         "destination": "BD-21°1051",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2187
       },
       {
         "destination": "GJ 1065",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2192
       }
     ],
     "coordinates": {
@@ -3251,11 +3654,13 @@
     "jumpLinks": [
       {
         "destination": "Luyten 806-34",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2192
       },
       {
         "destination": "GJ 1057",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2195
       }
     ],
     "coordinates": {
@@ -3273,20 +3678,24 @@
     ],
     "jumpLinks": [
       {
+        "destination": "USNO 694",
+        "jumpLevel": "Delta",
+        "discovered": 2181
+      },
+      {
         "destination": "BD+06°398",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2181
       },
       {
         "destination": "BD-13°544",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2192
       },
       {
         "destination": "GJ 1065",
-        "jumpLevel": "Delta"
-      },
-      {
-        "destination": "USNO 694",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2195
       }
     ],
     "coordinates": {
@@ -3305,11 +3714,13 @@
     "jumpLinks": [
       {
         "destination": "107 Piscium",
-        "jumpLevel": "Gamma"
+        "jumpLevel": "Gamma",
+        "discovered": 2172
       },
       {
         "destination": "GJ 1057",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2181
       }
     ],
     "coordinates": {
@@ -3327,16 +3738,19 @@
     ],
     "jumpLinks": [
       {
-        "destination": "USNO 694",
-        "jumpLevel": "Gamma"
-      },
-      {
-        "destination": "Kappa Ceti",
-        "jumpLevel": "Delta"
-      },
-      {
         "destination": "BD+04°123",
-        "jumpLevel": "Delta"
+        "jumpLevel": "Delta",
+        "discovered": 2165
+      },
+      {
+        "destination": "USNO 694",
+        "jumpLevel": "Gamma",
+        "discovered": 2172
+      },
+      {
+        "destination": "BD+06°398",
+        "jumpLevel": "Delta",
+        "discovered": 2174
       }
     ],
     "coordinates": {
