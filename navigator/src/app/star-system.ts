@@ -4,4 +4,9 @@ export interface StarSystem {
   name: string;
   transitTimes: number[];
   jumpLinks: JumpLink[];
+  coordinates: {
+    x: number,
+    y: number,
+    z: number
+  }
 }
