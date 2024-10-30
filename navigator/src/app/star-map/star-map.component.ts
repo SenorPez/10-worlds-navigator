@@ -48,6 +48,18 @@ export class StarMapComponent {
     const stars = starSystemsService.getStarSystems()
       .map(starSystem => ({name: starSystem.name, coordinates: starSystem.coordinates}));
 
+    let jumpLinks = starSystemsService.getStarSystems()
+      .flatMap(starSystem => {
+        const origin = starSystem.coordinates;
+        return starSystem.jumpLinks
+          .filter(jumpLink => jumpLink.discovered !== null)
+          .map(jumpLink => {
+          let destination = stars.find(star => star.name === jumpLink.destination)!.coordinates;
+          return {origin: origin, destination: destination, jumpLevel: jumpLink.jumpLevel}
+        });
+      })
+      .filter((val)  => val.destination !== undefined);
+
     stars.forEach(star => {
       const starGeometry = new THREE.SphereGeometry(0.1);
       const starMaterial = star.name === "Sol" ?
@@ -57,6 +69,36 @@ export class StarMapComponent {
       starMesh.position.set(star.coordinates.x, star.coordinates.y, star.coordinates.z);
       this.scene.add(starMesh);
     });
+
+    jumpLinks.forEach(jumpLink => {
+      let lineMaterial;
+      switch(jumpLink.jumpLevel) {
+        case "Alpha":
+          lineMaterial = new THREE.LineBasicMaterial({color: 'red'});
+          break;
+        case "Beta":
+          lineMaterial = new THREE.LineBasicMaterial({color: 'orange'})
+          break;
+        case "Gamma":
+          lineMaterial = new THREE.LineBasicMaterial({color: 'yellow'})
+          break;
+        case "Delta":
+          lineMaterial = new THREE.LineBasicMaterial({color: 'green'})
+          break;
+        case "Epsilon":
+          lineMaterial = new THREE.LineBasicMaterial({color: 'blue'})
+          break;
+      }
+
+      const lineGeometry = new THREE.BufferGeometry()
+        .setFromPoints([
+          new THREE.Vector3(jumpLink.origin.x, jumpLink.origin.y, jumpLink.origin.z),
+          new THREE.Vector3(jumpLink.destination.x, jumpLink.destination.y, jumpLink.destination.z)
+        ]);
+
+      const link = new THREE.Line(lineGeometry, lineMaterial);
+      this.scene.add(link);
+    })
 
     this.renderer.setAnimationLoop(this.animate);
   }
