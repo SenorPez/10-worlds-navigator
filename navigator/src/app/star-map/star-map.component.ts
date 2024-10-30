@@ -22,9 +22,23 @@ export class StarMapComponent implements OnInit {
     this.renderer.render(this.scene, this.camera);
   }
 
+  windowResize(event: any) {
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const aspectRatio = window.innerWidth / window.innerHeight;
+    const coordinateLimit = this.getCoordinateLimit() * 1.05;
+
+    this.camera.left = aspectRatio > 1 ? -coordinateLimit * aspectRatio : -coordinateLimit;
+    this.camera.right = aspectRatio > 1 ? coordinateLimit * aspectRatio : coordinateLimit;
+    this.camera.top = aspectRatio > 1 ? coordinateLimit : coordinateLimit / aspectRatio;
+    this.camera.bottom = aspectRatio > 1 ? -coordinateLimit : -coordinateLimit / aspectRatio;
+
+    this.camera.updateProjectionMatrix();
+  }
+
   constructor(private starSystemsService: StarSystemService) {
     this.scene = this.createScene();
-    this.camera = this.createCamera(this.getCoordinateLimit());
+    this.camera = this.createCamera();
     this.renderer = this.createRenderer();
     this.controls = this.createControls(this.camera, this.renderer);
   }
@@ -115,17 +129,20 @@ export class StarMapComponent implements OnInit {
 
   getCoordinateLimit() {
     return Math.max(...this.starSystemsService.getStarSystems()
-      .flatMap(starSystem => {
-        return [starSystem.coordinates.x, starSystem.coordinates.y, starSystem.coordinates.z];
-      }));
+      .map(starSystem => new THREE.Vector3(
+          starSystem.coordinates.x,
+          starSystem.coordinates.y,
+          starSystem.coordinates.z
+        ).length()));
   }
 
   createScene() {
     return new THREE.Scene();
   }
 
-  createCamera(coordinateLimit: number) {
+  createCamera() {
     const aspectRatio = window.innerWidth / window.innerHeight;
+    const coordinateLimit = this.getCoordinateLimit() * 1.05;
 
     const leftLimit = aspectRatio > 1 ? -coordinateLimit * aspectRatio : -coordinateLimit;
     const rightLimit = aspectRatio > 1 ? coordinateLimit * aspectRatio : coordinateLimit;
