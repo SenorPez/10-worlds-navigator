@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import * as THREE from 'three';
-import {MeshBasicMaterial} from 'three';
+import {Camera, MeshBasicMaterial} from 'three';
 import {StarSystemService} from "../star-system.service";
 import {StarSystem} from "../star-system";
+import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 
 @Component({
   selector: 'app-star-map',
@@ -16,7 +17,16 @@ export class StarMapComponent {
   camera;
   renderer = new THREE.WebGLRenderer();
 
-  animate = () => this.renderer.render(this.scene, this.camera);
+  controls: TrackballControls;
+
+  animate = () => {
+    this.controls.update();
+    this.renderer.render(this.scene, this.camera);
+  }
+
+  createControls(camera: Camera) {
+    return new TrackballControls(camera, this.renderer.domElement);
+  }
 
   getLimit = (starSystems: StarSystem[]) => {
     return Math.max(
@@ -72,7 +82,7 @@ export class StarMapComponent {
 
     jumpLinks.forEach(jumpLink => {
       let lineMaterial;
-      switch(jumpLink.jumpLevel) {
+      switch (jumpLink.jumpLevel) {
         case "Alpha":
           lineMaterial = new THREE.LineBasicMaterial({color: 'red'});
           break;
@@ -98,8 +108,9 @@ export class StarMapComponent {
 
       const link = new THREE.Line(lineGeometry, lineMaterial);
       this.scene.add(link);
-    })
+    });
 
+    this.controls = thiAs.createControls(this.camera);
     this.renderer.setAnimationLoop(this.animate);
   }
 }
