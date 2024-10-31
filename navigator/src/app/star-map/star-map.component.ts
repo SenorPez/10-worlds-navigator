@@ -25,15 +25,11 @@ export class StarMapComponent implements OnInit {
   hoverMaterial = new THREE.MeshBasicMaterial({color: 0xffaaaa})
   clickMaterial = new THREE.MeshBasicMaterial({color: 0xff0000})
 
-  hoverObject: THREE.Object3D | null = null;
-  clickObject: THREE.Object3D | null = null;
-
-  hoverReplacedMaterial: THREE.MeshBasicMaterial | null = null;
-  clickReplacedMaterial: THREE.MeshBasicMaterial | null = null;
+  hoverCurrent: {object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial} | null = null;
+  clickCurrent: {object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial} | null = null;
 
   animate = () => {
     this.controls.update();
-    this.findIntersections();
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -146,6 +142,57 @@ export class StarMapComponent implements OnInit {
       (event.clientX / window.innerWidth) * 2 - 1,
       -(event.clientY / window.innerHeight) * 2 + 1
     );
+
+    if (this.mouseDownLocation !== null) {
+      this.raycaster.setFromCamera(this.mouseDownLocation, this.camera);
+      const mouseDownIntersections = this.raycaster.intersectObjects(this.scene.children, false)
+        .filter(intersection => intersection.object.type === "Mesh");
+      this.raycaster.setFromCamera(this.clickLocation, this.camera);
+      const clickIntersections = this.raycaster.intersectObjects(this.scene.children, false)
+        .filter(intersection => intersection.object.type === "Mesh");
+
+      if (
+        mouseDownIntersections.length > 0 &&
+        clickIntersections.length > 0 &&
+        _.isEqual(mouseDownIntersections[0].object, clickIntersections[0].object)
+      ) this.addClickEffect(clickIntersections[0].object);
+    }
+  }
+
+  addClickEffect(targetObject: THREE.Object3D) {
+    if (this.clickCurrent !== null) {
+      if (this.clickCurrent.object.uuid === targetObject.uuid) {
+        ((this.clickCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
+        this.clickCurrent = null;
+      } else {
+        ((this.clickCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickCurrent.replacedMaterial;
+        if (this.hoverCurrent !== null) {
+          this.clickCurrent = {
+            object: targetObject,
+            replacedMaterial: this.hoverCurrent.replacedMaterial
+          };
+        } else {
+          this.clickCurrent = {
+            object: targetObject,
+            replacedMaterial: (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
+          }
+        }
+        ((this.clickCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickMaterial;
+      }
+    } else {
+      if (this.hoverCurrent !== null) {
+        this.clickCurrent = {
+          object: targetObject,
+          replacedMaterial: this.hoverCurrent.replacedMaterial
+        };
+      } else {
+        this.clickCurrent = {
+          object: targetObject,
+          replacedMaterial: (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
+        }
+      }
+      ((this.clickCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickMaterial;
+    }
   }
 
   mouseDown(event: MouseEvent) {
@@ -160,6 +207,72 @@ export class StarMapComponent implements OnInit {
       (event.clientX / window.innerWidth) * 2 - 1,
       -(event.clientY / window.innerHeight) * 2 + 1
     );
+
+    this.raycaster.setFromCamera(this.hoverLocation, this.camera);
+    const hoverIntersections = this.raycaster.intersectObjects(this.scene.children, false)
+      .filter(intersection => intersection.object.type === "Mesh");
+    this.addHoverEffect(hoverIntersections);
+  }
+
+  addHoverEffect(hoverIntersections: THREE.Intersection[]) {
+    if (hoverIntersections.length > 0) {
+      const targetObject = hoverIntersections[0].object;
+        if (this.hoverCurrent !== null) {
+          if (this.hoverCurrent.object.uuid === targetObject.uuid) {
+            // Do nothing, we're still hovering the current object.
+          } else {
+            if (this.clickCurrent !== null && this.clickCurrent.object.uuid === this.hoverCurrent.object.uuid) {
+              // Don't restore previous object, because it's selected.
+              this.hoverCurrent = {
+                object: targetObject,
+                replacedMaterial: (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
+              };
+              ((this.hoverCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
+            } else if (this.clickCurrent !== null && this.clickCurrent.object.uuid === targetObject.uuid) {
+              ((this.hoverCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverCurrent.replacedMaterial;
+              // Don't modify the material, because it's selected.
+              this.hoverCurrent = {
+                object: targetObject,
+                replacedMaterial: this.clickCurrent.replacedMaterial
+              };
+            } else {
+              // Restore previous object.
+              ((this.hoverCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverCurrent.replacedMaterial;
+              this.hoverCurrent = {
+                object: targetObject,
+                replacedMaterial: (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
+              };
+              ((this.hoverCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
+            }
+          }
+        } else {
+          if (this.clickCurrent !== null && this.clickCurrent.object.uuid === targetObject.uuid) {
+            this.hoverCurrent = {
+              object: targetObject,
+              replacedMaterial: this.clickCurrent.replacedMaterial
+            };
+          } else {
+            this.hoverCurrent = {
+              object: targetObject,
+              replacedMaterial: (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
+            };
+            ((this.hoverCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
+          }
+      }
+    } else {
+      if (this.hoverCurrent !== null) {
+        if (this.clickCurrent !== null && this.clickCurrent.object.uuid === this.hoverCurrent.object.uuid) {
+          // Don't restore previous object since it's selected.
+          this.hoverCurrent = null;
+        } else {
+          // Restore previous object.
+          ((this.hoverCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverCurrent.replacedMaterial;
+          this.hoverCurrent = null;
+        }
+      } else {
+        // Do nothing, we're hovering nothing.
+      }
+    }
   }
 
   windowResize() {
@@ -220,96 +333,5 @@ export class StarMapComponent implements OnInit {
 
   createRaycaster() {
     return new THREE.Raycaster();
-  }
-
-  findIntersections() {
-    if (this.hoverLocation !== null) {
-      this.raycaster.setFromCamera(this.hoverLocation, this.camera);
-      const hoverIntersections = this.raycaster.intersectObjects(this.scene.children, false)
-        .filter(intersection => intersection.object.type === "Mesh");
-
-      // We have a target object.
-      if (hoverIntersections.length > 0) {
-        // We have a currently hovered object.
-        if (this.hoverObject !== null && this.hoverReplacedMaterial !== null) {
-          // If the currently hovered object doesn't match, restore material, hover new object,
-          // and memoize replaced material.
-          if (this.hoverObject.uuid !== hoverIntersections[0].object.uuid) {
-            // Only restore material if it's not selected.
-            if (this.clickObject?.uuid !== hoverIntersections[0].object.uuid) {
-              ((this.hoverObject as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverReplacedMaterial;
-            }
-
-            this.hoverObject = hoverIntersections[0].object;
-            this.hoverReplacedMaterial = (hoverIntersections[0].object as THREE.Mesh).material as THREE.MeshBasicMaterial;
-            ((this.hoverObject as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
-          }
-        // We don't have a currently hovered object.
-        } else {
-          this.hoverObject = hoverIntersections[0].object;
-
-          // Only change the material if it's not selected.
-          if (this.clickObject?.uuid !== hoverIntersections[0].object.uuid) {
-            this.hoverReplacedMaterial = (this.hoverObject as THREE.Mesh).material as THREE.MeshBasicMaterial;
-            ((this.hoverObject as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
-          } else {
-            this.hoverReplacedMaterial = this.clickReplacedMaterial;
-          }
-        }
-      // We don't have a target object.
-      } else {
-        // We have a currently hovered object.
-        if (this.hoverObject !== null && this.hoverReplacedMaterial !== null) {
-          // Only restore the material if it's not selected.
-          if (this.clickObject?.uuid !== this.hoverObject.uuid) {
-            (this.hoverObject as THREE.Mesh).material = this.hoverReplacedMaterial;
-          }
-
-          this.hoverObject = null;
-          this.hoverReplacedMaterial = null;
-        }
-      }
-    }
-
-    if (this.mouseDownLocation !== null && this.clickLocation !== null) {
-      this.raycaster.setFromCamera(this.mouseDownLocation, this.camera);
-      const mouseDownIntersections = this.raycaster.intersectObjects(this.scene.children, false)
-        .filter(intersection => intersection.object.type === "Mesh");
-
-      this.raycaster.setFromCamera(this.clickLocation, this.camera);
-      const clickIntersections = this.raycaster.intersectObjects(this.scene.children, false)
-        .filter(intersection => intersection.object.type === "Mesh");
-
-      // Reset locations to prevent recursion.
-      this.mouseDownLocation = null;
-      this.clickLocation = null;
-
-      // We have a target object.
-      if (
-        mouseDownIntersections.length > 0 &&
-        clickIntersections.length > 0 &&
-        _.isEqual(mouseDownIntersections[0].object, clickIntersections[0].object)
-      ) {
-        // We have a currently selected object.
-        if (this.clickObject !== null && this.clickReplacedMaterial !== null) {
-          // If the currently selected object matches the target object, unselect and set the hover material (since the mouse has to be over it).
-          // Otherwise, restore material to the currently selected object and select new object.
-          if (this.clickObject.uuid === clickIntersections[0].object.uuid) {
-            ((this.clickObject as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
-            this.clickObject = null;
-            this.clickReplacedMaterial = null;
-          } else {
-            ((this.clickObject as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickReplacedMaterial;
-            this.clickObject = clickIntersections[0].object;
-            this.clickReplacedMaterial = this.hoverReplacedMaterial;
-            ((clickIntersections[0].object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickMaterial;
-          }
-        } else {
-          this.clickObject = clickIntersections[0].object;
-          this.clickReplacedMaterial = this.hoverReplacedMaterial;
-          ((clickIntersections[0].object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickMaterial;
-        }
-      }
-    }
   }
 }
