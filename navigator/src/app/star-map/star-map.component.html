@@ -1,4 +1,6 @@
 <div
   id="divCanvas"
+  (click)="click($event)"
+  (mousedown)="mouseDown($event)"
   (pointermove)="pointerMove($event)"
   (window:resize)="windowResize()"></div>

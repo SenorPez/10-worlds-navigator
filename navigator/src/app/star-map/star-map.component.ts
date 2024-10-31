@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import * as THREE from 'three';
 import {StarSystemService} from "../star-system.service";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-star-map',
@@ -17,15 +18,29 @@ export class StarMapComponent implements OnInit {
   controls;
 
   raycaster;
-  pointer = new THREE.Vector2(-1, -1);
+  hoverLocation: THREE.Vector2 | null = null;
+  clickLocation: THREE.Vector2 | null = null;
+  mouseDownLocation: THREE.Vector2 | null = null
 
-  currentIntersection: THREE.Object3D | null = null;
-  hoverMaterial = new THREE.MeshBasicMaterial({color: 0xff5555});
+  hoverMaterial = new THREE.MeshBasicMaterial({color: 0xffaaaa})
+  clickMaterial = new THREE.MeshBasicMaterial({color: 0xff0000})
+
+  hoverObject: THREE.Object3D | null = null;
+  clickObject: THREE.Object3D | null = null;
+
   replacedMaterial: THREE.MeshBasicMaterial | null = null;
+  clickReplacedMaterial: THREE.MeshBasicMaterial | null = null;
+
+  // currentHover: THREE.Object3D | null = null;
+  // currentClick: THREE.Object3D | null = null;
+  // hoverMaterial = new THREE.MeshBasicMaterial({color: 0xff5555});
+  // selectedMaterial = new THREE.MeshBasicMaterial({color: 0xff0000})
+  // replacedHoverMaterial: THREE.MeshBasicMaterial | null = null;
+  // replacedClickMaterial: THREE.MeshBasicMaterial | null = null;
 
   animate = () => {
     this.controls.update();
-    this.findIntersection();
+    this.findIntersections();
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -133,9 +148,25 @@ export class StarMapComponent implements OnInit {
       });
   }
 
+  click(event: MouseEvent) {
+    this.clickLocation = new THREE.Vector2(
+      (event.clientX / window.innerWidth) * 2 - 1,
+      -(event.clientY / window.innerHeight) * 2 + 1
+    );
+  }
+
+  mouseDown(event: MouseEvent) {
+    this.mouseDownLocation = new THREE.Vector2(
+      (event.clientX / window.innerWidth) * 2 - 1,
+      -(event.clientY / window.innerHeight) * 2 + 1
+    );
+  }
+
   pointerMove(event: PointerEvent) {
-    this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
-    this.pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    this.hoverLocation = new THREE.Vector2(
+      (event.clientX / window.innerWidth) * 2 - 1,
+      -(event.clientY / window.innerHeight) * 2 + 1
+    );
   }
 
   windowResize() {
@@ -198,28 +229,97 @@ export class StarMapComponent implements OnInit {
     return new THREE.Raycaster();
   }
 
-  findIntersection() {
-    this.raycaster.setFromCamera(this.pointer, this.camera);
-    const intersections = this.raycaster.intersectObjects(this.scene.children, false)
-      .filter(intersection => intersection.object.type === "Mesh");
+  findIntersections() {
+    if (this.hoverLocation !== null) {
+      this.raycaster.setFromCamera(this.hoverLocation, this.camera);
+      const hoverIntersections = this.raycaster.intersectObjects(this.scene.children, false)
+        .filter(intersection => intersection.object.type === "Mesh");
 
-    if (intersections.length > 0) {
-      if (this.currentIntersection != intersections[0].object) {
-        if (this.currentIntersection !== null && this.replacedMaterial !== null) {
-          (this.currentIntersection as THREE.Mesh).material = this.replacedMaterial;
+      // We have a target object.
+      if (hoverIntersections.length > 0) {
+        // We have a currently hovered object.
+        if (this.hoverObject !== null && this.replacedMaterial !== null) {
+          // If the currently hovered object matches the target object, do nothing.
+          // Otherwise, restore material, hover new object, and memoize replaced material.
+          if (this.hoverObject.uuid === hoverIntersections[0].object.uuid) {
+
+          } else {
+            // Only restore material if it's not selected.
+            if (this.clickObject?.uuid !== hoverIntersections[0].object.uuid) {
+              ((this.hoverObject as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.replacedMaterial;
+            }
+
+            this.replacedMaterial = (hoverIntersections[0].object as THREE.Mesh).material as THREE.MeshBasicMaterial;
+            ((hoverIntersections[0].object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
+          }
+        // We don't have a currently hovered object.
+        } else {
+          this.hoverObject = hoverIntersections[0].object;
+
+          // Only change the material if it's not selected.
+          if (this.clickObject?.uuid !== hoverIntersections[0].object.uuid) {
+            this.replacedMaterial = (this.hoverObject as THREE.Mesh).material as THREE.MeshBasicMaterial;
+            ((this.hoverObject as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
+          } else {
+            this.replacedMaterial = this.clickReplacedMaterial;
+          }
         }
+      // We don't have a target object.
+      } else {
+        // We have a currently hovered object.
+        if (this.hoverObject !== null && this.replacedMaterial !== null) {
+          if (this.clickObject?.uuid !== this.hoverObject.uuid) {
+            (this.hoverObject as THREE.Mesh).material = this.replacedMaterial;
+          }
 
-        this.currentIntersection = intersections[0].object;
-        this.replacedMaterial = ((intersections[0].object as THREE.Mesh).material as THREE.MeshBasicMaterial);
-        ((intersections[0].object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
-      }
-    } else {
-      if (this.currentIntersection !== null && this.replacedMaterial !== null) {
-        (this.currentIntersection as THREE.Mesh).material = this.replacedMaterial;
-      }
+          this.replacedMaterial = null;
+          this.hoverObject = null;
 
-      this.currentIntersection = null;
-      this.replacedMaterial = null;
+        // We don't have a currently hovered object, so do nothing.
+        } else {
+        }
+      }
+    }
+
+    if (this.mouseDownLocation !== null && this.clickLocation !== null) {
+      this.raycaster.setFromCamera(this.mouseDownLocation, this.camera);
+      const mouseDownIntersections = this.raycaster.intersectObjects(this.scene.children, false)
+        .filter(intersection => intersection.object.type === "Mesh");
+
+      this.raycaster.setFromCamera(this.clickLocation, this.camera);
+      const clickIntersections = this.raycaster.intersectObjects(this.scene.children, false)
+        .filter(intersection => intersection.object.type === "Mesh");
+
+      // Reset locations to prevent recursion.
+      this.mouseDownLocation = null;
+      this.clickLocation = null;
+
+      // We have a target object.
+      if (
+        mouseDownIntersections.length > 0 &&
+        clickIntersections.length > 0 &&
+        _.isEqual(mouseDownIntersections[0].object, clickIntersections[0].object)
+      ) {
+        // We have a currently selected object.
+        if (this.clickObject !== null && this.clickReplacedMaterial !== null) {
+          // If the currently selected object matches the target object, unselect and set the hover material (since the mouse has to be over it).
+          // Otherwise, restore material to the currently selected object and select new object.
+          if (this.clickObject.uuid === clickIntersections[0].object.uuid) {
+            ((this.clickObject as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
+            this.clickReplacedMaterial = null;
+            this.clickObject = null;
+          } else {
+            ((this.clickObject as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickReplacedMaterial;
+            this.clickObject = clickIntersections[0].object;
+            this.clickReplacedMaterial = this.replacedMaterial;
+            ((clickIntersections[0].object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickMaterial;
+          }
+        } else {
+          this.clickObject = clickIntersections[0].object;
+          this.clickReplacedMaterial = this.replacedMaterial;
+          ((clickIntersections[0].object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickMaterial;
+        }
+      }
     }
   }
 }
