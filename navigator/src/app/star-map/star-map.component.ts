@@ -28,15 +28,8 @@ export class StarMapComponent implements OnInit {
   hoverObject: THREE.Object3D | null = null;
   clickObject: THREE.Object3D | null = null;
 
-  replacedMaterial: THREE.MeshBasicMaterial | null = null;
+  hoverReplacedMaterial: THREE.MeshBasicMaterial | null = null;
   clickReplacedMaterial: THREE.MeshBasicMaterial | null = null;
-
-  // currentHover: THREE.Object3D | null = null;
-  // currentClick: THREE.Object3D | null = null;
-  // hoverMaterial = new THREE.MeshBasicMaterial({color: 0xff5555});
-  // selectedMaterial = new THREE.MeshBasicMaterial({color: 0xff0000})
-  // replacedHoverMaterial: THREE.MeshBasicMaterial | null = null;
-  // replacedClickMaterial: THREE.MeshBasicMaterial | null = null;
 
   animate = () => {
     this.controls.update();
@@ -238,19 +231,18 @@ export class StarMapComponent implements OnInit {
       // We have a target object.
       if (hoverIntersections.length > 0) {
         // We have a currently hovered object.
-        if (this.hoverObject !== null && this.replacedMaterial !== null) {
-          // If the currently hovered object matches the target object, do nothing.
-          // Otherwise, restore material, hover new object, and memoize replaced material.
-          if (this.hoverObject.uuid === hoverIntersections[0].object.uuid) {
-
-          } else {
+        if (this.hoverObject !== null && this.hoverReplacedMaterial !== null) {
+          // If the currently hovered object doesn't match, restore material, hover new object,
+          // and memoize replaced material.
+          if (this.hoverObject.uuid !== hoverIntersections[0].object.uuid) {
             // Only restore material if it's not selected.
             if (this.clickObject?.uuid !== hoverIntersections[0].object.uuid) {
-              ((this.hoverObject as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.replacedMaterial;
+              ((this.hoverObject as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverReplacedMaterial;
             }
 
-            this.replacedMaterial = (hoverIntersections[0].object as THREE.Mesh).material as THREE.MeshBasicMaterial;
-            ((hoverIntersections[0].object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
+            this.hoverObject = hoverIntersections[0].object;
+            this.hoverReplacedMaterial = (hoverIntersections[0].object as THREE.Mesh).material as THREE.MeshBasicMaterial;
+            ((this.hoverObject as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
           }
         // We don't have a currently hovered object.
         } else {
@@ -258,25 +250,23 @@ export class StarMapComponent implements OnInit {
 
           // Only change the material if it's not selected.
           if (this.clickObject?.uuid !== hoverIntersections[0].object.uuid) {
-            this.replacedMaterial = (this.hoverObject as THREE.Mesh).material as THREE.MeshBasicMaterial;
+            this.hoverReplacedMaterial = (this.hoverObject as THREE.Mesh).material as THREE.MeshBasicMaterial;
             ((this.hoverObject as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
           } else {
-            this.replacedMaterial = this.clickReplacedMaterial;
+            this.hoverReplacedMaterial = this.clickReplacedMaterial;
           }
         }
       // We don't have a target object.
       } else {
         // We have a currently hovered object.
-        if (this.hoverObject !== null && this.replacedMaterial !== null) {
+        if (this.hoverObject !== null && this.hoverReplacedMaterial !== null) {
+          // Only restore the material if it's not selected.
           if (this.clickObject?.uuid !== this.hoverObject.uuid) {
-            (this.hoverObject as THREE.Mesh).material = this.replacedMaterial;
+            (this.hoverObject as THREE.Mesh).material = this.hoverReplacedMaterial;
           }
 
-          this.replacedMaterial = null;
           this.hoverObject = null;
-
-        // We don't have a currently hovered object, so do nothing.
-        } else {
+          this.hoverReplacedMaterial = null;
         }
       }
     }
@@ -306,17 +296,17 @@ export class StarMapComponent implements OnInit {
           // Otherwise, restore material to the currently selected object and select new object.
           if (this.clickObject.uuid === clickIntersections[0].object.uuid) {
             ((this.clickObject as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
-            this.clickReplacedMaterial = null;
             this.clickObject = null;
+            this.clickReplacedMaterial = null;
           } else {
             ((this.clickObject as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickReplacedMaterial;
             this.clickObject = clickIntersections[0].object;
-            this.clickReplacedMaterial = this.replacedMaterial;
+            this.clickReplacedMaterial = this.hoverReplacedMaterial;
             ((clickIntersections[0].object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickMaterial;
           }
         } else {
           this.clickObject = clickIntersections[0].object;
-          this.clickReplacedMaterial = this.replacedMaterial;
+          this.clickReplacedMaterial = this.hoverReplacedMaterial;
           ((clickIntersections[0].object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickMaterial;
         }
       }
