@@ -1,1 +1,4 @@
-<div id="divCanvas" (window:resize)="windowResize($event)"></div>
+<div
+  id="divCanvas"
+  (pointermove)="pointerMove($event)"
+  (window:resize)="windowResize()"></div>

@@ -16,30 +16,32 @@ export class StarMapComponent implements OnInit {
   renderer;
   controls;
 
+  raycaster;
+  pointer = new THREE.Vector2(-1, -1);
+
+  currentIntersection: THREE.Object3D | null = null;
+  hoverMaterial = new THREE.MeshBasicMaterial({color: 0xff5555});
+  replacedMaterial: THREE.MeshBasicMaterial | null = null;
+
   animate = () => {
     this.controls.update();
+    this.findIntersection();
     this.renderer.render(this.scene, this.camera);
   }
 
-  windowResize(event: any) {
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-
-    const aspectRatio = window.innerWidth / window.innerHeight;
-    const coordinateLimit = this.getCoordinateLimit() * 1.05;
-
-    this.camera.left = aspectRatio > 1 ? -coordinateLimit * aspectRatio : -coordinateLimit;
-    this.camera.right = aspectRatio > 1 ? coordinateLimit * aspectRatio : coordinateLimit;
-    this.camera.top = aspectRatio > 1 ? coordinateLimit : coordinateLimit / aspectRatio;
-    this.camera.bottom = aspectRatio > 1 ? -coordinateLimit : -coordinateLimit / aspectRatio;
-
-    this.camera.updateProjectionMatrix();
-  }
+  coordinateLimit = Math.max(...this.starSystemsService.getStarSystems()
+    .map(starSystem => new THREE.Vector3(
+      starSystem.coordinates.x,
+      starSystem.coordinates.y,
+      starSystem.coordinates.z
+    ).length()));
 
   constructor(private starSystemsService: StarSystemService) {
     this.scene = this.createScene();
     this.camera = this.createCamera();
     this.renderer = this.createRenderer();
     this.controls = this.createControls(this.camera);
+    this.raycaster = this.createRaycaster();
   }
 
   ngOnInit() {
@@ -89,7 +91,10 @@ export class StarMapComponent implements OnInit {
                 ?.coordinates
             };
           })
-          .filter((jumpLink): jumpLink is { jumpLevel: string, coordinates: {x: number, y: number, z: number} } => jumpLink.coordinates !== undefined)
+          .filter((jumpLink): jumpLink is {
+            jumpLevel: string,
+            coordinates: { x: number, y: number, z: number }
+          } => jumpLink.coordinates !== undefined)
           .map(jumpLink => {
             const destination = new THREE.Vector3(
               jumpLink.coordinates.x,
@@ -128,13 +133,24 @@ export class StarMapComponent implements OnInit {
       });
   }
 
-  getCoordinateLimit() {
-    return Math.max(...this.starSystemsService.getStarSystems()
-      .map(starSystem => new THREE.Vector3(
-          starSystem.coordinates.x,
-          starSystem.coordinates.y,
-          starSystem.coordinates.z
-        ).length()));
+  pointerMove(event: PointerEvent) {
+    this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+    this.pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  }
+
+  windowResize() {
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const aspectRatio = window.innerWidth / window.innerHeight;
+    const coordinateLimit = this.coordinateLimit * 1.05;
+
+    this.camera.left = aspectRatio > 1 ? -coordinateLimit * aspectRatio : -coordinateLimit;
+    this.camera.right = aspectRatio > 1 ? coordinateLimit * aspectRatio : coordinateLimit;
+    this.camera.top = aspectRatio > 1 ? coordinateLimit : coordinateLimit / aspectRatio;
+    this.camera.bottom = aspectRatio > 1 ? -coordinateLimit : -coordinateLimit / aspectRatio;
+
+    this.camera.updateProjectionMatrix();
+    this.controls.handleResize();
   }
 
   createScene() {
@@ -143,7 +159,7 @@ export class StarMapComponent implements OnInit {
 
   createCamera() {
     const aspectRatio = window.innerWidth / window.innerHeight;
-    const coordinateLimit = this.getCoordinateLimit() * 1.05;
+    const coordinateLimit = this.coordinateLimit * 1.05;
 
     const leftLimit = aspectRatio > 1 ? -coordinateLimit * aspectRatio : -coordinateLimit;
     const rightLimit = aspectRatio > 1 ? coordinateLimit * aspectRatio : coordinateLimit;
@@ -154,7 +170,7 @@ export class StarMapComponent implements OnInit {
   }
 
   initCamera(camera: THREE.Camera) {
-    camera.position.z = this.getCoordinateLimit() * 2;
+    camera.position.z = this.coordinateLimit * 2;
   }
 
   createRenderer() {
@@ -176,5 +192,34 @@ export class StarMapComponent implements OnInit {
     controls.domElement = renderer.domElement;
     controls.connect();
     controls.handleResize();
+  }
+
+  createRaycaster() {
+    return new THREE.Raycaster();
+  }
+
+  findIntersection() {
+    this.raycaster.setFromCamera(this.pointer, this.camera);
+    const intersections = this.raycaster.intersectObjects(this.scene.children, false)
+      .filter(intersection => intersection.object.type === "Mesh");
+
+    if (intersections.length > 0) {
+      if (this.currentIntersection != intersections[0].object) {
+        if (this.currentIntersection !== null && this.replacedMaterial !== null) {
+          (this.currentIntersection as THREE.Mesh).material = this.replacedMaterial;
+        }
+
+        this.currentIntersection = intersections[0].object;
+        this.replacedMaterial = ((intersections[0].object as THREE.Mesh).material as THREE.MeshBasicMaterial);
+        ((intersections[0].object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
+      }
+    } else {
+      if (this.currentIntersection !== null && this.replacedMaterial !== null) {
+        (this.currentIntersection as THREE.Mesh).material = this.replacedMaterial;
+      }
+
+      this.currentIntersection = null;
+      this.replacedMaterial = null;
+    }
   }
 }
