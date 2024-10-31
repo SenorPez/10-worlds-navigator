@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import * as THREE from 'three';
-import {Camera, MeshBasicMaterial, WebGLRenderer} from 'three';
 import {StarSystemService} from "../star-system.service";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 
@@ -40,11 +39,13 @@ export class StarMapComponent implements OnInit {
     this.scene = this.createScene();
     this.camera = this.createCamera();
     this.renderer = this.createRenderer();
-    this.controls = this.createControls(this.camera, this.renderer);
+    this.controls = this.createControls(this.camera);
   }
 
   ngOnInit() {
-    this.camera.position.z = this.getCoordinateLimit() * 2;
+    this.initCamera(this.camera);
+    this.initRenderer(this.renderer);
+    this.initControls(this.controls, this.renderer);
 
     this.addStars(this.scene);
     this.addJumpLinks(this.scene);
@@ -57,8 +58,8 @@ export class StarMapComponent implements OnInit {
     this.starSystemsService.getStarSystems()
       .forEach(starSystem => {
         const starMaterial = starSystem.name === "Sol" ?
-          new MeshBasicMaterial({color: 0xffff00}) :
-          new MeshBasicMaterial({color: 0xffffff});
+          new THREE.MeshBasicMaterial({color: 0xffff00}) :
+          new THREE.MeshBasicMaterial({color: 0xffffff});
         const starMesh = new THREE.Mesh(starGeometry, starMaterial);
         starMesh.position.set(
           starSystem.coordinates.x,
@@ -152,16 +153,28 @@ export class StarMapComponent implements OnInit {
     return new THREE.OrthographicCamera(leftLimit, rightLimit, topLimit, bottomLimit, 0.1, 100);
   }
 
+  initCamera(camera: THREE.Camera) {
+    camera.position.z = this.getCoordinateLimit() * 2;
+  }
+
   createRenderer() {
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
-
-    const container = document.getElementById("divCanvas") ?? document.body;
-    container.appendChild(renderer.domElement);
     return renderer;
   }
 
-  createControls(camera: Camera, renderer: WebGLRenderer) {
-    return new TrackballControls(camera, renderer.domElement);
+  initRenderer(renderer: THREE.WebGLRenderer) {
+    const container = document.getElementById("divCanvas") ?? document.body;
+    container.appendChild(renderer.domElement);
+  }
+
+  createControls(camera: THREE.Camera) {
+    return new TrackballControls(camera);
+  }
+
+  initControls(controls: TrackballControls, renderer: THREE.WebGLRenderer) {
+    controls.domElement = renderer.domElement;
+    controls.connect();
+    controls.handleResize();
   }
 }
