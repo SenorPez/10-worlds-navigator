@@ -1,13 +1,27 @@
 import {TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {JumpLinksComponent} from "./jump-links/jump-links.component";
+import {StarMapComponent} from "./star-map/star-map.component";
+
+jest.mock('three', () => {
+  const THREE = jest.requireActual('three');
+  return {
+    ...THREE,
+    WebGLRenderer: jest.fn().mockReturnValue({
+      domElement: document.createElement('div'),
+      setAnimationLoop: jest.fn(),
+      setSize: jest.fn()
+    })
+  };
+});
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent],
       imports: [
-        JumpLinksComponent
+        JumpLinksComponent,
+        StarMapComponent
       ]
     }).compileComponents();
   });

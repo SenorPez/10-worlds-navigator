@@ -21,9 +21,9 @@ describe('JumpLinksComponent', () => {
 
   let starSystemService: { getStarSystems: jest.Mock; };
   let starSystemServiceReturnValue: StarSystem[] = [
-    {name: 'Alpha Hydri', transitTimes: [3, 2, 1], jumpLinks: [{destination: 'Beta Hydri', jumpLevel: 'Gamma'}, {destination: 'Omega Hydri', jumpLevel: 'Gamma'}]},
-    {name: 'Beta Hydri', transitTimes: [3, 2, 1], jumpLinks: [{destination: 'Alpha Hydri', jumpLevel: 'Gamma'}, {destination: 'Omega Hydri', jumpLevel: 'Gamma'}]},
-    {name: 'Omega Hydri', transitTimes: [3, 2, 1], jumpLinks: [{destination: 'Beta Hydri', jumpLevel: 'Gamma'}, {destination: 'Beta Hydri', jumpLevel: 'Gamma'}]},
+    {name: 'Alpha Hydri', transitTimes: [3, 2, 1], coordinates: {x: 1, y: 2, z: 2}, jumpLinks: [{destination: 'Beta Hydri', jumpLevel: 'Gamma', discovered: 1990, distance: 1}, {destination: 'Omega Hydri', jumpLevel: 'Gamma', discovered: 1990, distance: 1}]},
+    {name: 'Beta Hydri', transitTimes: [3, 2, 1], coordinates: {x: 2, y: 1, z: 2}, jumpLinks: [{destination: 'Alpha Hydri', jumpLevel: 'Gamma', discovered: 1990, distance: 1}, {destination: 'Omega Hydri', jumpLevel: 'Gamma', discovered: 1990, distance: 1}]},
+    {name: 'Omega Hydri', transitTimes: [3, 2, 1], coordinates: {x: 2, y: 2, z: 1}, jumpLinks: [{destination: 'Beta Hydri', jumpLevel: 'Gamma', discovered: 1990, distance: 1}, {destination: 'Beta Hydri', jumpLevel: 'Gamma', discovered: 1990, distance: 1}]},
   ]
 
   beforeEach(async () => {
@@ -115,9 +115,10 @@ describe('JumpLinksComponent', () => {
       component.selectedStarSystem = {
         name: 'Alpha Hydri',
         transitTimes: [3, 2, 1],
+        coordinates: {x: 1, y: 2, z: 2},
         jumpLinks: [
-          {destination: 'Omega Hydri', jumpLevel: 'Gamma'},
-          {destination: 'Beta Hydri', jumpLevel: 'Gamma'}
+          {destination: 'Omega Hydri', jumpLevel: 'Gamma', discovered: 1990, distance: 1},
+          {destination: 'Beta Hydri', jumpLevel: 'Gamma', discovered: 1990, distance: 1}
         ]
       };
     });
@@ -143,9 +144,10 @@ describe('JumpLinksComponent', () => {
       component.selectedStarSystem = {
         name: 'Omega Hydri',
         transitTimes: [3, 2, 1],
+        coordinates: {x: 2, y: 2, z: 1},
         jumpLinks: [
-          {destination: 'Alpha Hydri', jumpLevel: 'Gamma'},
-          {destination: 'Beta Hydri', jumpLevel: 'Gamma'}
+          {destination: 'Alpha Hydri', jumpLevel: 'Gamma', discovered: 1990, distance: 1},
+          {destination: 'Beta Hydri', jumpLevel: 'Gamma', discovered: 1990, distance: 1}
         ]
       };
       const items: MatListItemHarness[] = await listHarness.getItems();

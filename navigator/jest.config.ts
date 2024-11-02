@@ -11,6 +11,7 @@ const jestConfig: Config = {
   ],
   preset: 'jest-preset-angular',
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
+  transformIgnorePatterns: ['node_modules/three/examples/jsm/(?!(controls))'],
   verbose: false
 };
 
