@@ -113,19 +113,19 @@ export class StarMapComponent implements OnInit {
         let lineMaterial;
         switch (jumpLink.jumpLevel) {
           case "Alpha":
-            lineMaterial = new THREE.LineBasicMaterial({color: 'red'});
+            lineMaterial = new THREE.LineBasicMaterial({color: 0xff0000});
             break;
           case "Beta":
-            lineMaterial = new THREE.LineBasicMaterial({color: 'orange'})
+            lineMaterial = new THREE.LineBasicMaterial({color: 0xffff00})
             break;
           case "Gamma":
-            lineMaterial = new THREE.LineBasicMaterial({color: 'yellow'})
+            lineMaterial = new THREE.LineBasicMaterial({color: 0x00ff00})
             break;
           case "Delta":
-            lineMaterial = new THREE.LineBasicMaterial({color: 'green'})
+            lineMaterial = new THREE.LineBasicMaterial({color: 0x00ffff})
             break;
           case "Epsilon":
-            lineMaterial = new THREE.LineBasicMaterial({color: 'blue'})
+            lineMaterial = new THREE.LineBasicMaterial({color: 0x0000ff})
             break;
         }
 
@@ -142,8 +142,11 @@ export class StarMapComponent implements OnInit {
       (event.clientX / window.innerWidth) * 2 - 1,
       -(event.clientY / window.innerHeight) * 2 + 1
     );
+    this.addClickEffect();
+  }
 
-    if (this.mouseDownLocation !== null) {
+  addClickEffect() {
+    if (this.mouseDownLocation !== null && this.clickLocation !== null) {
       this.raycaster.setFromCamera(this.mouseDownLocation, this.camera);
       const mouseDownIntersections = this.raycaster.intersectObjects(this.scene.children, false)
         .filter(intersection => intersection.object.type === "Mesh");
@@ -155,43 +158,43 @@ export class StarMapComponent implements OnInit {
         mouseDownIntersections.length > 0 &&
         clickIntersections.length > 0 &&
         _.isEqual(mouseDownIntersections[0].object, clickIntersections[0].object)
-      ) this.addClickEffect(clickIntersections[0].object);
-    }
-  }
+      ) {
+        const targetObject = clickIntersections[0].object;
 
-  addClickEffect(targetObject: THREE.Object3D) {
-    if (this.clickCurrent !== null) {
-      if (this.clickCurrent.object.uuid === targetObject.uuid) {
-        ((this.clickCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
-        this.clickCurrent = null;
-      } else {
-        ((this.clickCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickCurrent.replacedMaterial;
-        if (this.hoverCurrent !== null) {
-          this.clickCurrent = {
-            object: targetObject,
-            replacedMaterial: this.hoverCurrent.replacedMaterial
-          };
-        } else {
-          this.clickCurrent = {
-            object: targetObject,
-            replacedMaterial: (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
+        if (this.clickCurrent !== null) {
+          if (this.clickCurrent.object.uuid === targetObject.uuid) {
+            ((this.clickCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
+            this.clickCurrent = null;
+          } else {
+            ((this.clickCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickCurrent.replacedMaterial;
+            if (this.hoverCurrent !== null) {
+              this.clickCurrent = {
+                object: targetObject,
+                replacedMaterial: this.hoverCurrent.replacedMaterial
+              };
+            } else {
+              this.clickCurrent = {
+                object: targetObject,
+                replacedMaterial: (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
+              }
+            }
+            ((this.clickCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickMaterial;
           }
+        } else {
+          if (this.hoverCurrent !== null) {
+            this.clickCurrent = {
+              object: targetObject,
+              replacedMaterial: this.hoverCurrent.replacedMaterial
+            };
+          } else {
+            this.clickCurrent = {
+              object: targetObject,
+              replacedMaterial: (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
+            }
+          }
+          ((this.clickCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickMaterial;
         }
-        ((this.clickCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickMaterial;
       }
-    } else {
-      if (this.hoverCurrent !== null) {
-        this.clickCurrent = {
-          object: targetObject,
-          replacedMaterial: this.hoverCurrent.replacedMaterial
-        };
-      } else {
-        this.clickCurrent = {
-          object: targetObject,
-          replacedMaterial: (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
-        }
-      }
-      ((this.clickCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickMaterial;
     }
   }
 
@@ -207,16 +210,17 @@ export class StarMapComponent implements OnInit {
       (event.clientX / window.innerWidth) * 2 - 1,
       -(event.clientY / window.innerHeight) * 2 + 1
     );
-
-    this.raycaster.setFromCamera(this.hoverLocation, this.camera);
-    const hoverIntersections = this.raycaster.intersectObjects(this.scene.children, false)
-      .filter(intersection => intersection.object.type === "Mesh");
-    this.addHoverEffect(hoverIntersections);
+    this.addHoverEffect();
   }
 
-  addHoverEffect(hoverIntersections: THREE.Intersection[]) {
-    if (hoverIntersections.length > 0) {
-      const targetObject = hoverIntersections[0].object;
+  addHoverEffect() {
+    if (this.hoverLocation !== null) {
+      this.raycaster.setFromCamera(this.hoverLocation, this.camera);
+      const hoverIntersections = this.raycaster.intersectObjects(this.scene.children, false)
+        .filter(intersection => intersection.object.type === "Mesh");
+
+      if (hoverIntersections.length > 0) {
+        const targetObject = hoverIntersections[0].object;
         if (this.hoverCurrent !== null) {
           if (this.hoverCurrent.object.uuid === targetObject.uuid) {
             // Do nothing, we're still hovering the current object.
@@ -258,19 +262,20 @@ export class StarMapComponent implements OnInit {
             };
             ((this.hoverCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
           }
-      }
-    } else {
-      if (this.hoverCurrent !== null) {
-        if (this.clickCurrent !== null && this.clickCurrent.object.uuid === this.hoverCurrent.object.uuid) {
-          // Don't restore previous object since it's selected.
-          this.hoverCurrent = null;
-        } else {
-          // Restore previous object.
-          ((this.hoverCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverCurrent.replacedMaterial;
-          this.hoverCurrent = null;
         }
       } else {
-        // Do nothing, we're hovering nothing.
+        if (this.hoverCurrent !== null) {
+          if (this.clickCurrent !== null && this.clickCurrent.object.uuid === this.hoverCurrent.object.uuid) {
+            // Don't restore previous object since it's selected.
+            this.hoverCurrent = null;
+          } else {
+            // Restore previous object.
+            ((this.hoverCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverCurrent.replacedMaterial;
+            this.hoverCurrent = null;
+          }
+        } else {
+          // Do nothing, we're hovering nothing.
+        }
       }
     }
   }
