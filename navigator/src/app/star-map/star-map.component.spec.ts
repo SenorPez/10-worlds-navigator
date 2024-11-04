@@ -335,7 +335,7 @@ describe('StarMapComponent', () => {
   describe('addClickEffect function', function () {
     let raycasterSpy: jest.SpyInstance;
     let setMaterialSpy: jest.SpyInstance;
-    let setClickCurrentSpy: jest.SpyInstance;
+    let setCurrentSpy: jest.SpyInstance;
 
     const meshTarget = new Mesh();
 
@@ -358,7 +358,7 @@ describe('StarMapComponent', () => {
 
       raycasterSpy = jest.spyOn(component.raycaster, 'intersectObjects');
       setMaterialSpy = jest.spyOn(component, 'setMaterial');
-      setClickCurrentSpy = jest.spyOn(component, 'setClickCurrent');
+      setCurrentSpy = jest.spyOn(component, 'setCurrent');
     });
 
     it('should do nothing if no mouseDown intersections are found', function () {
@@ -366,7 +366,7 @@ describe('StarMapComponent', () => {
       raycasterSpy.mockImplementationOnce(() => intersections);
       component.addClickEffect();
       expect(setMaterialSpy).not.toHaveBeenCalled();
-      expect(setClickCurrentSpy).not.toHaveBeenCalled();
+      expect(setCurrentSpy).not.toHaveBeenCalled();
     });
 
     it('should do nothing if no clickIntersections are found', function () {
@@ -374,7 +374,7 @@ describe('StarMapComponent', () => {
       raycasterSpy.mockImplementationOnce(() => []);
       component.addClickEffect();
       expect(setMaterialSpy).not.toHaveBeenCalled();
-      expect(setClickCurrentSpy).not.toHaveBeenCalled();
+      expect(setCurrentSpy).not.toHaveBeenCalled();
     });
 
     it('should do nothing if the two intersected objects are different', function () {
@@ -386,7 +386,7 @@ describe('StarMapComponent', () => {
       }]);
       component.addClickEffect();
       expect(setMaterialSpy).not.toHaveBeenCalled();
-      expect(setClickCurrentSpy).not.toHaveBeenCalled();
+      expect(setCurrentSpy).not.toHaveBeenCalled();
     });
 
     describe('with a currently selected object', function () {
@@ -404,7 +404,7 @@ describe('StarMapComponent', () => {
           meshTarget,
           component.hoverMaterial
         );
-        expect(setClickCurrentSpy).not.toHaveBeenCalled();
+        expect(setCurrentSpy).not.toHaveBeenCalled();
         expect(component.clickCurrent).toBeNull();
       });
 
@@ -418,7 +418,7 @@ describe('StarMapComponent', () => {
         component.addClickEffect();
         expect(setMaterialSpy).toHaveBeenNthCalledWith(1, originalMesh, originalMaterial);
         expect(setMaterialSpy).toHaveBeenNthCalledWith(2, meshTarget, component.clickMaterial);
-        expect(setClickCurrentSpy).toHaveBeenCalledTimes(1);
+        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
       });
     });
 
@@ -430,7 +430,160 @@ describe('StarMapComponent', () => {
       it('should set the selected object to the target object and change the material', function () {
         component.addClickEffect();
         expect(setMaterialSpy).toHaveBeenCalledTimes(1);
-        expect(setClickCurrentSpy).toHaveBeenCalledTimes(1);
+        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
+      });
+    });
+  });
+
+  describe('addHoverEffect function', function () {
+    let raycasterSpy: jest.SpyInstance;
+    let setMaterialSpy: jest.SpyInstance;
+    let setCurrentSpy: jest.SpyInstance;
+
+    const meshTarget = new Mesh();
+    const intersections: Intersection[] = [
+      {
+        distance: 1,
+        point: new Vector3(),
+        object: meshTarget
+      },
+      {
+        distance: 1,
+        point: new Vector3(),
+        object: new Line()
+      }
+    ];
+
+    beforeEach(function () {
+      component.hoverLocation = new Vector2();
+
+      raycasterSpy = jest.spyOn(component.raycaster, 'intersectObjects');
+      setMaterialSpy = jest.spyOn(component, 'setMaterial');
+      setCurrentSpy = jest.spyOn(component, 'setCurrent');
+    });
+
+    // it('should do nothing if no hover intersections are found', function () {
+    //   raycasterSpy.mockImplementation(() => []);
+    //   component.addHoverEffect();
+    //   expect(setMaterialSpy).not.toHaveBeenCalled();
+    //   expect(setCurrentSpy).not.toHaveBeenCalled();
+    // });
+
+    describe('with intersections and a currently hovered object', function () {
+      beforeEach(function () {
+        raycasterSpy.mockImplementation(() => intersections);
+      });
+
+      it('should do nothing if the target and current object are the same', function () {
+        component.hoverCurrent = {
+          object: meshTarget,
+          replacedMaterial: new MeshBasicMaterial()
+        }
+        component.addHoverEffect();
+        expect(setMaterialSpy).not.toHaveBeenCalled();
+        expect(setCurrentSpy).not.toHaveBeenCalled();
+      });
+
+      it('should not restore the material if the current hover is selected and update the hover to the target ', function () {
+        const material = new MeshBasicMaterial;
+        const otherMesh = new Mesh();
+        component.clickCurrent = {
+          object: otherMesh,
+          replacedMaterial: material
+        };
+        component.hoverCurrent = {
+          object: otherMesh,
+          replacedMaterial: material
+        };
+        component.addHoverEffect();
+        expect(setMaterialSpy).toHaveBeenCalledTimes(1);
+        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
+      });
+
+      it('should not change the material if the target is selected', function () {
+        const material = new MeshBasicMaterial;
+        const otherMesh = new Mesh();
+        component.clickCurrent = {
+          object: meshTarget,
+          replacedMaterial: material
+        };
+        component.hoverCurrent = {
+          object: otherMesh,
+          replacedMaterial: material
+        };
+        component.addHoverEffect();
+        expect(setMaterialSpy).toHaveBeenCalledTimes(1);
+        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
+      });
+
+      it('should restore the previous hover and set the new hover', function () {
+        const otherMesh = new Mesh();
+        component.hoverCurrent = {
+          object: otherMesh,
+          replacedMaterial: new MeshBasicMaterial()
+        }
+        component.addHoverEffect();
+        expect(setMaterialSpy).toHaveBeenCalledTimes(2);
+        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('with intersections and no currently hovered object', function () {
+      beforeEach(function () {
+        raycasterSpy.mockImplementation(() => intersections);
+      });
+
+      it('should not change the material if its selected', function () {
+        component.clickCurrent = {
+          object: intersections[0].object,
+          replacedMaterial: new MeshBasicMaterial()
+        };
+        component.addHoverEffect();
+        expect(setMaterialSpy).not.toHaveBeenCalled();
+        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
+      });
+
+      it('should change the material if it is not selected', function () {
+        component.addHoverEffect();
+        expect(setMaterialSpy).toHaveBeenCalledTimes(1);
+        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('with no intersections', function () {
+      beforeEach(function () {
+        raycasterSpy.mockImplementation(() => []);
+      });
+
+      it('should not restore previous material if its selected', function () {
+        const material = new MeshBasicMaterial;
+        component.clickCurrent = {
+          object: meshTarget,
+          replacedMaterial: material
+        };
+        component.hoverCurrent = {
+          object: meshTarget,
+          replacedMaterial: material
+        };
+        component.addHoverEffect();
+        expect(setMaterialSpy).not.toHaveBeenCalled();
+        expect(setCurrentSpy).not.toHaveBeenCalled();
+      });
+
+      it('should restore previous material', function () {
+        component.hoverCurrent = {
+          object: meshTarget,
+          replacedMaterial: new MeshBasicMaterial()
+        };
+        component.addHoverEffect();
+        expect(setMaterialSpy).toHaveBeenCalledTimes(1);
+        expect(setCurrentSpy).not.toHaveBeenCalled();
+      });
+
+      it('should do nothing if there is no previous', function () {
+        component.addHoverEffect();
+        expect(setMaterialSpy).not.toHaveBeenCalled();
+        expect(setCurrentSpy).not.toHaveBeenCalled();
       });
     });
   });

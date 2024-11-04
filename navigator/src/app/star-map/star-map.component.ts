@@ -169,14 +169,14 @@ export class StarMapComponent implements OnInit {
           } else {
             // Reset material on current object and select new object.
             this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.clickCurrent.replacedMaterial);
-            this.clickCurrent = this.setClickCurrent(
+            this.clickCurrent = this.setCurrent(
               targetObject,
               this.hoverCurrent?.replacedMaterial ?? (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
             );
             this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.clickMaterial);
           }
         } else {
-          this.clickCurrent = this.setClickCurrent(
+          this.clickCurrent = this.setCurrent(
             targetObject,
             this.hoverCurrent?.replacedMaterial ?? (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
           );
@@ -190,7 +190,7 @@ export class StarMapComponent implements OnInit {
     object.material = material;
   }
 
-  setClickCurrent(object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial) {
+  setCurrent(object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial) {
     return {
       object: object,
       replacedMaterial: replacedMaterial
@@ -221,45 +221,28 @@ export class StarMapComponent implements OnInit {
       if (hoverIntersections.length > 0) {
         const targetObject = hoverIntersections[0].object;
         if (this.hoverCurrent !== null) {
-          if (this.hoverCurrent.object.uuid === targetObject.uuid) {
-            // Do nothing, we're still hovering the current object.
-          } else {
+           if (this.hoverCurrent.object.uuid !== targetObject.uuid) {
             if (this.clickCurrent !== null && this.clickCurrent.object.uuid === this.hoverCurrent.object.uuid) {
               // Don't restore previous object, because it's selected.
-              this.hoverCurrent = {
-                object: targetObject,
-                replacedMaterial: (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
-              };
-              ((this.hoverCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
+              this.hoverCurrent = this.setCurrent(targetObject, ((targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial));
+              this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverMaterial);
             } else if (this.clickCurrent !== null && this.clickCurrent.object.uuid === targetObject.uuid) {
-              ((this.hoverCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverCurrent.replacedMaterial;
+              this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverCurrent.replacedMaterial);
               // Don't modify the material, because it's selected.
-              this.hoverCurrent = {
-                object: targetObject,
-                replacedMaterial: this.clickCurrent.replacedMaterial
-              };
+              this.hoverCurrent = this.setCurrent(targetObject, this.clickCurrent.replacedMaterial);
             } else {
               // Restore previous object.
-              ((this.hoverCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverCurrent.replacedMaterial;
-              this.hoverCurrent = {
-                object: targetObject,
-                replacedMaterial: (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
-              };
-              ((this.hoverCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
+              this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverCurrent.replacedMaterial);
+              this.hoverCurrent = this.setCurrent(targetObject, (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial);
+              this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverMaterial);
             }
           }
         } else {
           if (this.clickCurrent !== null && this.clickCurrent.object.uuid === targetObject.uuid) {
-            this.hoverCurrent = {
-              object: targetObject,
-              replacedMaterial: this.clickCurrent.replacedMaterial
-            };
+            this.hoverCurrent = this.setCurrent(targetObject, this.clickCurrent.replacedMaterial);
           } else {
-            this.hoverCurrent = {
-              object: targetObject,
-              replacedMaterial: (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
-            };
-            ((this.hoverCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
+            this.hoverCurrent = this.setCurrent(targetObject, (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial);
+            this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverMaterial);
           }
         }
       } else {
@@ -269,11 +252,9 @@ export class StarMapComponent implements OnInit {
             this.hoverCurrent = null;
           } else {
             // Restore previous object.
-            ((this.hoverCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverCurrent.replacedMaterial;
+            this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverCurrent.replacedMaterial)
             this.hoverCurrent = null;
           }
-        } else {
-          // Do nothing, we're hovering nothing.
         }
       }
     }
