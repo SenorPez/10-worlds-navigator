@@ -234,7 +234,7 @@ describe('StarMapComponent', () => {
       const scene = new Scene();
       const addSpy = jest.spyOn(scene, 'add');
       component.addJumpLinks(scene);
-      expect(addSpy).toHaveBeenCalledTimes(10);
+      expect(addSpy).toHaveBeenCalledTimes(5);
     });
 
     it('should color the jump link based on the jump level', () => {
@@ -250,11 +250,11 @@ describe('StarMapComponent', () => {
             material.color.getHexString(),
             jumpLinks.get(material.color.getHexString()) + 1 || 1);
         });
-      expect(jumpLinks.get('ff0000')).toEqual(2);
-      expect(jumpLinks.get('ffff00')).toEqual(2);
-      expect(jumpLinks.get('00ff00')).toEqual(2);
-      expect(jumpLinks.get('00ffff')).toEqual(2);
-      expect(jumpLinks.get('0000ff')).toEqual(2);
+      expect(jumpLinks.get('ff0000')).toEqual(1);
+      expect(jumpLinks.get('ffff00')).toEqual(1);
+      expect(jumpLinks.get('00ff00')).toEqual(1);
+      expect(jumpLinks.get('00ffff')).toEqual(1);
+      expect(jumpLinks.get('0000ff')).toEqual(1);
     });
   });
 

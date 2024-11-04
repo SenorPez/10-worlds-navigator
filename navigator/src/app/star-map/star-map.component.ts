@@ -77,7 +77,7 @@ export class StarMapComponent implements OnInit {
   }
 
   addJumpLinks(scene: THREE.Scene) {
-    this.starSystemsService.getStarSystems()
+    const jumpLinks = this.starSystemsService.getStarSystems()
       .flatMap(starSystem => {
         const origin = new THREE.Vector3(
           starSystem.coordinates.x,
@@ -108,7 +108,11 @@ export class StarMapComponent implements OnInit {
 
             return {jumpLevel: jumpLink.jumpLevel, origin: origin, destination: destination};
           });
-      })
+      });
+
+    _.uniqWith(jumpLinks, (a, b) => {
+      return a.origin.equals(b.destination) && b.origin.equals(a.destination);
+    })
       .forEach(jumpLink => {
         let lineMaterial;
         switch (jumpLink.jumpLevel) {
