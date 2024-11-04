@@ -4,6 +4,7 @@ import {StarMapComponent} from './star-map.component';
 import {StarSystem} from "../star-system";
 import {StarSystemService} from "../star-system.service";
 import {
+  Intersection,
   Line,
   LineBasicMaterial,
   Mesh,
@@ -12,7 +13,8 @@ import {
   Raycaster,
   Scene,
   SphereGeometry,
-  Vector2
+  Vector2,
+  Vector3
 } from "three";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 
@@ -150,6 +152,7 @@ describe('StarMapComponent', () => {
     expect(renderer.setSize).toHaveBeenCalledWith(500, 500);
   });
 
+  // TODO: Refactor to make this test work. In fact, most of the mocking here is pretty awful.
   // it('should initialize the renderer', () => {
   //   const renderer = new WebGLRenderer();
   //   component.initRenderer(renderer);
@@ -161,6 +164,7 @@ describe('StarMapComponent', () => {
     expect(component.createControls(camera)).toBeInstanceOf(TrackballControls);
   });
 
+  // TODO: Refactor to make this test work. In fact, most of the mocking here is pretty awful.
   // it('should initialize controls', function () {
   //   const camera = new OrthographicCamera();
   //   const controls = new TrackballControls(camera);
@@ -326,5 +330,108 @@ describe('StarMapComponent', () => {
 
     expect(updateProjectionMatrixSpy).toHaveBeenCalled();
     expect(handleResize).toHaveBeenCalled();
+  });
+
+  describe('addClickEffect function', function () {
+    let raycasterSpy: jest.SpyInstance;
+    let setMaterialSpy: jest.SpyInstance;
+    let setClickCurrentSpy: jest.SpyInstance;
+
+    const meshTarget = new Mesh();
+
+    const intersections: Intersection[] = [
+      {
+        distance: 1,
+        point: new Vector3(),
+        object: meshTarget
+      },
+      {
+        distance: 1,
+        point: new Vector3(),
+        object: new Line()
+      }
+    ];
+
+    beforeEach(function () {
+      component.mouseDownLocation = new Vector2();
+      component.clickLocation = new Vector2();
+
+      raycasterSpy = jest.spyOn(component.raycaster, 'intersectObjects');
+      setMaterialSpy = jest.spyOn(component, 'setMaterial');
+      setClickCurrentSpy = jest.spyOn(component, 'setClickCurrent');
+    });
+
+    it('should do nothing if no mouseDown intersections are found', function () {
+      raycasterSpy.mockImplementationOnce(() => []);
+      raycasterSpy.mockImplementationOnce(() => intersections);
+      component.addClickEffect();
+      expect(setMaterialSpy).not.toHaveBeenCalled();
+      expect(setClickCurrentSpy).not.toHaveBeenCalled();
+    });
+
+    it('should do nothing if no clickIntersections are found', function () {
+      raycasterSpy.mockImplementationOnce(() => intersections);
+      raycasterSpy.mockImplementationOnce(() => []);
+      component.addClickEffect();
+      expect(setMaterialSpy).not.toHaveBeenCalled();
+      expect(setClickCurrentSpy).not.toHaveBeenCalled();
+    });
+
+    it('should do nothing if the two intersected objects are different', function () {
+      raycasterSpy.mockImplementationOnce(() => intersections);
+      raycasterSpy.mockImplementationOnce(() => [{
+        distance: 1,
+        point: new Vector3(),
+        object: new Mesh()
+      }]);
+      component.addClickEffect();
+      expect(setMaterialSpy).not.toHaveBeenCalled();
+      expect(setClickCurrentSpy).not.toHaveBeenCalled();
+    });
+
+    describe('with a currently selected object', function () {
+      beforeEach(function () {
+        raycasterSpy.mockImplementation(() => intersections);
+      });
+
+      it('should set the material to hover and clear the selection if the target is the selected object', function () {
+        component.clickCurrent = {
+          object: meshTarget,
+          replacedMaterial: new MeshBasicMaterial()
+        }
+        component.addClickEffect();
+        expect(setMaterialSpy).toHaveBeenCalledWith(
+          meshTarget,
+          component.hoverMaterial
+        );
+        expect(setClickCurrentSpy).not.toHaveBeenCalled();
+        expect(component.clickCurrent).toBeNull();
+      });
+
+      it('should reset the original material, change the selection, and set the selected material', function () {
+        const originalMesh = new Mesh();
+        const originalMaterial = new MeshBasicMaterial();
+        component.clickCurrent = {
+          object: originalMesh,
+          replacedMaterial: originalMaterial
+        };
+        component.addClickEffect();
+        expect(setMaterialSpy).toHaveBeenNthCalledWith(1, originalMesh, originalMaterial);
+        expect(setMaterialSpy).toHaveBeenNthCalledWith(2, meshTarget, component.clickMaterial);
+        expect(setClickCurrentSpy).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('without a currently selected object', function () {
+      beforeEach(function () {
+        raycasterSpy.mockImplementation(() => intersections);
+      });
+
+      it('should set the selected object to the target object and change the material', function () {
+        component.addClickEffect();
+        expect(setMaterialSpy).toHaveBeenCalledTimes(1);
+        expect(setClickCurrentSpy).toHaveBeenCalledTimes(1);
+      });
+    });
   });
 });

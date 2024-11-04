@@ -163,39 +163,38 @@ export class StarMapComponent implements OnInit {
 
         if (this.clickCurrent !== null) {
           if (this.clickCurrent.object.uuid === targetObject.uuid) {
-            ((this.clickCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.hoverMaterial;
+            // Unselect object by resetting material (to hover, since the mouse must be over it) and setting to null.
+            this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.hoverMaterial);
             this.clickCurrent = null;
           } else {
-            ((this.clickCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickCurrent.replacedMaterial;
-            if (this.hoverCurrent !== null) {
-              this.clickCurrent = {
-                object: targetObject,
-                replacedMaterial: this.hoverCurrent.replacedMaterial
-              };
-            } else {
-              this.clickCurrent = {
-                object: targetObject,
-                replacedMaterial: (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
-              }
-            }
-            ((this.clickCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickMaterial;
+            // Reset material on current object and select new object.
+            this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.clickCurrent.replacedMaterial);
+            this.clickCurrent = this.setClickCurrent(
+              targetObject,
+              this.hoverCurrent?.replacedMaterial ?? (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
+            );
+            this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.clickMaterial);
           }
         } else {
-          if (this.hoverCurrent !== null) {
-            this.clickCurrent = {
-              object: targetObject,
-              replacedMaterial: this.hoverCurrent.replacedMaterial
-            };
-          } else {
-            this.clickCurrent = {
-              object: targetObject,
-              replacedMaterial: (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
-            }
-          }
-          ((this.clickCurrent.object as THREE.Mesh).material as THREE.MeshBasicMaterial) = this.clickMaterial;
+          this.clickCurrent = this.setClickCurrent(
+            targetObject,
+            this.hoverCurrent?.replacedMaterial ?? (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
+          );
+          this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.clickMaterial);
         }
       }
     }
+  }
+
+  setMaterial(object: THREE.Mesh, material: THREE.MeshBasicMaterial): void {
+    object.material = material;
+  }
+
+  setClickCurrent(object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial) {
+    return {
+      object: object,
+      replacedMaterial: replacedMaterial
+    };
   }
 
   mouseDown(event: MouseEvent) {
