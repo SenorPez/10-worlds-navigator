@@ -4,11 +4,13 @@ import {MatFormField, MatLabel, MatOption, MatSelect} from '@angular/material/se
 import {StarSystem} from '../star-system';
 import {MatList, MatListItem} from "@angular/material/list";
 import {SortByPipe} from "../sort-by.pipe";
+import {FilterJumpLinksUndiscoveredPipe} from "../filter-jump-links-undiscovered.pipe";
 
 @Component({
   selector: 'app-jump-links',
   standalone: true,
   imports: [
+    FilterJumpLinksUndiscoveredPipe,
     MatSelect,
     MatFormField,
     MatLabel,
