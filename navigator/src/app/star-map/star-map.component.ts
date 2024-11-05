@@ -1,21 +1,27 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import * as THREE from 'three';
 import {StarSystemService} from "../star-system.service";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 import * as _ from 'lodash';
+import {CSS2DObject, CSS2DRenderer} from "three/examples/jsm/renderers/CSS2DRenderer";
 
 @Component({
   selector: 'app-star-map',
   standalone: true,
   imports: [],
   templateUrl: './star-map.component.html',
-  styleUrl: './star-map.component.css'
+  styleUrl: './star-map.component.css',
+  encapsulation: ViewEncapsulation.None
 })
 export class StarMapComponent implements OnInit {
   scene;
   camera;
   renderer;
+  labelRenderer;
   controls;
+
+  selectedSystemDiv;
+  selectedSystemLabel;
 
   raycaster;
   hoverLocation: THREE.Vector2 | null = null;
@@ -31,6 +37,7 @@ export class StarMapComponent implements OnInit {
   animate = () => {
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
+    this.labelRenderer.render(this.scene, this.camera);
   }
 
   coordinateLimit = Math.max(...this.starSystemsService.getStarSystems()
@@ -44,17 +51,24 @@ export class StarMapComponent implements OnInit {
     this.scene = this.createScene();
     this.camera = this.createCamera();
     this.renderer = this.createRenderer();
+    this.labelRenderer = this.createLabelRenderer();
     this.controls = this.createControls(this.camera);
     this.raycaster = this.createRaycaster();
+
+    this.selectedSystemDiv = document.createElement('div');
+    this.selectedSystemLabel = new CSS2DObject(this.selectedSystemDiv);
   }
 
   ngOnInit() {
     this.initCamera(this.camera);
     this.initRenderer(this.renderer);
-    this.initControls(this.controls, this.renderer);
+    this.initLabelRenderer(this.labelRenderer);
+    this.initControls(this.controls, this.labelRenderer);
 
     this.addStars(this.scene);
     this.addJumpLinks(this.scene);
+
+    this.selectedSystemLabel.center.set(0, 0);
 
     this.renderer.setAnimationLoop(this.animate);
   }
@@ -72,6 +86,7 @@ export class StarMapComponent implements OnInit {
           starSystem.coordinates.y,
           starSystem.coordinates.z
         );
+        starMesh.userData = {starSystemName: starSystem.name}
         scene.add(starMesh);
       });
   }
@@ -170,6 +185,7 @@ export class StarMapComponent implements OnInit {
             // Unselect object by resetting material (to hover, since the mouse must be over it) and setting to null.
             this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.hoverMaterial);
             this.clickCurrent = null;
+            this.selectedSystemLabel.removeFromParent();
           } else {
             // Reset material on current object and select new object.
             this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.clickCurrent.replacedMaterial);
@@ -177,6 +193,8 @@ export class StarMapComponent implements OnInit {
               targetObject,
               this.hoverCurrent?.replacedMaterial ?? (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
             );
+            this.selectedSystemDiv.textContent = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET"
+            targetObject.add(this.selectedSystemLabel);
             this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.clickMaterial);
           }
         } else {
@@ -184,6 +202,8 @@ export class StarMapComponent implements OnInit {
             targetObject,
             this.hoverCurrent?.replacedMaterial ?? (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
           );
+          this.selectedSystemDiv.textContent = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET"
+          targetObject.add(this.selectedSystemLabel);
           this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.clickMaterial);
         }
       }
@@ -310,11 +330,23 @@ export class StarMapComponent implements OnInit {
     container.appendChild(renderer.domElement);
   }
 
+  createLabelRenderer() {
+    const labelRenderer = new CSS2DRenderer();
+    labelRenderer.setSize(window.innerWidth, window.innerHeight);
+    return labelRenderer;
+  }
+
+  initLabelRenderer(labelRenderer: CSS2DRenderer) {
+    const container = document.getElementById("divCanvas") ?? document.body;
+    labelRenderer.domElement.id = "selectedSystem";
+    container.appendChild(labelRenderer.domElement);
+  }
+
   createControls(camera: THREE.Camera) {
     return new TrackballControls(camera);
   }
 
-  initControls(controls: TrackballControls, renderer: THREE.WebGLRenderer) {
+  initControls(controls: TrackballControls, renderer: CSS2DRenderer) {
     controls.domElement = renderer.domElement;
     controls.connect();
     controls.handleResize();
