@@ -23,6 +23,9 @@ export class StarMapComponent implements OnInit {
   selectedSystemDiv;
   selectedSystemLabel;
 
+  hoveredSystemDiv;
+  hoveredSystemLabel;
+
   raycaster;
   hoverLocation: THREE.Vector2 | null = null;
   clickLocation: THREE.Vector2 | null = null;
@@ -57,6 +60,8 @@ export class StarMapComponent implements OnInit {
 
     this.selectedSystemDiv = document.createElement('div');
     this.selectedSystemLabel = new CSS2DObject(this.selectedSystemDiv);
+    this.hoveredSystemDiv = document.createElement('div');
+    this.hoveredSystemLabel = new CSS2DObject(this.hoveredSystemDiv);
   }
 
   ngOnInit() {
@@ -69,6 +74,7 @@ export class StarMapComponent implements OnInit {
     this.addJumpLinks(this.scene);
 
     this.selectedSystemLabel.center.set(0, 0);
+    this.hoveredSystemLabel.center.set(0, 0);
 
     this.renderer.setAnimationLoop(this.animate);
   }
@@ -193,7 +199,8 @@ export class StarMapComponent implements OnInit {
               targetObject,
               this.hoverCurrent?.replacedMaterial ?? (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
             );
-            this.selectedSystemDiv.textContent = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET"
+            const selectedSystem = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET";
+            this.selectedSystemDiv.innerHTML = `<div id='selectedSystem'>${selectedSystem}</div>`
             targetObject.add(this.selectedSystemLabel);
             this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.clickMaterial);
           }
@@ -202,7 +209,8 @@ export class StarMapComponent implements OnInit {
             targetObject,
             this.hoverCurrent?.replacedMaterial ?? (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
           );
-          this.selectedSystemDiv.textContent = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET"
+          const selectedSystem = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET";
+          this.selectedSystemDiv.innerHTML = `<div id='selectedSystem'>${selectedSystem}</div>`
           targetObject.add(this.selectedSystemLabel);
           this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.clickMaterial);
         }
@@ -249,6 +257,9 @@ export class StarMapComponent implements OnInit {
             if (this.clickCurrent !== null && this.clickCurrent.object.uuid === this.hoverCurrent.object.uuid) {
               // Don't restore previous object, because it's selected.
               this.hoverCurrent = this.setCurrent(targetObject, ((targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial));
+              const hoveredSystem = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET";
+              this.hoveredSystemDiv.innerHTML = `<div id='hoveredSystem'>${hoveredSystem}</div>`
+              targetObject.add(this.hoveredSystemLabel);
               this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverMaterial);
             } else if (this.clickCurrent !== null && this.clickCurrent.object.uuid === targetObject.uuid) {
               this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverCurrent.replacedMaterial);
@@ -256,8 +267,12 @@ export class StarMapComponent implements OnInit {
               this.hoverCurrent = this.setCurrent(targetObject, this.clickCurrent.replacedMaterial);
             } else {
               // Restore previous object.
+              this.hoveredSystemLabel.removeFromParent();
               this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverCurrent.replacedMaterial);
               this.hoverCurrent = this.setCurrent(targetObject, (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial);
+              const hoveredSystem = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET";
+              this.hoveredSystemDiv.innerHTML = `<div id='hoveredSystem'>${hoveredSystem}</div>`
+              targetObject.add(this.hoveredSystemLabel);
               this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverMaterial);
             }
           }
@@ -266,6 +281,9 @@ export class StarMapComponent implements OnInit {
             this.hoverCurrent = this.setCurrent(targetObject, this.clickCurrent.replacedMaterial);
           } else {
             this.hoverCurrent = this.setCurrent(targetObject, (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial);
+            const hoveredSystem = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET";
+            this.hoveredSystemDiv.innerHTML = `<div id='hoveredSystem'>${hoveredSystem}</div>`
+            targetObject.add(this.hoveredSystemLabel);
             this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverMaterial);
           }
         }
@@ -276,6 +294,7 @@ export class StarMapComponent implements OnInit {
             this.hoverCurrent = null;
           } else {
             // Restore previous object.
+            this.hoveredSystemLabel.removeFromParent();
             this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverCurrent.replacedMaterial)
             this.hoverCurrent = null;
           }
@@ -338,7 +357,7 @@ export class StarMapComponent implements OnInit {
 
   initLabelRenderer(labelRenderer: CSS2DRenderer) {
     const container = document.getElementById("divCanvas") ?? document.body;
-    labelRenderer.domElement.id = "selectedSystem";
+    labelRenderer.domElement.id = "systemLabel";
     container.appendChild(labelRenderer.domElement);
   }
 
