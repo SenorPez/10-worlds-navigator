@@ -1,9 +1,9 @@
 <section class="mat-app-background container">
   <div id="leftColumn">
-    <app-jump-links></app-jump-links>
+    <app-jump-links [selectedStarSystem]="selectedStarSystem"></app-jump-links>
   </div>
   <div id="rightColumn">
-    <app-star-map></app-star-map>
+    <app-star-map (starSystemSelected)="selectStarSystem($event)"></app-star-map>
   </div>
 </section>
 

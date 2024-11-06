@@ -1,9 +1,10 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import * as THREE from 'three';
 import {StarSystemService} from "../star-system.service";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 import * as _ from 'lodash';
 import {CSS2DObject, CSS2DRenderer} from "three/examples/jsm/renderers/CSS2DRenderer";
+import {StarSystem} from "../star-system";
 
 @Component({
   selector: 'app-star-map',
@@ -22,6 +23,8 @@ export class StarMapComponent implements OnInit {
 
   selectedSystemDiv;
   selectedSystemLabel;
+
+  @Output() starSystemSelected = new EventEmitter<StarSystem>();
 
   hoveredSystemDiv;
   hoveredSystemLabel;
@@ -205,6 +208,9 @@ export class StarMapComponent implements OnInit {
             this.selectedSystemDiv.innerHTML = `<div id='selectedSystem'>${selectedSystem}</div>`
             targetObject.add(this.selectedSystemLabel);
             this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.clickMaterial);
+
+            const selectedStarSystem = this.starSystemsService.getStarSystem(targetObject.userData['starSystemName']);
+            if (selectedStarSystem !== undefined) this.starSystemSelected.emit(selectedStarSystem);
           }
         } else {
           this.clickCurrent = this.setCurrent(
@@ -215,6 +221,9 @@ export class StarMapComponent implements OnInit {
           this.selectedSystemDiv.innerHTML = `<div id='selectedSystem'>${selectedSystem}</div>`
           targetObject.add(this.selectedSystemLabel);
           this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.clickMaterial);
+
+          const selectedStarSystem = this.starSystemsService.getStarSystem(targetObject.userData['starSystemName']);
+          if (selectedStarSystem !== undefined) this.starSystemSelected.emit(selectedStarSystem);
         }
       }
     }

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {StarSystemService} from '../star-system.service';
 import {MatFormField, MatLabel, MatOption, MatSelect} from '@angular/material/select';
 import {StarSystem} from '../star-system';
@@ -24,10 +24,9 @@ import {FilterJumpLinksUndiscoveredPipe} from "../filter-jump-links-undiscovered
 })
 export class JumpLinksComponent {
   starSystems: StarSystem[];
-  selectedStarSystem!: StarSystem;
+  @Input() selectedStarSystem!: StarSystem;
 
   constructor(private starSystemsService: StarSystemService) {
     this.starSystems = starSystemsService.getStarSystems();
-    this.selectedStarSystem = this.starSystems[0];
   }
 }

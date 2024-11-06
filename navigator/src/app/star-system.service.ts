@@ -16,4 +16,9 @@ export class StarSystemService {
   getStarSystems(): StarSystem[] {
     return this.starSystems;
   }
+
+  getStarSystem(starSystemName: string): StarSystem | undefined {
+    return this.getStarSystems()
+      .find(starSystem => starSystem.name === starSystemName);
+  }
 }
