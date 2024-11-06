@@ -163,9 +163,11 @@ export class StarMapComponent implements OnInit {
   }
 
   click(event: MouseEvent) {
+    const container = this.getContainer();
+
     this.clickLocation = new THREE.Vector2(
-      (event.clientX / window.innerWidth) * 2 - 1,
-      -(event.clientY / window.innerHeight) * 2 + 1
+      (event.offsetX / container.getBoundingClientRect().width) * 2 - 1,
+      -(event.offsetY / container.getBoundingClientRect().height) * 2 + 1
     );
     this.addClickEffect();
   }
@@ -230,16 +232,20 @@ export class StarMapComponent implements OnInit {
   }
 
   mouseDown(event: MouseEvent) {
+  const container = this.getContainer();
+
     this.mouseDownLocation = new THREE.Vector2(
-      (event.clientX / window.innerWidth) * 2 - 1,
-      -(event.clientY / window.innerHeight) * 2 + 1
+      (event.offsetX / container.getBoundingClientRect().width) * 2 - 1,
+      -(event.offsetY / container.getBoundingClientRect().height) * 2 + 1
     );
   }
 
   pointerMove(event: PointerEvent) {
+  const container = this.getContainer();
+
     this.hoverLocation = new THREE.Vector2(
-      (event.clientX / window.innerWidth) * 2 - 1,
-      -(event.clientY / window.innerHeight) * 2 + 1
+      (event.offsetX / container.getBoundingClientRect().width) * 2 - 1,
+      -(event.offsetY / container.getBoundingClientRect().height) * 2 + 1
     );
     this.addHoverEffect();
   }
@@ -304,66 +310,71 @@ export class StarMapComponent implements OnInit {
   }
 
   windowResize() {
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    const container = this.getContainer();
 
-    const aspectRatio = window.innerWidth / window.innerHeight;
-    const coordinateLimit = this.coordinateLimit * 1.05;
+    this.renderer.setSize(
+      container.getBoundingClientRect().width,
+      container.getBoundingClientRect().height
+    );
 
-    this.camera.left = aspectRatio > 1 ? -coordinateLimit * aspectRatio : -coordinateLimit;
-    this.camera.right = aspectRatio > 1 ? coordinateLimit * aspectRatio : coordinateLimit;
-    this.camera.top = aspectRatio > 1 ? coordinateLimit : coordinateLimit / aspectRatio;
-    this.camera.bottom = aspectRatio > 1 ? -coordinateLimit : -coordinateLimit / aspectRatio;
-
-    this.camera.updateProjectionMatrix();
+    this.setCameraProjectionMatrix(this.camera);
     this.controls.handleResize();
   }
 
-  createScene() {
-    return new THREE.Scene();
-  }
+  getContainer = () => document.getElementById("divCanvas") ?? document.body;
 
-  createCamera() {
-    const aspectRatio = window.innerWidth / window.innerHeight;
-    const coordinateLimit = this.coordinateLimit * 1.05;
+  createScene = () => new THREE.Scene();
 
-    const leftLimit = aspectRatio > 1 ? -coordinateLimit * aspectRatio : -coordinateLimit;
-    const rightLimit = aspectRatio > 1 ? coordinateLimit * aspectRatio : coordinateLimit;
-    const topLimit = aspectRatio > 1 ? coordinateLimit : coordinateLimit / aspectRatio;
-    const bottomLimit = aspectRatio > 1 ? -coordinateLimit : -coordinateLimit / aspectRatio;
-
-    return new THREE.OrthographicCamera(leftLimit, rightLimit, topLimit, bottomLimit, 0.1, 100);
-  }
+  createCamera = () => new THREE.OrthographicCamera();
 
   initCamera(camera: THREE.Camera) {
     camera.position.z = this.coordinateLimit * 2;
+    this.setCameraProjectionMatrix(camera as THREE.OrthographicCamera);
   }
 
-  createRenderer() {
-    const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    return renderer;
+  setCameraProjectionMatrix(camera: THREE.OrthographicCamera) {
+    const container = this.getContainer();
+
+    const aspectRatio = container.getBoundingClientRect().width / container.getBoundingClientRect().height;
+    const coordinateLimit = this.coordinateLimit * 1.05;
+
+    camera.left = aspectRatio > 1 ? -coordinateLimit * aspectRatio : -coordinateLimit;
+    camera.right = aspectRatio > 1 ? coordinateLimit * aspectRatio : coordinateLimit;
+    camera.top = aspectRatio > 1 ? coordinateLimit : coordinateLimit / aspectRatio;
+    camera.bottom = aspectRatio > 1 ? -coordinateLimit : -coordinateLimit / aspectRatio;
+    camera.near = 0.1;
+    camera.far = 100;
+
+    camera.updateProjectionMatrix();
   }
+
+  createRenderer = () => new THREE.WebGLRenderer();
 
   initRenderer(renderer: THREE.WebGLRenderer) {
-    const container = document.getElementById("divCanvas") ?? document.body;
+    const container = this.getContainer();
+
     container.appendChild(renderer.domElement);
+    console.log(container.getBoundingClientRect());
+    renderer.setSize(
+      container.getBoundingClientRect().width,
+      container.getBoundingClientRect().height
+    );
   }
 
-  createLabelRenderer() {
-    const labelRenderer = new CSS2DRenderer();
-    labelRenderer.setSize(window.innerWidth, window.innerHeight);
-    return labelRenderer;
-  }
+  createLabelRenderer = () => new CSS2DRenderer();
 
   initLabelRenderer(labelRenderer: CSS2DRenderer) {
-    const container = document.getElementById("divCanvas") ?? document.body;
-    labelRenderer.domElement.id = "systemLabel";
+    const container = this.getContainer();
+
     container.appendChild(labelRenderer.domElement);
+    labelRenderer.setSize(
+      container.getBoundingClientRect().width,
+      container.getBoundingClientRect().height
+    )
+    labelRenderer.domElement.id = "systemLabel";
   }
 
-  createControls(camera: THREE.Camera) {
-    return new TrackballControls(camera);
-  }
+  createControls = (camera: THREE.Camera) => new TrackballControls(camera);
 
   initControls(controls: TrackballControls, renderer: CSS2DRenderer) {
     controls.domElement = renderer.domElement;
@@ -371,7 +382,5 @@ export class StarMapComponent implements OnInit {
     controls.handleResize();
   }
 
-  createRaycaster() {
-    return new THREE.Raycaster();
-  }
+  createRaycaster = () => new THREE.Raycaster();
 }

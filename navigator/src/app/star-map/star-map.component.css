@@ -1,3 +1,7 @@
+#divCanvas {
+  height: 100%
+}
+
 #systemLabel {
   position: absolute;
   top: 0;
