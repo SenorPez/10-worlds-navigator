@@ -166,8 +166,8 @@ export class StarMapComponent implements OnInit {
     const container = this.getContainer();
 
     this.clickLocation = new THREE.Vector2(
-      (event.offsetX / container.getBoundingClientRect().width) * 2 - 1,
-      -(event.offsetY / container.getBoundingClientRect().height) * 2 + 1
+      ((event.clientX - container.getBoundingClientRect().left) / container.getBoundingClientRect().width) * 2 - 1,
+      -((event.clientY - container.getBoundingClientRect().top) / container.getBoundingClientRect().height) * 2 + 1
     );
     this.addClickEffect();
   }
@@ -232,20 +232,20 @@ export class StarMapComponent implements OnInit {
   }
 
   mouseDown(event: MouseEvent) {
-  const container = this.getContainer();
+    const container = this.getContainer();
 
     this.mouseDownLocation = new THREE.Vector2(
-      (event.offsetX / container.getBoundingClientRect().width) * 2 - 1,
-      -(event.offsetY / container.getBoundingClientRect().height) * 2 + 1
+      ((event.clientX - container.getBoundingClientRect().left) / container.getBoundingClientRect().width) * 2 - 1,
+      -((event.clientY - container.getBoundingClientRect().top) / container.getBoundingClientRect().height) * 2 + 1
     );
   }
 
   pointerMove(event: PointerEvent) {
-  const container = this.getContainer();
+    const container = this.getContainer();
 
     this.hoverLocation = new THREE.Vector2(
-      (event.offsetX / container.getBoundingClientRect().width) * 2 - 1,
-      -(event.offsetY / container.getBoundingClientRect().height) * 2 + 1
+      ((event.clientX - container.getBoundingClientRect().left) / container.getBoundingClientRect().width) * 2 - 1,
+      -((event.clientY - container.getBoundingClientRect().top) / container.getBoundingClientRect().height) * 2 + 1
     );
     this.addHoverEffect();
   }
@@ -259,7 +259,7 @@ export class StarMapComponent implements OnInit {
       if (hoverIntersections.length > 0) {
         const targetObject = hoverIntersections[0].object;
         if (this.hoverCurrent !== null) {
-           if (this.hoverCurrent.object.uuid !== targetObject.uuid) {
+          if (this.hoverCurrent.object.uuid !== targetObject.uuid) {
             if (this.clickCurrent !== null && this.clickCurrent.object.uuid === this.hoverCurrent.object.uuid) {
               // Don't restore previous object, because it's selected.
               this.hoverCurrent = this.setCurrent(targetObject, ((targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial));
