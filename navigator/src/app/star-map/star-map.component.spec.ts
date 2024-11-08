@@ -98,6 +98,12 @@ describe('StarMapComponent', () => {
 
     fixture = TestBed.createComponent(StarMapComponent);
     component = fixture.componentInstance;
+    component.starSystem = {
+      name: 'Omega Hydri',
+      coordinates: {x: 0, y: 0, z: 0},
+      jumpLinks: [],
+      transitTimes: [3, 2, 1]
+    }
     fixture.detectChanges();
   });
 
@@ -155,6 +161,22 @@ describe('StarMapComponent', () => {
       expect(unselectSpy).not.toHaveBeenCalled();
       expect(selectSpy).toHaveBeenCalled();
     });
+  });
+
+  it('should unselect the star system', function () {
+    const removeSpy = jest.spyOn(component.selectedSystemLabel, 'removeFromParent')
+      .mockImplementation();
+    const object = new Object3D();
+    const material = new MeshBasicMaterial();
+    component.clickCurrent = {
+      object: new Object3D(),
+      replacedMaterial: material
+    };
+    component.unselectStarSystem(object);
+
+    expect(component.clickCurrent).toBeNull();
+    expect((object as Mesh).material).toEqual(material);
+    expect(removeSpy).toHaveBeenCalled();
   });
 
   it('should have an animate function', () => {
@@ -350,10 +372,10 @@ describe('StarMapComponent', () => {
     });
 
     const mouseEvent = new MouseEvent('click', {clientX: 11, clientY: 42})
-    component.click(mouseEvent);
+    component.mouseDown(mouseEvent);
     const expected = new Vector2(-0.78, 0.16);
-    expect(component.clickLocation?.x).toBeCloseTo(expected.x);
-    expect(component.clickLocation?.y).toBeCloseTo(expected.y);
+    expect(component.mouseDownLocation?.x).toBeCloseTo(expected.x);
+    expect(component.mouseDownLocation?.y).toBeCloseTo(expected.y);
 
     jest.restoreAllMocks();
   });
@@ -379,11 +401,11 @@ describe('StarMapComponent', () => {
       }
     });
 
-    const mouseEvent = new MouseEvent('click', {clientX: 11, clientY: 42})
-    component.click(mouseEvent);
+    const pointerEvent = new MouseEvent("pointermove", {clientX: 11, clientY: 42});
+    component.pointerMove(pointerEvent as PointerEvent);
     const expected = new Vector2(-0.78, 0.16);
-    expect(component.clickLocation?.x).toBeCloseTo(expected.x);
-    expect(component.clickLocation?.y).toBeCloseTo(expected.y);
+    expect(component.hoverLocation?.x).toBeCloseTo(expected.x);
+    expect(component.hoverLocation?.y).toBeCloseTo(expected.y);
 
     jest.restoreAllMocks();
   });
