@@ -9,7 +9,7 @@ import {
   Line,
   LineBasicMaterial,
   Mesh,
-  MeshBasicMaterial,
+  MeshBasicMaterial, Object3D,
   OrthographicCamera,
   Raycaster,
   Scene,
@@ -18,6 +18,7 @@ import {
   Vector3
 } from "three";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
+import {SimpleChanges} from "@angular/core";
 
 let starSystemService: { getStarSystems: jest.Mock, getStarSystem: jest.Mock };
 const starSystemServiceReturnValue: StarSystem[] = [
@@ -88,7 +89,7 @@ describe('StarMapComponent', () => {
       getStarSystem: jest.fn()
     };
     starSystemService.getStarSystems.mockReturnValue(starSystemServiceReturnValue);
-    starSystemService.getStarSystem.mockImplementation(name => starSystemServiceReturnValue[0]);
+    starSystemService.getStarSystem.mockReturnValue(starSystemServiceReturnValue[0]);
 
     await TestBed.configureTestingModule({
       imports: [StarMapComponent]
@@ -102,6 +103,58 @@ describe('StarMapComponent', () => {
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnChanges lifecycle function', function () {
+    let unselectSpy: jest.SpyInstance;
+    let selectSpy: jest.SpyInstance;
+
+    beforeEach(function () {
+      unselectSpy = jest.spyOn(component, 'unselectStarSystem').mockImplementation();
+      selectSpy = jest.spyOn(component, 'selectStarSystem').mockImplementation();
+    });
+
+    it('should unselect the previous value and select the current value', function () {
+      jest.spyOn(component.scene, 'getObjectByName')
+        .mockImplementation(() => {
+            return new Object3D();
+          }
+        );
+      const changes: SimpleChanges = {
+        starSystem: {
+          previousValue: {},
+          currentValue: {},
+          firstChange: false,
+          isFirstChange(): boolean {
+            return false;
+          }
+        }
+      }
+      component.ngOnChanges(changes);
+      expect(unselectSpy).toHaveBeenCalled();
+      expect(selectSpy).toHaveBeenCalled();
+    });
+
+    it('should set the current value if there is not a previous', function () {
+      jest.spyOn(component.scene, 'getObjectByName')
+        .mockImplementation(() => {
+            return new Object3D();
+          }
+        );
+      const changes: SimpleChanges = {
+        starSystem: {
+          previousValue: undefined,
+          currentValue: {},
+          firstChange: false,
+          isFirstChange(): boolean {
+            return false;
+          }
+        }
+      }
+      component.ngOnChanges(changes);
+      expect(unselectSpy).not.toHaveBeenCalled();
+      expect(selectSpy).toHaveBeenCalled();
+    });
   });
 
   it('should have an animate function', () => {
