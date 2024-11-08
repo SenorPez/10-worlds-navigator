@@ -533,6 +533,7 @@ describe('StarMapComponent', () => {
       });
 
       it('should set the selected object to the target object and change the material', function () {
+        component.clickCurrent = null;
         component.addClickEffect();
         expect(selectStarSystemSpy).not.toHaveBeenCalled();
         expect(unselectStarSystemSpy).not.toHaveBeenCalled();
