@@ -1,6 +1,6 @@
 export interface JumpLink {
   destination: string;
   jumpLevel: string;
-  discovered: number;
+  discovered: number | null;
   distance: number;
 }

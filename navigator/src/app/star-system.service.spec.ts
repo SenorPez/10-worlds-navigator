@@ -18,6 +18,14 @@ describe('StarSystemService', () => {
     expect(service.getStarSystems().length).toBe(120);
   });
 
+  it('should return a single star system', function () {
+    expect(service.getStarSystem('Sol')).toBeTruthy();
+  });
+
+  it('should return undefined if the name does not exist', function () {
+    expect(service.getStarSystem('Jita')).toBeUndefined();
+  });
+
   it('should have the correct data integrity', () => {
     // Checks:
     // - There are no self-links.
