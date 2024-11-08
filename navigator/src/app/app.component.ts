@@ -9,11 +9,11 @@ import {StarSystemService} from "./star-system.service";
 })
 export class AppComponent {
   title = '10 Worlds Navigator';
-  selectedStarSystem: StarSystem;
+  starSystem: StarSystem;
 
   constructor(private starSystemService: StarSystemService) {
-    this.selectedStarSystem = starSystemService.getStarSystems()[0];
+    this.starSystem = starSystemService.getStarSystems()[0];
   }
 
-  selectStarSystem = (starSystem: StarSystem) => this.selectedStarSystem = starSystem;
+  starSystemSelected = (starSystem: StarSystem) => this.starSystem = starSystem;
 }

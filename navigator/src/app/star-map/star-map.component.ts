@@ -1,4 +1,13 @@
-import {Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewEncapsulation
+} from '@angular/core';
 import * as THREE from 'three';
 import {StarSystemService} from "../star-system.service";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
@@ -14,7 +23,7 @@ import {StarSystem} from "../star-system";
   styleUrl: './star-map.component.css',
   encapsulation: ViewEncapsulation.None
 })
-export class StarMapComponent implements OnInit {
+export class StarMapComponent implements OnInit, OnChanges {
   scene;
   camera;
   renderer;
@@ -24,7 +33,8 @@ export class StarMapComponent implements OnInit {
   selectedSystemDiv;
   selectedSystemLabel;
 
-  @Output() starSystemSelected = new EventEmitter<StarSystem>();
+  @Input() starSystem!: StarSystem | undefined;
+  @Output() starSystemChange = new EventEmitter<StarSystem>();
 
   hoveredSystemDiv;
   hoveredSystemLabel;
@@ -38,7 +48,40 @@ export class StarMapComponent implements OnInit {
   clickMaterial = new THREE.MeshBasicMaterial({color: 0xff0000})
 
   hoverCurrent: {object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial} | null = null;
-  clickCurrent: {object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial} | null = null;
+  clickCurrent: { object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial; } | null = null;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['starSystem'].previousValue) {
+      const object = this.scene.getObjectByName(changes['starSystem'].previousValue.name);
+      if (object) {
+        this.unselectStarSystem(object);
+      }
+    }
+
+    const object = this.scene.getObjectByName(changes['starSystem'].currentValue?.name);
+    if (object) {
+      this.selectStarSystem(object);
+    }
+  }
+
+  selectStarSystem(starSystem: THREE.Object3D) {
+    // Reset material on current object and select new object.
+    this.clickCurrent = {
+      object: starSystem,
+      replacedMaterial: this.hoverCurrent?.replacedMaterial ?? (starSystem as THREE.Mesh).material as THREE.MeshBasicMaterial,
+    };
+    (starSystem as THREE.Mesh).material = this.clickMaterial;
+    const selectedSystem = starSystem.name ?? "SYSTEM";
+    this.selectedSystemDiv.innerHTML = `<div id='selectedSystem'>${selectedSystem}</div>`;
+    starSystem.add(this.selectedSystemLabel);
+  }
+
+  unselectStarSystem(starSystem: THREE.Object3D) {
+    const replacedMaterial = this.clickCurrent?.replacedMaterial ?? (starSystem as THREE.Mesh).material as THREE.MeshBasicMaterial;
+    this.clickCurrent = null;
+    (starSystem as THREE.Mesh).material = replacedMaterial;
+    this.selectedSystemLabel.removeFromParent();
+  }
 
   animate = () => {
     this.controls.update();
@@ -76,6 +119,13 @@ export class StarMapComponent implements OnInit {
     this.addStars(this.scene);
     this.addJumpLinks(this.scene);
 
+    if (this.starSystem?.name) {
+      const object = this.scene.getObjectByName(this.starSystem.name);
+      if (object) {
+        this.selectStarSystem(object);
+      }
+    }
+
     this.selectedSystemLabel.center.set(0, 0);
     this.hoveredSystemLabel.center.set(0, 0);
 
@@ -96,6 +146,7 @@ export class StarMapComponent implements OnInit {
           starSystem.coordinates.z
         );
         starMesh.userData = {starSystemName: starSystem.name}
+        starMesh.name = starSystem.name;
         scene.add(starMesh);
       });
   }
@@ -190,40 +241,15 @@ export class StarMapComponent implements OnInit {
         _.isEqual(mouseDownIntersections[0].object, clickIntersections[0].object)
       ) {
         const targetObject = clickIntersections[0].object;
-
+        let starSystem = this.starSystemsService.getStarSystem(targetObject.name);
         if (this.clickCurrent !== null) {
           if (this.clickCurrent.object.uuid === targetObject.uuid) {
-            // Unselect object by resetting material (to hover, since the mouse must be over it) and setting to null.
-            this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.hoverMaterial);
-            this.clickCurrent = null;
-            this.selectedSystemLabel.removeFromParent();
+            this.starSystemChange.emit(undefined);
           } else {
-            // Reset material on current object and select new object.
-            this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.clickCurrent.replacedMaterial);
-            this.clickCurrent = this.setCurrent(
-              targetObject,
-              this.hoverCurrent?.replacedMaterial ?? (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
-            );
-            const selectedSystem = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET";
-            this.selectedSystemDiv.innerHTML = `<div id='selectedSystem'>${selectedSystem}</div>`
-            targetObject.add(this.selectedSystemLabel);
-            this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.clickMaterial);
-
-            const selectedStarSystem = this.starSystemsService.getStarSystem(targetObject.userData['starSystemName']);
-            if (selectedStarSystem !== undefined) this.starSystemSelected.emit(selectedStarSystem);
+            this.starSystemChange.emit(starSystem);
           }
         } else {
-          this.clickCurrent = this.setCurrent(
-            targetObject,
-            this.hoverCurrent?.replacedMaterial ?? (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial
-          );
-          const selectedSystem = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET";
-          this.selectedSystemDiv.innerHTML = `<div id='selectedSystem'>${selectedSystem}</div>`
-          targetObject.add(this.selectedSystemLabel);
-          this.setMaterial((this.clickCurrent.object as THREE.Mesh), this.clickMaterial);
-
-          const selectedStarSystem = this.starSystemsService.getStarSystem(targetObject.userData['starSystemName']);
-          if (selectedStarSystem !== undefined) this.starSystemSelected.emit(selectedStarSystem);
+          this.starSystemChange.emit(starSystem);
         }
       }
     }
@@ -363,7 +389,6 @@ export class StarMapComponent implements OnInit {
     const container = this.getContainer();
 
     container.appendChild(renderer.domElement);
-    console.log(container.getBoundingClientRect());
     renderer.setSize(
       container.getBoundingClientRect().width,
       container.getBoundingClientRect().height

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {StarSystemService} from '../star-system.service';
 import {MatFormField, MatLabel, MatOption, MatSelect} from '@angular/material/select';
 import {StarSystem} from '../star-system';
@@ -23,10 +23,15 @@ import {FilterJumpLinksUndiscoveredPipe} from "../filter-jump-links-undiscovered
   styleUrl: './jump-links.component.css'
 })
 export class JumpLinksComponent {
-  starSystems: StarSystem[];
-  @Input() selectedStarSystem!: StarSystem;
+  @Input() starSystem!: StarSystem;
+  @Output() starSystemChange = new EventEmitter<StarSystem>();
+
+  starSystems = this.starSystemsService.getStarSystems();
 
   constructor(private starSystemsService: StarSystemService) {
-    this.starSystems = starSystemsService.getStarSystems();
+  }
+
+  updateStarSystem() {
+    this.starSystemChange.emit(this.starSystem);
   }
 }
