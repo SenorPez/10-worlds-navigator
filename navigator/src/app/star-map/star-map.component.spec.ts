@@ -246,8 +246,8 @@ describe('StarMapComponent', () => {
   });
 
   it('should update the click location', () => {
-    const htmlElement = component.getContainer();
-    jest.spyOn(component, 'getContainer').mockImplementation(() => {
+    const htmlElement = component.container();
+    jest.spyOn(component, 'container').mockImplementation(() => {
       return {
         ...htmlElement,
         getBoundingClientRect: () => {
@@ -276,8 +276,8 @@ describe('StarMapComponent', () => {
   });
 
   it('should update the mouseDown location', () => {
-    const htmlElement = component.getContainer();
-    jest.spyOn(component, 'getContainer').mockImplementation(() => {
+    const htmlElement = component.container();
+    jest.spyOn(component, 'container').mockImplementation(() => {
       return {
         ...htmlElement,
         getBoundingClientRect: () => {
@@ -306,8 +306,8 @@ describe('StarMapComponent', () => {
   });
 
   it('should update the pointerMove location', () => {
-    const htmlElement = component.getContainer();
-    jest.spyOn(component, 'getContainer').mockImplementation(() => {
+    const htmlElement = component.container();
+    jest.spyOn(component, 'container').mockImplementation(() => {
       return {
         ...htmlElement,
         getBoundingClientRect: () => {
@@ -336,8 +336,8 @@ describe('StarMapComponent', () => {
   });
 
   it('should update the scene when the window is resized', function () {
-    const htmlElement = component.getContainer();
-    jest.spyOn(component, 'getContainer').mockImplementation(() => {
+    const htmlElement = component.container();
+    jest.spyOn(component, 'container').mockImplementation(() => {
       return {
         ...htmlElement,
         getBoundingClientRect: () => {

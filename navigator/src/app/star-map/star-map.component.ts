@@ -23,7 +23,7 @@ import {StarSystem} from "../star-system";
   styleUrl: './star-map.component.css',
   encapsulation: ViewEncapsulation.None
 })
-export class StarMapComponent implements OnInit, OnChanges {
+export class StarMapComponent implements OnChanges, OnInit {
   scene;
   camera;
   renderer;
@@ -50,51 +50,14 @@ export class StarMapComponent implements OnInit, OnChanges {
   hoverCurrent: {object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial} | null = null;
   clickCurrent: { object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial; } | null = null;
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['starSystem'].previousValue) {
-      const object = this.scene.getObjectByName(changes['starSystem'].previousValue.name);
-      if (object) {
-        this.unselectStarSystem(object);
-      }
-    }
-
-    const object = this.scene.getObjectByName(changes['starSystem'].currentValue?.name);
-    if (object) {
-      this.selectStarSystem(object);
-    }
-  }
-
-  selectStarSystem(starSystem: THREE.Object3D) {
-    // Reset material on current object and select new object.
-    this.clickCurrent = {
-      object: starSystem,
-      replacedMaterial: this.hoverCurrent?.replacedMaterial ?? (starSystem as THREE.Mesh).material as THREE.MeshBasicMaterial,
-    };
-    (starSystem as THREE.Mesh).material = this.clickMaterial;
-    const selectedSystem = starSystem.name ?? "SYSTEM";
-    this.selectedSystemDiv.innerHTML = `<div id='selectedSystem'>${selectedSystem}</div>`;
-    starSystem.add(this.selectedSystemLabel);
-  }
-
-  unselectStarSystem(starSystem: THREE.Object3D) {
-    const replacedMaterial = this.clickCurrent?.replacedMaterial ?? (starSystem as THREE.Mesh).material as THREE.MeshBasicMaterial;
-    this.clickCurrent = null;
-    (starSystem as THREE.Mesh).material = replacedMaterial;
-    this.selectedSystemLabel.removeFromParent();
-  }
-
-  animate = () => {
-    this.controls.update();
-    this.renderer.render(this.scene, this.camera);
-    this.labelRenderer.render(this.scene, this.camera);
-  }
-
+  container = () => document.getElementById("divCanvas") ?? document.body;
   coordinateLimit = Math.max(...this.starSystemsService.getStarSystems()
     .map(starSystem => new THREE.Vector3(
       starSystem.coordinates.x,
       starSystem.coordinates.y,
       starSystem.coordinates.z
     ).length()));
+
 
   constructor(private starSystemsService: StarSystemService) {
     this.scene = this.createScene();
@@ -108,6 +71,20 @@ export class StarMapComponent implements OnInit, OnChanges {
     this.selectedSystemLabel = new CSS2DObject(this.selectedSystemDiv);
     this.hoveredSystemDiv = document.createElement('div');
     this.hoveredSystemLabel = new CSS2DObject(this.hoveredSystemDiv);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['starSystem'].previousValue) {
+      const object = this.scene.getObjectByName(changes['starSystem'].previousValue.name);
+      if (object) {
+        this.unselectStarSystem(object);
+      }
+    }
+
+    const object = this.scene.getObjectByName(changes['starSystem'].currentValue?.name);
+    if (object) {
+      this.selectStarSystem(object);
+    }
   }
 
   ngOnInit() {
@@ -130,6 +107,128 @@ export class StarMapComponent implements OnInit, OnChanges {
     this.hoveredSystemLabel.center.set(0, 0);
 
     this.renderer.setAnimationLoop(this.animate);
+  }
+
+  createScene = () => new THREE.Scene();
+  createCamera = () => new THREE.OrthographicCamera();
+  createRenderer = () => new THREE.WebGLRenderer();
+  createLabelRenderer = () => new CSS2DRenderer();
+  createControls = (camera: THREE.Camera) => new TrackballControls(camera);
+  createRaycaster = () => new THREE.Raycaster();
+
+  initCamera(camera: THREE.Camera) {
+    camera.position.z = this.coordinateLimit * 2;
+    this.setCameraProjectionMatrix(camera as THREE.OrthographicCamera);
+  }
+
+  initRenderer(renderer: THREE.WebGLRenderer) {
+    const container = this.container();
+
+    container.appendChild(renderer.domElement);
+    renderer.setSize(
+      container.getBoundingClientRect().width,
+      container.getBoundingClientRect().height
+    );
+  }
+
+  initLabelRenderer(labelRenderer: CSS2DRenderer) {
+    const container = this.container();
+
+    container.appendChild(labelRenderer.domElement);
+    labelRenderer.setSize(
+      container.getBoundingClientRect().width,
+      container.getBoundingClientRect().height
+    )
+    labelRenderer.domElement.id = "systemLabel";
+  }
+
+  initControls(controls: TrackballControls, renderer: CSS2DRenderer) {
+    controls.domElement = renderer.domElement;
+    controls.connect();
+    controls.handleResize();
+  }
+
+  animate = () => {
+    this.controls.update();
+    this.renderer.render(this.scene, this.camera);
+    this.labelRenderer.render(this.scene, this.camera);
+  }
+
+  setCameraProjectionMatrix(camera: THREE.OrthographicCamera) {
+    const container = this.container();
+
+    const aspectRatio = container.getBoundingClientRect().width / container.getBoundingClientRect().height;
+    const coordinateLimit = this.coordinateLimit * 1.05;
+
+    camera.left = aspectRatio > 1 ? -coordinateLimit * aspectRatio : -coordinateLimit;
+    camera.right = aspectRatio > 1 ? coordinateLimit * aspectRatio : coordinateLimit;
+    camera.top = aspectRatio > 1 ? coordinateLimit : coordinateLimit / aspectRatio;
+    camera.bottom = aspectRatio > 1 ? -coordinateLimit : -coordinateLimit / aspectRatio;
+    camera.near = 0.1;
+    camera.far = 100;
+
+    camera.updateProjectionMatrix();
+  }
+
+  click(event: MouseEvent) {
+    const container = this.container();
+
+    this.clickLocation = new THREE.Vector2(
+      ((event.clientX - container.getBoundingClientRect().left) / container.getBoundingClientRect().width) * 2 - 1,
+      -((event.clientY - container.getBoundingClientRect().top) / container.getBoundingClientRect().height) * 2 + 1
+    );
+    this.addClickEffect();
+  }
+
+  mouseDown(event: MouseEvent) {
+    const container = this.container();
+
+    this.mouseDownLocation = new THREE.Vector2(
+      ((event.clientX - container.getBoundingClientRect().left) / container.getBoundingClientRect().width) * 2 - 1,
+      -((event.clientY - container.getBoundingClientRect().top) / container.getBoundingClientRect().height) * 2 + 1
+    );
+  }
+
+  pointerMove(event: PointerEvent) {
+    const container = this.container();
+
+    this.hoverLocation = new THREE.Vector2(
+      ((event.clientX - container.getBoundingClientRect().left) / container.getBoundingClientRect().width) * 2 - 1,
+      -((event.clientY - container.getBoundingClientRect().top) / container.getBoundingClientRect().height) * 2 + 1
+    );
+    this.addHoverEffect();
+  }
+
+  windowResize() {
+    const container = this.container();
+
+    this.renderer.setSize(
+      container.getBoundingClientRect().width,
+      container.getBoundingClientRect().height
+    );
+
+    this.setCameraProjectionMatrix(this.camera);
+    this.controls.handleResize();
+  }
+
+
+  selectStarSystem(starSystem: THREE.Object3D) {
+    // Reset material on current object and select new object.
+    this.clickCurrent = {
+      object: starSystem,
+      replacedMaterial: this.hoverCurrent?.replacedMaterial ?? (starSystem as THREE.Mesh).material as THREE.MeshBasicMaterial,
+    };
+    (starSystem as THREE.Mesh).material = this.clickMaterial;
+    const selectedSystem = starSystem.name ?? "SYSTEM";
+    this.selectedSystemDiv.innerHTML = `<div id='selectedSystem'>${selectedSystem}</div>`;
+    starSystem.add(this.selectedSystemLabel);
+  }
+
+  unselectStarSystem(starSystem: THREE.Object3D) {
+    const replacedMaterial = this.clickCurrent?.replacedMaterial ?? (starSystem as THREE.Mesh).material as THREE.MeshBasicMaterial;
+    this.clickCurrent = null;
+    (starSystem as THREE.Mesh).material = replacedMaterial;
+    this.selectedSystemLabel.removeFromParent();
   }
 
   addStars(scene: THREE.Scene) {
@@ -216,16 +315,6 @@ export class StarMapComponent implements OnInit, OnChanges {
       });
   }
 
-  click(event: MouseEvent) {
-    const container = this.getContainer();
-
-    this.clickLocation = new THREE.Vector2(
-      ((event.clientX - container.getBoundingClientRect().left) / container.getBoundingClientRect().width) * 2 - 1,
-      -((event.clientY - container.getBoundingClientRect().top) / container.getBoundingClientRect().height) * 2 + 1
-    );
-    this.addClickEffect();
-  }
-
   addClickEffect() {
     if (this.mouseDownLocation !== null && this.clickLocation !== null) {
       this.raycaster.setFromCamera(this.mouseDownLocation, this.camera);
@@ -253,36 +342,6 @@ export class StarMapComponent implements OnInit, OnChanges {
         }
       }
     }
-  }
-
-  setMaterial(object: THREE.Mesh, material: THREE.MeshBasicMaterial): void {
-    object.material = material;
-  }
-
-  setCurrent(object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial) {
-    return {
-      object: object,
-      replacedMaterial: replacedMaterial
-    };
-  }
-
-  mouseDown(event: MouseEvent) {
-    const container = this.getContainer();
-
-    this.mouseDownLocation = new THREE.Vector2(
-      ((event.clientX - container.getBoundingClientRect().left) / container.getBoundingClientRect().width) * 2 - 1,
-      -((event.clientY - container.getBoundingClientRect().top) / container.getBoundingClientRect().height) * 2 + 1
-    );
-  }
-
-  pointerMove(event: PointerEvent) {
-    const container = this.getContainer();
-
-    this.hoverLocation = new THREE.Vector2(
-      ((event.clientX - container.getBoundingClientRect().left) / container.getBoundingClientRect().width) * 2 - 1,
-      -((event.clientY - container.getBoundingClientRect().top) / container.getBoundingClientRect().height) * 2 + 1
-    );
-    this.addHoverEffect();
   }
 
   addHoverEffect() {
@@ -344,77 +403,14 @@ export class StarMapComponent implements OnInit, OnChanges {
     }
   }
 
-  windowResize() {
-    const container = this.getContainer();
-
-    this.renderer.setSize(
-      container.getBoundingClientRect().width,
-      container.getBoundingClientRect().height
-    );
-
-    this.setCameraProjectionMatrix(this.camera);
-    this.controls.handleResize();
+  setMaterial(object: THREE.Mesh, material: THREE.MeshBasicMaterial): void {
+    object.material = material;
   }
 
-  getContainer = () => document.getElementById("divCanvas") ?? document.body;
-
-  createScene = () => new THREE.Scene();
-
-  createCamera = () => new THREE.OrthographicCamera();
-
-  initCamera(camera: THREE.Camera) {
-    camera.position.z = this.coordinateLimit * 2;
-    this.setCameraProjectionMatrix(camera as THREE.OrthographicCamera);
+  setCurrent(object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial) {
+    return {
+      object: object,
+      replacedMaterial: replacedMaterial
+    };
   }
-
-  setCameraProjectionMatrix(camera: THREE.OrthographicCamera) {
-    const container = this.getContainer();
-
-    const aspectRatio = container.getBoundingClientRect().width / container.getBoundingClientRect().height;
-    const coordinateLimit = this.coordinateLimit * 1.05;
-
-    camera.left = aspectRatio > 1 ? -coordinateLimit * aspectRatio : -coordinateLimit;
-    camera.right = aspectRatio > 1 ? coordinateLimit * aspectRatio : coordinateLimit;
-    camera.top = aspectRatio > 1 ? coordinateLimit : coordinateLimit / aspectRatio;
-    camera.bottom = aspectRatio > 1 ? -coordinateLimit : -coordinateLimit / aspectRatio;
-    camera.near = 0.1;
-    camera.far = 100;
-
-    camera.updateProjectionMatrix();
-  }
-
-  createRenderer = () => new THREE.WebGLRenderer();
-
-  initRenderer(renderer: THREE.WebGLRenderer) {
-    const container = this.getContainer();
-
-    container.appendChild(renderer.domElement);
-    renderer.setSize(
-      container.getBoundingClientRect().width,
-      container.getBoundingClientRect().height
-    );
-  }
-
-  createLabelRenderer = () => new CSS2DRenderer();
-
-  initLabelRenderer(labelRenderer: CSS2DRenderer) {
-    const container = this.getContainer();
-
-    container.appendChild(labelRenderer.domElement);
-    labelRenderer.setSize(
-      container.getBoundingClientRect().width,
-      container.getBoundingClientRect().height
-    )
-    labelRenderer.domElement.id = "systemLabel";
-  }
-
-  createControls = (camera: THREE.Camera) => new TrackballControls(camera);
-
-  initControls(controls: TrackballControls, renderer: CSS2DRenderer) {
-    controls.domElement = renderer.domElement;
-    controls.connect();
-    controls.handleResize();
-  }
-
-  createRaycaster = () => new THREE.Raycaster();
 }
