@@ -7,9 +7,6 @@ import {JumpLink} from "./jump-link";
 })
 export class FilterJumpLinksUndiscoveredPipe implements PipeTransform {
   transform(array: JumpLink[]): JumpLink[] {
-    if (!array) return array;
-
-
     return array.filter(jumpLink => jumpLink.discovered !== null);
   }
 }

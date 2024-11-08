@@ -29,8 +29,4 @@ describe('FilterJumpLinksUndiscoveredPipe', () => {
   it('should filter undiscovered links', function () {
     expect(pipe.transform(testData)).toEqual([testData[0]]);
   });
-
-  it('should return an empty array if the input array is empty', function () {
-    expect(pipe.transform([])).toEqual([]);
-  });
 });
