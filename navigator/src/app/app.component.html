@@ -1,3 +1,9 @@
-<div class="mat-app-background">
-<app-jump-links></app-jump-links>
-</div>
+<section class="mat-app-background container">
+  <div id="leftColumn">
+    <app-jump-links [(starSystem)]="starSystem"></app-jump-links>
+  </div>
+  <div id="rightColumn">
+    <app-star-map [(starSystem)]="starSystem"></app-star-map>
+  </div>
+</section>
+

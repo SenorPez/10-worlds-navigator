@@ -1,14 +1,16 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {StarSystemService} from '../star-system.service';
 import {MatFormField, MatLabel, MatOption, MatSelect} from '@angular/material/select';
 import {StarSystem} from '../star-system';
 import {MatList, MatListItem} from "@angular/material/list";
 import {SortByPipe} from "../sort-by.pipe";
+import {FilterJumpLinksUndiscoveredPipe} from "../filter-jump-links-undiscovered.pipe";
 
 @Component({
   selector: 'app-jump-links',
   standalone: true,
   imports: [
+    FilterJumpLinksUndiscoveredPipe,
     MatSelect,
     MatFormField,
     MatLabel,
@@ -21,11 +23,15 @@ import {SortByPipe} from "../sort-by.pipe";
   styleUrl: './jump-links.component.css'
 })
 export class JumpLinksComponent {
-  starSystems: StarSystem[];
-  selectedStarSystem!: StarSystem;
+  @Input() starSystem!: StarSystem;
+  @Output() starSystemChange = new EventEmitter<StarSystem>();
+
+  starSystems = this.starSystemsService.getStarSystems();
 
   constructor(private starSystemsService: StarSystemService) {
-    this.starSystems = starSystemsService.getStarSystems();
-    this.selectedStarSystem = this.starSystems[0];
+  }
+
+  updateStarSystem() {
+    this.starSystemChange.emit(this.starSystem);
   }
 }

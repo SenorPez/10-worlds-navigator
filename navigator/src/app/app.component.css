@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  height: 100%;
+}
+
+#leftColumn {
+  flex: 1;
+}
+
+#rightColumn {
+  flex: 2;
+}

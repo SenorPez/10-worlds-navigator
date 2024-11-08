@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {StarSystem} from "./star-system";
+import {StarSystemService} from "./star-system.service";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = '10 Worlds Navigator';
+  starSystem: StarSystem;
+
+  constructor(private starSystemService: StarSystemService) {
+    this.starSystem = starSystemService.getStarSystems()[0];
+  }
+
+  starSystemSelected = (starSystem: StarSystem) => this.starSystem = starSystem;
 }
