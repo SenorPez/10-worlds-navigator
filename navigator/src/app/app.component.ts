@@ -22,6 +22,4 @@ export class AppComponent {
     ));
 
   }
-
-  starSystemSelected = (starSystem: StarSystem) => this.starSystem = starSystem;
 }

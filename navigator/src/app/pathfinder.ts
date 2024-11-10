@@ -3,65 +3,102 @@ import {StarSystem} from "./star-system";
 import * as _ from "lodash";
 
 export class Pathfinder {
+  distance = new Map<string, number>();
+  previous = new Map<string, string | undefined>();
+  queue = new Set<string>();
+
+  iterCount = 0;
+  current: StarSystem | undefined;
+
   constructor(private starSystemsService: StarSystemService) {
   }
 
   findPath(origin: StarSystem, destination: StarSystem) {
-    const distance = new Map<string, number>();
-    const previous = new Map<string, string | undefined>();
-    const queue = new Set<string>();
+    this.createInitialQueue(origin);
 
-    this.starSystemsService.getStarSystems()
-      .forEach(starSystem => {
-        distance.set(starSystem.name, origin.name === starSystem.name ? 0 : Infinity);
-        previous.set(starSystem.name, undefined)
-        queue.add(starSystem.name);
-      });
-
-    let iterCount = 0;
-    while (queue.size) {
-      iterCount += 1;
-      const distancesInQueue = ([...distance.entries()])
-        .filter(entry => queue.has(entry[0]));
-      const minimumDistance = _.minBy(distancesInQueue, entry => entry[1]);
-      const current = this.starSystemsService.getStarSystems()
-        .filter(starSystem => starSystem.name === (minimumDistance ? minimumDistance[0] : ""))
-        .filter((starSystem): starSystem is StarSystem => starSystem !== undefined)[0];
+    while (this.queue.size) {
+      this.iterCount += 1;
+      const current = this.getClosestSystem(this.distance, this.queue);
 
       if (current != destination) {
-        queue.delete(current.name);
-
-        const jumpLinks = current.jumpLinks;
-        const discoveredJumplinks = jumpLinks.filter(jumpLink => jumpLink.discovered);
-        const queuedJumpLinks = discoveredJumplinks.filter(jumpLink => queue.has(jumpLink.destination));
-
-        queuedJumpLinks.forEach(jumpLink => {
-          const distanceToCurrent = (distance.get(current.name) ?? Infinity) + 1;
-          const distanceToJumpDestination = distance.get(jumpLink.destination) ?? Infinity;
-
-          if (distanceToCurrent < distanceToJumpDestination) {
-            distance.set(jumpLink.destination, distanceToCurrent);
-            previous.set(jumpLink.destination, current.name);
-          }
-        });
+        const val = this.getNextSystems(current, this.distance, this.previous, this.queue);
+        this.distance = val.distance;
+        this.previous = val.previous;
+        this.queue = val.queue;
       } else {
-        queue.clear();
-        const path = new Array<string>();
-        let nextStep: string | undefined = current.name;
-        if (previous.has(nextStep) || nextStep === origin.name) {
-          while (nextStep !== undefined) {
-            path.unshift(nextStep);
-            nextStep = previous.get(nextStep);
-          }
-        }
-        return path;
+        return this.buildPath(origin, destination, this.previous, this.queue);
       }
 
-      if (iterCount > 500) {
-        queue.clear();
+      if (this.iterCount > 500) {
+        this.queue.clear();
       }
     }
 
     return undefined;
+  }
+
+  createInitialQueue(origin: StarSystem) {
+    this.starSystemsService.getStarSystems()
+      .forEach(starSystem => {
+        this.distance.set(starSystem.name, origin.name === starSystem.name ? 0 : Infinity);
+        this.previous.set(starSystem.name, undefined)
+        this.queue.add(starSystem.name);
+      });
+  }
+
+  getClosestSystem(distance: Map<string, number>, queue: Set<string>) {
+    const closestSystem = _.minBy(
+      [...distance.entries()].filter(entry => queue.has(entry[0])),
+      entry => entry[1]
+    );
+
+    return this.starSystemsService.getStarSystems()
+      .filter(starSystem => starSystem.name === (closestSystem ? closestSystem[0] : ""))
+      .filter((starSystem): starSystem is StarSystem => starSystem !== undefined)[0];
+  }
+
+  getNextSystems(
+    currentSystem: StarSystem,
+    distance: Map<string, number>,
+    previous: Map<string, string | undefined>,
+    queue: Set<string>) {
+    queue.delete(currentSystem.name);
+
+    const jumpLinks = currentSystem.jumpLinks
+      .filter(jumpLink => jumpLink.discovered)
+      .filter(jumpLink => queue.has(jumpLink.destination));
+
+    jumpLinks.forEach(jumpLink => {
+      const distanceToCurrent = (distance.get(currentSystem.name) ?? Infinity) + 1;
+      const distanceToJumpDestination = this.distance.get(jumpLink.destination) ?? Infinity;
+
+      if (distanceToCurrent < distanceToJumpDestination) {
+        distance.set(jumpLink.destination, distanceToCurrent);
+        previous.set(jumpLink.destination, currentSystem.name);
+      }
+    });
+
+    return {
+      distance: distance,
+      previous: previous,
+      queue: queue
+    };
+  }
+
+  buildPath(origin: StarSystem,
+            destination: StarSystem,
+            previous: Map<string, string | undefined>,
+            queue: Set<string>): string[] {
+    queue.clear();
+
+    const path = new Array<string>();
+    let nextStep: string | undefined = destination.name;
+    if (previous.has(nextStep) || nextStep === origin.name) {
+      while (nextStep !== undefined) {
+        path.unshift(nextStep);
+        nextStep = previous.get(nextStep);
+      }
+    }
+    return path;
   }
 }
