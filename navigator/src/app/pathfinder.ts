@@ -13,7 +13,9 @@ export class Pathfinder {
   constructor(private starSystemsService: StarSystemService) {
   }
 
-  findPath(origin: StarSystem, destination: StarSystem) {
+  findPath(origin: StarSystem, destination: StarSystem, allowedJumpLevels: string[] = [
+    "Alpha", "Beta", "Gamma", "Delta", "Epsilon"
+  ]) {
     this.createInitialQueue(origin);
 
     while (this.queue.size) {
@@ -21,7 +23,12 @@ export class Pathfinder {
       const current = this.getClosestSystem(this.distance, this.queue);
 
       if (current != destination) {
-        const val = this.getNextSystems(current, this.distance, this.previous, this.queue);
+        const val = this.getNextSystems(
+          current,
+          this.distance,
+          this.previous,
+          this.queue,
+          allowedJumpLevels);
         this.distance = val.distance;
         this.previous = val.previous;
         this.queue = val.queue;
@@ -61,12 +68,14 @@ export class Pathfinder {
     currentSystem: StarSystem,
     distance: Map<string, number>,
     previous: Map<string, string | undefined>,
-    queue: Set<string>) {
+    queue: Set<string>,
+    allowedJumpLevels: string[]) {
     queue.delete(currentSystem.name);
 
     const jumpLinks = currentSystem.jumpLinks
       .filter(jumpLink => jumpLink.discovered)
-      .filter(jumpLink => queue.has(jumpLink.destination));
+      .filter(jumpLink => queue.has(jumpLink.destination))
+      .filter(jumpLink => allowedJumpLevels.includes(jumpLink.jumpLevel));
 
     jumpLinks.forEach(jumpLink => {
       const distanceToCurrent = (distance.get(currentSystem.name) ?? Infinity) + 1;
