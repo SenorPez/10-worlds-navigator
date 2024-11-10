@@ -88,7 +88,7 @@ export class Pathfinder {
   buildPath(origin: StarSystem,
             destination: StarSystem,
             previous: Map<string, string | undefined>,
-            queue: Set<string>): string[] {
+            queue: Set<string>): string[] | undefined {
     queue.clear();
 
     const path = new Array<string>();
@@ -99,6 +99,6 @@ export class Pathfinder {
         nextStep = previous.get(nextStep);
       }
     }
-    return path;
+    return path[0] === origin.name ? path : undefined;
   }
 }

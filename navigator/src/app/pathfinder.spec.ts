@@ -50,6 +50,10 @@ describe('Pathfinder', () => {
     instance = new Pathfinder(new StarSystemService());
   });
 
+  afterEach(function () {
+    jest.restoreAllMocks();
+  });
+
   it('should create an instance', () => {
     expect(instance).toBeTruthy();
   });
@@ -67,6 +71,7 @@ describe('Pathfinder', () => {
 
       expect(instance.distance).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
+      expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
 
     it('should populate all systems with a previous of undefined', function () {
@@ -81,6 +86,7 @@ describe('Pathfinder', () => {
 
       expect(instance.previous).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
+      expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
 
     it('should initially populate the queue with all systems', function () {
@@ -96,6 +102,7 @@ describe('Pathfinder', () => {
 
       expect(instance.queue).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
+      expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
   });
 
@@ -115,6 +122,7 @@ describe('Pathfinder', () => {
 
       expect(returnValue).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
+      expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
   });
 
@@ -139,6 +147,7 @@ describe('Pathfinder', () => {
     });
 
     it('should return an updated distance map', function () {
+      mockGetStarSystems.mockReturnValue(serviceReturnValue);
       const returnValue = instance.getNextSystems(serviceReturnValue[0], distance, previous, queue);
       const expected = new Map<string, number>()
         .set("Alpha Hydri", 0)
@@ -147,9 +156,12 @@ describe('Pathfinder', () => {
         .set("Omega Hydri", Infinity);
 
       expect(returnValue.distance).toEqual(expected);
+      expect(mockGetStarSystems).toHaveBeenCalled();
+      expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
 
     it('should return an updated previous map', function () {
+      mockGetStarSystems.mockReturnValue(serviceReturnValue);
       const returnValue = instance.getNextSystems(serviceReturnValue[0], distance, previous, queue);
       const expected = new Map<string, string | undefined>()
         .set("Alpha Hydri", undefined)
@@ -158,9 +170,12 @@ describe('Pathfinder', () => {
         .set("Omega Hydri", undefined);
 
       expect(returnValue.previous).toEqual(expected);
+      expect(mockGetStarSystems).toHaveBeenCalled();
+      expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
 
     it('should return an updated queue', function () {
+      mockGetStarSystems.mockReturnValue(serviceReturnValue);
       const returnValue = instance.getNextSystems(serviceReturnValue[0], distance, previous, queue);
       const expected = new Set<string>()
         .add("Beta Hydri")
@@ -168,6 +183,8 @@ describe('Pathfinder', () => {
         .add("Omega Hydri");
 
       expect(returnValue.queue).toEqual(expected);
+      expect(mockGetStarSystems).toHaveBeenCalled();
+      expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
   });
 
@@ -186,13 +203,17 @@ describe('Pathfinder', () => {
     });
 
     it('should clear the queue', function () {
+      mockGetStarSystems.mockReturnValue(serviceReturnValue);
       instance.buildPath(serviceReturnValue[0], serviceReturnValue[3], previous, queue);
       const expectedValue = new Set<string>();
 
       expect(queue).toEqual(expectedValue);
+      expect(mockGetStarSystems).toHaveBeenCalled();
+      expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
 
     it('should return a path through the nodes', function () {
+      mockGetStarSystems.mockReturnValue(serviceReturnValue);
       const returnValue = instance.buildPath(serviceReturnValue[0], serviceReturnValue[3], previous, queue);
       const expectedValue = [
         "Alpha Hydri",
@@ -201,16 +222,14 @@ describe('Pathfinder', () => {
       ];
 
       expect(returnValue).toEqual(expectedValue);
+      expect(mockGetStarSystems).toHaveBeenCalled();
+      expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
   });
 
   describe('find path function', function () {
     it('should return a path from the start node to the end node', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
-      mockGetStarSystem.mockImplementation((a: string) => {
-        return serviceReturnValue.filter(val => val.name === a);
-      });
-
       const returnValue = instance.findPath(serviceReturnValue[0], serviceReturnValue[3]);
       const expected: string[] = [
         "Alpha Hydri",
@@ -219,6 +238,43 @@ describe('Pathfinder', () => {
       ];
 
       expect(returnValue).toEqual(expected);
+      expect(mockGetStarSystems).toHaveBeenCalled();
+      expect(mockGetStarSystem).not.toHaveBeenCalled();
+    });
+
+    it('should return undefined if no path can be found', function () {
+      const serviceReturnValue: StarSystem[] = [
+        {
+          name: "Start", coordinates: {x: 0, y: 0, z: 0}, transitTimes: [3, 2, 1], jumpLinks: []
+        },
+        {
+          name: "End", coordinates: {x: 1, y: 1, z: 1}, transitTimes: [3, 2, 1], jumpLinks: []
+        }
+      ];
+      mockGetStarSystems.mockReturnValue(serviceReturnValue);
+
+      const returnValue = instance.findPath(serviceReturnValue[0], serviceReturnValue[1]);
+
+      expect(returnValue).toBeUndefined();
+      expect(mockGetStarSystems).toHaveBeenCalled();
+      expect(mockGetStarSystem).not.toHaveBeenCalled();
+    });
+
+    it('should return undefined if the iteration failsafe triggers', function () {
+      mockGetStarSystems.mockReturnValue(serviceReturnValue);
+      instance.iterCount = 1979;
+      const returnValue = instance.findPath(serviceReturnValue[0], serviceReturnValue[1]);
+      expect(returnValue).toBeUndefined();
+      expect(mockGetStarSystems).toHaveBeenCalled();
+      expect(mockGetStarSystem).not.toHaveBeenCalled();
+    });
+
+    it('should return undefined if no nodes are provided', function () {
+      mockGetStarSystems.mockReturnValue([]);
+      const returnValue = instance.findPath(serviceReturnValue[0], serviceReturnValue[1]);
+      expect(returnValue).toBeUndefined();
+      expect(mockGetStarSystems).toHaveBeenCalled();
+      expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
   });
 });
