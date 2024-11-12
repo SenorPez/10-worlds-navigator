@@ -1,8 +1,12 @@
-import {Pathfinder} from './pathfinder';
-import {StarSystem} from "./star-system";
-import {StarSystemService} from "./star-system.service";
-
-jest.mock('./star-system.service');
+import {PathfinderComponent} from './pathfinder.component';
+import {StarSystem} from "../star-system";
+import {StarSystemService} from "../star-system.service";
+import {ComponentFixture, TestBed} from "@angular/core/testing";
+import {JumpLinksComponent} from "../jump-links/jump-links.component";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelectModule} from "@angular/material/select";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {ReactiveFormsModule} from "@angular/forms";
 
 const serviceReturnValue: StarSystem[] = [
   {
@@ -34,42 +38,66 @@ const serviceReturnValue: StarSystem[] = [
   }
 ];
 
-describe('Pathfinder', () => {
-  let instance: Pathfinder;
+describe('PathfinderComponent', () => {
+  let fixture: ComponentFixture<PathfinderComponent>;
+  let component: PathfinderComponent;
 
-  const mockGetStarSystems = jest.fn();
-  const mockGetStarSystem = jest.fn();
-  jest.mocked(StarSystemService).mockImplementation(() => {
-    return {
+  let starSystemService: {
+    getStarSystems: jest.Mock,
+    getStarSystem: jest.Mock;
+  };
+  let mockGetStarSystems = jest.fn();
+  let mockGetStarSystem = jest.fn();
+  let starSystemServiceReturnValue: StarSystem[] = serviceReturnValue;
+
+  // const mockGetStarSystems = jest.fn();
+  // const mockGetStarSystem = jest.fn();
+  // jest.mocked(StarSystemService).mockImplementation(() => {
+  //   return {
+  //     getStarSystems: mockGetStarSystems,
+  //     getStarSystem: mockGetStarSystem
+  //   }
+  // });
+
+  beforeEach(async function () {
+
+    starSystemService = {
       getStarSystems: mockGetStarSystems,
       getStarSystem: mockGetStarSystem
-    }
+    };
+    starSystemService.getStarSystems.mockReturnValue(starSystemServiceReturnValue);
+
+    await TestBed.configureTestingModule({
+      imports: [
+        JumpLinksComponent,
+        MatFormFieldModule,
+        MatSelectModule,
+        NoopAnimationsModule,
+        ReactiveFormsModule
+      ]
+    }).overrideProvider(StarSystemService, {useValue: starSystemService})
+      .compileComponents();
+    fixture = TestBed.createComponent(PathfinderComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  beforeEach(function () {
-    instance = new Pathfinder(new StarSystemService());
-  });
-
-  afterEach(function () {
-    jest.restoreAllMocks();
-  });
-
-  it('should create an instance', () => {
-    expect(instance).toBeTruthy();
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
   });
 
   describe('initial queue creation', function () {
     it('should populate all systems except origin with a distance of Infinity', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
 
-      instance.createInitialQueue(serviceReturnValue[0]);
+      component.createInitialQueue(serviceReturnValue[0]);
       const expected = new Map<string, number>()
         .set("Alpha Hydri", 0)
         .set("Beta Hydri", Infinity)
         .set("Gamma Hydri", Infinity)
         .set("Omega Hydri", Infinity);
 
-      expect(instance.distance).toEqual(expected);
+      expect(component.distance).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
@@ -77,14 +105,14 @@ describe('Pathfinder', () => {
     it('should populate all systems with a previous of undefined', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
 
-      instance.createInitialQueue(serviceReturnValue[0]);
+      component.createInitialQueue(serviceReturnValue[0]);
       const expected = new Map<string, string | undefined>()
         .set("Alpha Hydri", undefined)
         .set("Beta Hydri", undefined)
         .set("Gamma Hydri", undefined)
         .set("Omega Hydri", undefined);
 
-      expect(instance.previous).toEqual(expected);
+      expect(component.previous).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
@@ -93,14 +121,14 @@ describe('Pathfinder', () => {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
 
 
-      instance.createInitialQueue(serviceReturnValue[0]);
+      component.createInitialQueue(serviceReturnValue[0]);
       const expected = new Set<string>()
         .add("Alpha Hydri")
         .add("Beta Hydri")
         .add("Gamma Hydri")
         .add("Omega Hydri");
 
-      expect(instance.queue).toEqual(expected);
+      expect(component.queue).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
@@ -117,7 +145,7 @@ describe('Pathfinder', () => {
       const queue = new Set<string>;
       serviceReturnValue.forEach(starSystem => queue.add(starSystem.name));
 
-      const returnValue = instance.getClosestSystem(distances, queue);
+      const returnValue = component.getClosestSystem(distances, queue);
       const expected: StarSystem = serviceReturnValue[0];
 
       expect(returnValue).toEqual(expected);
@@ -148,7 +176,7 @@ describe('Pathfinder', () => {
 
     it('should return an updated distance map', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
-      const returnValue = instance.getNextSystems(
+      const returnValue = component.getNextSystems(
         serviceReturnValue[0],
         distance,
         previous,
@@ -168,7 +196,7 @@ describe('Pathfinder', () => {
 
     it('should return an updated distance map, excluding disallowed jump levels', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
-      const returnValue = instance.getNextSystems(
+      const returnValue = component.getNextSystems(
         serviceReturnValue[0],
         distance,
         previous,
@@ -188,7 +216,7 @@ describe('Pathfinder', () => {
 
     it('should return an updated previous map', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
-      const returnValue = instance.getNextSystems(
+      const returnValue = component.getNextSystems(
         serviceReturnValue[0],
         distance,
         previous,
@@ -208,7 +236,7 @@ describe('Pathfinder', () => {
 
     it('should return an updated previous map, excluding disallowed jump levels', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
-      const returnValue = instance.getNextSystems(
+      const returnValue = component.getNextSystems(
         serviceReturnValue[0],
         distance,
         previous,
@@ -228,7 +256,7 @@ describe('Pathfinder', () => {
 
     it('should return an updated queue', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
-      const returnValue = instance.getNextSystems(
+      const returnValue = component.getNextSystems(
         serviceReturnValue[0],
         distance,
         previous,
@@ -262,7 +290,7 @@ describe('Pathfinder', () => {
 
     it('should clear the queue', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
-      instance.buildPaths(serviceReturnValue[0], serviceReturnValue[3], previous, queue);
+      component.buildPaths(serviceReturnValue[0], serviceReturnValue[3], previous, queue);
       const expected = new Set<string>();
 
       expect(queue).toEqual(expected);
@@ -272,7 +300,7 @@ describe('Pathfinder', () => {
 
     it('should return a path through the nodes', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
-      const returnValue = instance.buildPaths(serviceReturnValue[0], serviceReturnValue[3], previous, queue);
+      const returnValue = component.buildPaths(serviceReturnValue[0], serviceReturnValue[3], previous, queue);
       const expected = [[
         "Alpha Hydri",
         "Gamma Hydri",
@@ -288,7 +316,7 @@ describe('Pathfinder', () => {
   describe('find path function', function () {
     it('should return a path from the start node to the end node', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
-      const returnValue = instance.findPath(serviceReturnValue[0], serviceReturnValue[3]);
+      const returnValue = component.findPath(serviceReturnValue[0], serviceReturnValue[3]);
       const expected: string[][] = [[
         "Alpha Hydri",
         "Gamma Hydri",
@@ -302,7 +330,7 @@ describe('Pathfinder', () => {
 
     it('should return a path from the start node to the end node, restricted to the jump levels', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
-      const returnValue = instance.findPath(
+      const returnValue = component.findPath(
         serviceReturnValue[0],
         serviceReturnValue[3],
         ["Gamma", "Delta"]);
@@ -329,7 +357,7 @@ describe('Pathfinder', () => {
       ];
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
 
-      const returnValue = instance.findPath(serviceReturnValue[0], serviceReturnValue[1]);
+      const returnValue = component.findPath(serviceReturnValue[0], serviceReturnValue[1]);
 
       expect(returnValue).toBeUndefined();
       expect(mockGetStarSystems).toHaveBeenCalled();
@@ -338,8 +366,8 @@ describe('Pathfinder', () => {
 
     it('should return undefined if the iteration failsafe triggers', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
-      instance.iterCount = 1979;
-      const returnValue = instance.findPath(serviceReturnValue[0], serviceReturnValue[1]);
+      component.iterCount = 1979;
+      const returnValue = component.findPath(serviceReturnValue[0], serviceReturnValue[1]);
       expect(returnValue).toBeUndefined();
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
@@ -347,7 +375,7 @@ describe('Pathfinder', () => {
 
     it('should return undefined if no nodes are provided', function () {
       mockGetStarSystems.mockReturnValue([]);
-      const returnValue = instance.findPath(serviceReturnValue[0], serviceReturnValue[1]);
+      const returnValue = component.findPath(serviceReturnValue[0], serviceReturnValue[1]);
       expect(returnValue).toBeUndefined();
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
@@ -382,7 +410,7 @@ describe('Pathfinder', () => {
       ];
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
 
-      const returnValue = instance.findPath(serviceReturnValue[0], serviceReturnValue[3]);
+      const returnValue = component.findPath(serviceReturnValue[0], serviceReturnValue[3]);
       const expected: string[][] = [
         ["Start", "Middle A", "End"],
         ["Start", "Middle B", "End"]

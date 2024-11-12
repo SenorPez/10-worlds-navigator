@@ -1,8 +1,16 @@
-import {StarSystemService} from "./star-system.service";
-import {StarSystem} from "./star-system";
+import {StarSystemService} from "../star-system.service";
+import {StarSystem} from "../star-system";
 import * as _ from "lodash";
+import {Component} from "@angular/core";
 
-export class Pathfinder {
+@Component({
+  selector: 'app-pathfinder',
+  standalone: true,
+  imports: [],
+  templateUrl: './pathfinder.component.html',
+  styleUrl: './pathfinder.component.css'
+})
+export class PathfinderComponent {
   distance = new Map<string, number>();
   previous = new Map<string, string[] | undefined>();
   queue = new Set<string>();
