@@ -1,16 +1,36 @@
 import {StarSystemService} from "../star-system.service";
 import {StarSystem} from "../star-system";
 import * as _ from "lodash";
-import {Component} from "@angular/core";
+import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {MatFormField} from "@angular/material/form-field";
+import {MatLabel, MatOption, MatSelect} from "@angular/material/select";
+import {SortByPipe} from "../sort-by.pipe";
+import {NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-pathfinder',
   standalone: true,
-  imports: [],
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatOption,
+    MatSelect,
+    SortByPipe,
+    NgForOf
+  ],
   templateUrl: './pathfinder.component.html',
   styleUrl: './pathfinder.component.css'
 })
 export class PathfinderComponent {
+  @Input() originStarSystem!: StarSystem;
+  @Input() destStarSystem!: StarSystem;
+  @Output() originStarSystemChange = new EventEmitter<StarSystem>();
+  @Output() destStarSystemChange = new EventEmitter<StarSystem>();
+
+  paths: string[][] | undefined;
+
+  starSystems = this.starSystemsService.getStarSystems();
+
   distance = new Map<string, number>();
   previous = new Map<string, string[] | undefined>();
   queue = new Set<string>();
@@ -19,6 +39,22 @@ export class PathfinderComponent {
   current: StarSystem | undefined;
 
   constructor(private starSystemsService: StarSystemService) {
+  }
+
+  updateOriginStarSystem() {
+    this.originStarSystemChange.emit(this.originStarSystem);
+    this.updatePaths();
+  }
+
+  updateDestStarSystem() {
+    this.destStarSystemChange.emit(this.destStarSystem);
+    this.updatePaths();
+  }
+
+  updatePaths() {
+    if (this.originStarSystem && this.destStarSystem) {
+      this.paths = this.findPath(this.originStarSystem, this.destStarSystem);
+    }
   }
 
   findPath(origin: StarSystem, destination: StarSystem, allowedJumpLevels: string[] = [
@@ -30,17 +66,16 @@ export class PathfinderComponent {
       this.iterCount += 1;
       const current = this.getClosestSystem(this.distance, this.queue);
 
-      // if (current != destination) {
-        const val = this.getNextSystems(
-          current,
-          this.distance,
-          this.previous,
-          this.queue,
-          allowedJumpLevels);
-        this.distance = val.distance;
-        this.previous = val.previous;
-        this.queue = val.queue;
-      // } else {
+      const val = this.getNextSystems(
+        current,
+        this.distance,
+        this.previous,
+        this.queue,
+        allowedJumpLevels);
+      this.distance = val.distance;
+      this.previous = val.previous;
+      this.queue = val.queue;
+
       if (current === destination) {
         return this.buildPaths(origin, destination, this.previous, this.queue);
       }
@@ -133,5 +168,4 @@ export class PathfinderComponent {
       }
     }
   }
-
 }

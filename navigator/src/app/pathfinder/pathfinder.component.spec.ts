@@ -50,15 +50,6 @@ describe('PathfinderComponent', () => {
   let mockGetStarSystem = jest.fn();
   let starSystemServiceReturnValue: StarSystem[] = serviceReturnValue;
 
-  // const mockGetStarSystems = jest.fn();
-  // const mockGetStarSystem = jest.fn();
-  // jest.mocked(StarSystemService).mockImplementation(() => {
-  //   return {
-  //     getStarSystems: mockGetStarSystems,
-  //     getStarSystem: mockGetStarSystem
-  //   }
-  // });
-
   beforeEach(async function () {
 
     starSystemService = {

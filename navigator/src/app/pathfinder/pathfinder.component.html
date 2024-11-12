@@ -1,1 +1,26 @@
-<p>pathfinder works!</p>
+<mat-form-field id="formField_originStarSystem">
+  <mat-label>Origin</mat-label>
+  <mat-select id="select_originStarSystem" [(value)]="originStarSystem" (valueChange)="updateOriginStarSystem()">
+    @for (starSystem of starSystems | sortBy: 'name'; track starSystem) {
+      <mat-option [value]="starSystem">{{starSystem.name}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<br/>
+
+<mat-form-field id="formField_destStarSystem">
+  <mat-label>Destination</mat-label>
+  <mat-select id="select_destStarSystem" [(value)]="destStarSystem" (valueChange)="updateDestStarSystem()">
+    @for (starSystem of starSystems | sortBy: 'name'; track starSystem) {
+    <mat-option [value]="starSystem">{{starSystem.name}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<div *ngFor="let path of paths; let i = index">
+  <p>Path #{{i+1}}</p>
+  <ol>
+    <li *ngFor="let step of path">{{step}}</li>
+  </ol>
+</div>
