@@ -69,7 +69,7 @@ describe('Pathfinder', () => {
         .set("Gamma Hydri", Infinity)
         .set("Omega Hydri", Infinity);
 
-      expect(expected).toEqual(instance.distance);
+      expect(instance.distance).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
@@ -84,7 +84,7 @@ describe('Pathfinder', () => {
         .set("Gamma Hydri", undefined)
         .set("Omega Hydri", undefined);
 
-      expect(expected).toEqual(instance.previous);
+      expect(instance.previous).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
@@ -100,7 +100,7 @@ describe('Pathfinder', () => {
         .add("Gamma Hydri")
         .add("Omega Hydri");
 
-      expect(expected).toEqual(instance.queue);
+      expect(instance.queue).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
@@ -120,7 +120,7 @@ describe('Pathfinder', () => {
       const returnValue = instance.getClosestSystem(distances, queue);
       const expected: StarSystem = serviceReturnValue[0];
 
-      expect(expected).toEqual(returnValue);
+      expect(returnValue).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
@@ -128,7 +128,7 @@ describe('Pathfinder', () => {
 
   describe('get next systems', function () {
     let distance: Map<string, number>;
-    let previous: Map<string, string | undefined>;
+    let previous: Map<string, string[] | undefined>;
     let queue: Set<string>;
 
     beforeEach(function () {
@@ -137,7 +137,7 @@ describe('Pathfinder', () => {
         .set("Beta Hydri", Infinity)
         .set("Gamma Hydri", Infinity)
         .set("Omega Hydri", Infinity);
-      previous = new Map<string, string | undefined>()
+      previous = new Map<string, string[] | undefined>()
         .set("Alpha Hydri", undefined)
         .set("Beta Hydri", undefined)
         .set("Gamma Hydri", undefined)
@@ -161,7 +161,7 @@ describe('Pathfinder', () => {
         .set("Gamma Hydri", 1)
         .set("Omega Hydri", Infinity);
 
-      expect(expected).toEqual(returnValue.distance);
+      expect(returnValue.distance).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
@@ -181,7 +181,7 @@ describe('Pathfinder', () => {
         .set("Gamma Hydri", Infinity)
         .set("Omega Hydri", Infinity);
 
-      expect(expected).toEqual(returnValue.distance);
+      expect(returnValue.distance).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
@@ -195,13 +195,13 @@ describe('Pathfinder', () => {
         queue,
         ["Alpha", "Beta", "Gamma", "Delta", "Epsilon"]
       );
-      const expected = new Map<string, string | undefined>()
+      const expected = new Map<string, string[] | undefined>()
         .set("Alpha Hydri", undefined)
-        .set("Beta Hydri", "Alpha Hydri")
-        .set("Gamma Hydri", "Alpha Hydri")
+        .set("Beta Hydri", ["Alpha Hydri"])
+        .set("Gamma Hydri", ["Alpha Hydri"])
         .set("Omega Hydri", undefined);
 
-      expect(expected).toEqual(returnValue.previous);
+      expect(returnValue.previous).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
@@ -215,13 +215,13 @@ describe('Pathfinder', () => {
         queue,
         ["Gamma", "Delta"]
       );
-      const expected = new Map<string, string | undefined>()
+      const expected = new Map<string, string[] | undefined>()
         .set("Alpha Hydri", undefined)
-        .set("Beta Hydri", "Alpha Hydri")
+        .set("Beta Hydri", ["Alpha Hydri"])
         .set("Gamma Hydri", undefined)
         .set("Omega Hydri", undefined);
 
-      expect(expected).toEqual(returnValue.previous);
+      expect(returnValue.previous).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
@@ -240,46 +240,46 @@ describe('Pathfinder', () => {
         .add("Gamma Hydri")
         .add("Omega Hydri");
 
-      expect(expected).toEqual(returnValue.queue);
+      expect(returnValue.queue).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
   });
 
   describe('build path when destination is found', function () {
-    let previous: Map<string, string | undefined>;
+    let previous: Map<string, string[] | undefined>;
     let queue: Set<string>;
 
     beforeEach(function () {
-      previous = new Map<string, string | undefined>()
+      previous = new Map<string, string[] | undefined>()
         .set("Alpha Hydri", undefined)
-        .set("Beta Hydri", "Alpha Hydri")
-        .set("Gamma Hydri", "Alpha Hydri")
-        .set("Omega Hydri", "Gamma Hydri");
+        .set("Beta Hydri", ["Alpha Hydri"])
+        .set("Gamma Hydri", ["Alpha Hydri"])
+        .set("Omega Hydri", ["Gamma Hydri"]);
       queue = new Set<string>;
       serviceReturnValue.forEach(starSystem => queue.add(starSystem.name));
     });
 
     it('should clear the queue', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
-      instance.buildPath(serviceReturnValue[0], serviceReturnValue[3], previous, queue);
+      instance.buildPaths(serviceReturnValue[0], serviceReturnValue[3], previous, queue);
       const expected = new Set<string>();
 
-      expect(expected).toEqual(queue);
+      expect(queue).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
 
     it('should return a path through the nodes', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
-      const returnValue = instance.buildPath(serviceReturnValue[0], serviceReturnValue[3], previous, queue);
-      const expected = [
+      const returnValue = instance.buildPaths(serviceReturnValue[0], serviceReturnValue[3], previous, queue);
+      const expected = [[
         "Alpha Hydri",
         "Gamma Hydri",
         "Omega Hydri"
-      ];
+      ]];
 
-      expect(expected).toEqual(returnValue);
+      expect(returnValue).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
@@ -289,31 +289,31 @@ describe('Pathfinder', () => {
     it('should return a path from the start node to the end node', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
       const returnValue = instance.findPath(serviceReturnValue[0], serviceReturnValue[3]);
-      const expected: string[] = [
+      const expected: string[][] = [[
         "Alpha Hydri",
         "Gamma Hydri",
         "Omega Hydri"
-      ];
+      ]];
 
-      expect(expected).toEqual(returnValue);
+      expect(returnValue).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
 
-    it('should return a path from the start node to the end node, with jump levels', function () {
+    it('should return a path from the start node to the end node, restricted to the jump levels', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
       const returnValue = instance.findPath(
         serviceReturnValue[0],
         serviceReturnValue[3],
         ["Gamma", "Delta"]);
-      const expected: string[] = [
+      const expected: string[][] = [[
         "Alpha Hydri",
         "Beta Hydri",
         "Gamma Hydri",
         "Omega Hydri"
-      ];
+      ]];
 
-      expect(expected).toEqual(returnValue);
+      expect(returnValue).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
@@ -349,6 +349,46 @@ describe('Pathfinder', () => {
       mockGetStarSystems.mockReturnValue([]);
       const returnValue = instance.findPath(serviceReturnValue[0], serviceReturnValue[1]);
       expect(returnValue).toBeUndefined();
+      expect(mockGetStarSystems).toHaveBeenCalled();
+      expect(mockGetStarSystem).not.toHaveBeenCalled();
+    });
+
+    it('should return multiple paths if they are equal', function () {
+      const serviceReturnValue: StarSystem[] = [
+        {
+          name: "Start", coordinates: {x: 0, y: 0, z: 0}, transitTimes: [3, 2, 1], jumpLinks: [
+            {destination: "Middle A", distance: 1, jumpLevel: "Gamma", discovered: 1990},
+            {destination: "Middle B", distance: 1, jumpLevel: "Gamma", discovered: 1990}
+          ]
+        },
+        {
+          name: "Middle A", coordinates: {x: 1, y: 0, z:0}, transitTimes: [3, 2, 1], jumpLinks: [
+            {destination: "Start", distance: 1, jumpLevel: "Gamma", discovered: 1990},
+            {destination: "End", distance: 1, jumpLevel: "Gamma", discovered: 1990}
+          ]
+        },
+        {
+          name: "Middle B", coordinates: {x: 0, y: 1, z:0}, transitTimes: [3, 2, 1], jumpLinks: [
+            {destination: "Start", distance: 1, jumpLevel: "Gamma", discovered: 1990},
+            {destination: "End", distance: 1, jumpLevel: "Gamma", discovered: 1990}
+          ]
+        },
+        {
+          name: "End", coordinates: {x: 1, y: 1, z: 1}, transitTimes: [3, 2, 1], jumpLinks: [
+            {destination: "Middle A", distance: 1, jumpLevel: "Gamma", discovered: 1990},
+            {destination: "Middle B", distance: 1, jumpLevel: "Gamma", discovered: 1990}
+          ]
+        }
+      ];
+      mockGetStarSystems.mockReturnValue(serviceReturnValue);
+
+      const returnValue = instance.findPath(serviceReturnValue[0], serviceReturnValue[3]);
+      const expected: string[][] = [
+        ["Start", "Middle A", "End"],
+        ["Start", "Middle B", "End"]
+      ];
+
+      expect(returnValue).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });

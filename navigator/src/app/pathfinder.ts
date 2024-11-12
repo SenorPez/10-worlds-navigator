@@ -4,7 +4,7 @@ import * as _ from "lodash";
 
 export class Pathfinder {
   distance = new Map<string, number>();
-  previous = new Map<string, string | undefined>();
+  previous = new Map<string, string[] | undefined>();
   queue = new Set<string>();
 
   iterCount = 0;
@@ -22,7 +22,7 @@ export class Pathfinder {
       this.iterCount += 1;
       const current = this.getClosestSystem(this.distance, this.queue);
 
-      if (current != destination) {
+      // if (current != destination) {
         const val = this.getNextSystems(
           current,
           this.distance,
@@ -32,8 +32,9 @@ export class Pathfinder {
         this.distance = val.distance;
         this.previous = val.previous;
         this.queue = val.queue;
-      } else {
-        return this.buildPath(origin, destination, this.previous, this.queue);
+      // } else {
+      if (current === destination) {
+        return this.buildPaths(origin, destination, this.previous, this.queue);
       }
 
       if (this.iterCount > 500) {
@@ -67,7 +68,7 @@ export class Pathfinder {
   getNextSystems(
     currentSystem: StarSystem,
     distance: Map<string, number>,
-    previous: Map<string, string | undefined>,
+    previous: Map<string, string[] | undefined>,
     queue: Set<string>,
     allowedJumpLevels: string[]) {
     queue.delete(currentSystem.name);
@@ -83,7 +84,11 @@ export class Pathfinder {
 
       if (distanceToCurrent < distanceToJumpDestination) {
         distance.set(jumpLink.destination, distanceToCurrent);
-        previous.set(jumpLink.destination, currentSystem.name);
+        previous.set(jumpLink.destination, [currentSystem.name]);
+      } else if (distanceToCurrent === distanceToJumpDestination) {
+        const systems = previous.get(jumpLink.destination);
+        if (systems) systems.push(currentSystem.name);
+        previous.set(jumpLink.destination, systems);
       }
     });
 
@@ -94,20 +99,31 @@ export class Pathfinder {
     };
   }
 
-  buildPath(origin: StarSystem,
-            destination: StarSystem,
-            previous: Map<string, string | undefined>,
-            queue: Set<string>): string[] | undefined {
+  buildPaths(origin: StarSystem,
+             destination: StarSystem,
+             previous: Map<string, string[] | undefined>,
+             queue: Set<string>): string[][] | undefined {
     queue.clear();
+    if (previous.get(destination.name) === undefined) {
+      return undefined;
+    }
+    return this.traversePath(destination.name, previous, []);
+  }
 
-    const path = new Array<string>();
-    let nextStep: string | undefined = destination.name;
-    if (previous.has(nextStep) || nextStep === origin.name) {
-      while (nextStep !== undefined) {
-        path.unshift(nextStep);
-        nextStep = previous.get(nextStep);
+  traversePath(currentSystem: string | undefined,
+               previous: Map<string, string[] | undefined>,
+               existingPath: string[]): string[][] {
+    if (currentSystem === undefined) {
+      return [existingPath];
+    } else {
+      const newPath = [currentSystem, ...existingPath];
+      const nextSystem = previous.get(currentSystem);
+      if (nextSystem) {
+        return nextSystem.flatMap(system => this.traversePath(system, previous, newPath));
+      } else {
+        return this.traversePath(nextSystem, previous, newPath);
       }
     }
-    return path[0] === origin.name ? path : undefined;
   }
+
 }
