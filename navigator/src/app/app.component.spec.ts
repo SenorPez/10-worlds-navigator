@@ -2,6 +2,7 @@ import {TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {JumpLinksComponent} from "./jump-links/jump-links.component";
 import {StarMapComponent} from "./star-map/star-map.component";
+import {PathfinderComponent} from "./pathfinder/pathfinder.component";
 
 jest.mock('three', () => {
   const THREE = jest.requireActual('three');
@@ -21,6 +22,7 @@ describe('AppComponent', () => {
       declarations: [AppComponent],
       imports: [
         JumpLinksComponent,
+        PathfinderComponent,
         StarMapComponent
       ]
     }).compileComponents();

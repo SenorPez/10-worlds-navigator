@@ -81,14 +81,14 @@ describe('PathfinderComponent', () => {
     it('should populate all systems except origin with a distance of Infinity', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
 
-      component.createInitialQueue(serviceReturnValue[0]);
+      const returnValue = component.createInitialQueue(serviceReturnValue[0]);
       const expected = new Map<string, number>()
         .set("Alpha Hydri", 0)
         .set("Beta Hydri", Infinity)
         .set("Gamma Hydri", Infinity)
         .set("Omega Hydri", Infinity);
 
-      expect(component.distance).toEqual(expected);
+      expect(returnValue.distance).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
@@ -96,14 +96,14 @@ describe('PathfinderComponent', () => {
     it('should populate all systems with a previous of undefined', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
 
-      component.createInitialQueue(serviceReturnValue[0]);
+      const returnValue = component.createInitialQueue(serviceReturnValue[0]);
       const expected = new Map<string, string | undefined>()
         .set("Alpha Hydri", undefined)
         .set("Beta Hydri", undefined)
         .set("Gamma Hydri", undefined)
         .set("Omega Hydri", undefined);
 
-      expect(component.previous).toEqual(expected);
+      expect(returnValue.previous).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
@@ -111,15 +111,14 @@ describe('PathfinderComponent', () => {
     it('should initially populate the queue with all systems', function () {
       mockGetStarSystems.mockReturnValue(serviceReturnValue);
 
-
-      component.createInitialQueue(serviceReturnValue[0]);
+      const returnValue = component.createInitialQueue(serviceReturnValue[0]);
       const expected = new Set<string>()
         .add("Alpha Hydri")
         .add("Beta Hydri")
         .add("Gamma Hydri")
         .add("Omega Hydri");
 
-      expect(component.queue).toEqual(expected);
+      expect(returnValue.queue).toEqual(expected);
       expect(mockGetStarSystems).toHaveBeenCalled();
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });

@@ -6,6 +6,8 @@ import {MatFormField} from "@angular/material/form-field";
 import {MatLabel, MatOption, MatSelect} from "@angular/material/select";
 import {SortByPipe} from "../sort-by.pipe";
 import {NgForOf} from "@angular/common";
+import {MatButtonToggle, MatButtonToggleChange, MatButtonToggleGroup} from "@angular/material/button-toggle";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-pathfinder',
@@ -16,7 +18,10 @@ import {NgForOf} from "@angular/common";
     MatOption,
     MatSelect,
     SortByPipe,
-    NgForOf
+    NgForOf,
+    MatButtonToggleGroup,
+    MatButtonToggle,
+    ReactiveFormsModule
   ],
   templateUrl: './pathfinder.component.html',
   styleUrl: './pathfinder.component.css'
@@ -26,17 +31,14 @@ export class PathfinderComponent {
   @Input() destStarSystem!: StarSystem;
   @Output() originStarSystemChange = new EventEmitter<StarSystem>();
   @Output() destStarSystemChange = new EventEmitter<StarSystem>();
+  @Output() jumpLevelsChange = new EventEmitter<string[]>();
 
   paths: string[][] | undefined;
 
   starSystems = this.starSystemsService.getStarSystems();
 
-  distance = new Map<string, number>();
-  previous = new Map<string, string[] | undefined>();
-  queue = new Set<string>();
-
+  jumpLevels = ["Gamma", "Delta", "Epsilon"];
   iterCount = 0;
-  current: StarSystem | undefined;
 
   constructor(private starSystemsService: StarSystemService) {
   }
@@ -51,37 +53,47 @@ export class PathfinderComponent {
     this.updatePaths();
   }
 
+  updateJumpLevels($event: MatButtonToggleChange) {
+    this.jumpLevels = $event.value;
+    this.jumpLevelsChange.emit(this.jumpLevels);
+    this.updatePaths();
+  }
+
   updatePaths() {
     if (this.originStarSystem && this.destStarSystem) {
-      this.paths = this.findPath(this.originStarSystem, this.destStarSystem);
+      this.paths = this.findPath(this.originStarSystem, this.destStarSystem, this.jumpLevels);
     }
   }
 
   findPath(origin: StarSystem, destination: StarSystem, allowedJumpLevels: string[] = [
     "Alpha", "Beta", "Gamma", "Delta", "Epsilon"
   ]) {
-    this.createInitialQueue(origin);
+    const val = this.createInitialQueue(origin);
 
-    while (this.queue.size) {
+    let distance = val.distance;
+    let previous = val.previous;
+    let queue = val.queue;
+
+    while (queue.size) {
       this.iterCount += 1;
-      const current = this.getClosestSystem(this.distance, this.queue);
+      const current = this.getClosestSystem(distance, queue);
 
       const val = this.getNextSystems(
         current,
-        this.distance,
-        this.previous,
-        this.queue,
+        distance,
+        previous,
+        queue,
         allowedJumpLevels);
-      this.distance = val.distance;
-      this.previous = val.previous;
-      this.queue = val.queue;
+      distance = val.distance;
+      previous = val.previous;
+      queue = val.queue;
 
       if (current === destination) {
-        return this.buildPaths(origin, destination, this.previous, this.queue);
+        return this.buildPaths(origin, destination, previous, queue);
       }
 
       if (this.iterCount > 500) {
-        this.queue.clear();
+        queue.clear();
       }
     }
 
@@ -89,12 +101,21 @@ export class PathfinderComponent {
   }
 
   createInitialQueue(origin: StarSystem) {
+    const distance = new Map<string, number>();
+    const previous = new Map<string, string[] | undefined>();
+    const queue = new Set<string>();
+
     this.starSystemsService.getStarSystems()
       .forEach(starSystem => {
-        this.distance.set(starSystem.name, origin.name === starSystem.name ? 0 : Infinity);
-        this.previous.set(starSystem.name, undefined)
-        this.queue.add(starSystem.name);
+        distance.set(starSystem.name, origin.name === starSystem.name ? 0 : Infinity);
+        previous.set(starSystem.name, undefined)
+        queue.add(starSystem.name);
       });
+    return {
+      distance: distance,
+      previous: previous,
+      queue: queue
+    };
   }
 
   getClosestSystem(distance: Map<string, number>, queue: Set<string>) {
@@ -123,7 +144,7 @@ export class PathfinderComponent {
 
     jumpLinks.forEach(jumpLink => {
       const distanceToCurrent = (distance.get(currentSystem.name) ?? Infinity) + 1;
-      const distanceToJumpDestination = this.distance.get(jumpLink.destination) ?? Infinity;
+      const distanceToJumpDestination = distance.get(jumpLink.destination) ?? Infinity;
 
       if (distanceToCurrent < distanceToJumpDestination) {
         distance.set(jumpLink.destination, distanceToCurrent);
