@@ -11,8 +11,13 @@ export class AppComponent {
   title = '10 Worlds Navigator';
   starSystem: StarSystem;
   destStarSystem!: StarSystem;
+  jumpLevels!: string[];
 
   constructor(private starSystemService: StarSystemService) {
     this.starSystem = starSystemService.getStarSystems()[0];
+  }
+
+  jumpLevelsChange(jumpLevels: string[]) {
+    this.jumpLevels = jumpLevels;
   }
 }

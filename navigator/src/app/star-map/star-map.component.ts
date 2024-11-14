@@ -38,8 +38,11 @@ export class StarMapComponent implements OnChanges, OnInit {
 
   @Input() starSystem!: StarSystem | undefined;
   @Input() destStarSystem!: StarSystem | undefined;
+
   @Output() starSystemChange = new EventEmitter<StarSystem>();
   @Output() destStarSystemChange = new EventEmitter<StarSystem>();
+
+  @Input() jumpLevels!: string[];
 
   hoveredSystemDiv;
   hoveredSystemLabel;
@@ -105,6 +108,19 @@ export class StarMapComponent implements OnChanges, OnInit {
     const currentDestSystem = this.scene.getObjectByName(changes['destStarSystem']?.currentValue?.name);
     if (currentDestSystem) {
       this.selectDestStarSystem(currentDestSystem);
+    }
+
+    if (changes['jumpLevels']) {
+      changes['jumpLevels'].currentValue.includes("Alpha") ?
+        this.camera.layers.enable(1) : this.camera.layers.disable(1);
+      changes['jumpLevels'].currentValue.includes("Beta") ?
+        this.camera.layers.enable(2) : this.camera.layers.disable(2);
+      changes['jumpLevels'].currentValue.includes("Gamma") ?
+        this.camera.layers.enable(3) : this.camera.layers.disable(3);
+      changes['jumpLevels'].currentValue.includes("Delta") ?
+        this.camera.layers.enable(4) : this.camera.layers.disable(4);
+      changes['jumpLevels'].currentValue.includes("Epsilon") ?
+        this.camera.layers.enable(5) : this.camera.layers.disable(5);
     }
   }
 
@@ -346,28 +362,34 @@ export class StarMapComponent implements OnChanges, OnInit {
     })
       .forEach(jumpLink => {
         let lineMaterial;
+        let lineLayer = 0;
         switch (jumpLink.jumpLevel) {
           case "Alpha":
             lineMaterial = new THREE.LineBasicMaterial({color: 0xff0000});
+            lineLayer = 1;
             break;
           case "Beta":
-            lineMaterial = new THREE.LineBasicMaterial({color: 0xffff00})
+            lineMaterial = new THREE.LineBasicMaterial({color: 0xffff00});
+            lineLayer = 2;
             break;
           case "Gamma":
-            lineMaterial = new THREE.LineBasicMaterial({color: 0x00ff00})
+            lineMaterial = new THREE.LineBasicMaterial({color: 0x00ff00});
+            lineLayer = 3;
             break;
           case "Delta":
-            lineMaterial = new THREE.LineBasicMaterial({color: 0x00ffff})
+            lineMaterial = new THREE.LineBasicMaterial({color: 0x00ffff});
+            lineLayer = 4;
             break;
           case "Epsilon":
-            lineMaterial = new THREE.LineBasicMaterial({color: 0x0000ff})
+            lineMaterial = new THREE.LineBasicMaterial({color: 0x0000ff});
+            lineLayer = 5;
             break;
         }
 
         const lineGeometry = new THREE.BufferGeometry()
           .setFromPoints([jumpLink.origin, jumpLink.destination]);
-
         const line = new THREE.Line(lineGeometry, lineMaterial);
+        line.layers.set(lineLayer);
         scene.add(line);
       });
   }
@@ -410,7 +432,6 @@ export class StarMapComponent implements OnChanges, OnInit {
       const clickIntersections = this.raycaster.intersectObjects(this.scene.children, false)
         .filter(intersection => intersection.object.type === "Mesh");
 
-      console.log(mouseDownIntersections, clickIntersections);
       if (
         mouseDownIntersections.length > 0 &&
         clickIntersections.length > 0 &&

@@ -29,6 +29,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 export class PathfinderComponent implements OnChanges {
   @Input() originStarSystem!: StarSystem;
   @Input() destStarSystem!: StarSystem;
+
   @Output() originStarSystemChange = new EventEmitter<StarSystem>();
   @Output() destStarSystemChange = new EventEmitter<StarSystem>();
   @Output() jumpLevelsChange = new EventEmitter<string[]>();
@@ -38,7 +39,6 @@ export class PathfinderComponent implements OnChanges {
   starSystems = this.starSystemsService.getStarSystems();
 
   jumpLevels = ["Gamma", "Delta", "Epsilon"];
-  iterCount = 0;
 
   constructor(private starSystemsService: StarSystemService) {
   }
@@ -47,6 +47,7 @@ export class PathfinderComponent implements OnChanges {
     if (this.originStarSystem && this.destStarSystem) {
       this.updatePaths();
     }
+    this.jumpLevelsChange.emit(this.jumpLevels);
   }
 
   updateOriginStarSystem() {
@@ -74,6 +75,7 @@ export class PathfinderComponent implements OnChanges {
   findPath(origin: StarSystem, destination: StarSystem, allowedJumpLevels: string[] = [
     "Alpha", "Beta", "Gamma", "Delta", "Epsilon"
   ]) {
+    let iterCount = 0;
     const val = this.createInitialQueue(origin);
 
     let distance = val.distance;
@@ -81,7 +83,7 @@ export class PathfinderComponent implements OnChanges {
     let queue = val.queue;
 
     while (queue.size) {
-      this.iterCount += 1;
+      iterCount += 1;
       const current = this.getClosestSystem(distance, queue);
 
       const val = this.getNextSystems(
@@ -98,7 +100,7 @@ export class PathfinderComponent implements OnChanges {
         return this.buildPaths(origin, destination, previous, queue);
       }
 
-      if (this.iterCount > 500) {
+      if (iterCount > 500) {
         queue.clear();
       }
     }
