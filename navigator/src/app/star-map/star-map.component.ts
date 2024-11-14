@@ -84,28 +84,23 @@ export class StarMapComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
     const previousSystem = this.scene.getObjectByName(changes['starSystem']?.previousValue?.name);
     if (previousSystem) {
-      console.log("#1");
       this.unselectStarSystem(previousSystem);
     }
 
     const currentSystem = this.scene.getObjectByName(changes['starSystem']?.currentValue?.name);
     if (currentSystem) {
-      console.log("#2");
       this.selectStarSystem(currentSystem);
     }
 
     const previousDestSystem = this.scene.getObjectByName(changes['destStarSystem']?.previousValue?.name);
     if (previousDestSystem) {
-      console.log("#3");
       this.unselectDestStarSystem(previousDestSystem);
     }
 
     const currentDestSystem = this.scene.getObjectByName(changes['destStarSystem']?.currentValue?.name);
     if (currentDestSystem) {
-      console.log("#4");
       this.selectDestStarSystem(currentDestSystem);
     }
   }
@@ -239,7 +234,7 @@ export class StarMapComponent implements OnChanges, OnInit {
     this.hoverCurrent = starSystem;
     (starSystem as THREE.Mesh).material = this.hoverMaterial;
     const selectedSystem = starSystem.name ?? "SYSTEM";
-    this.hoveredSystemDiv.innerHTML = `<div class='selectedSystem'>${selectedSystem}</div>`;
+    this.hoveredSystemDiv.innerHTML = `<div class='hoveredSystem'>${selectedSystem}</div>`;
     starSystem.add(this.hoveredSystemLabel);
   }
 

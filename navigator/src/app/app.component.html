@@ -1,9 +1,13 @@
 <section class="mat-app-background container">
   <div id="leftColumn">
-    <app-pathfinder></app-pathfinder>
+    <app-pathfinder
+      [(originStarSystem)]="starSystem"
+      [(destStarSystem)]="destStarSystem"></app-pathfinder>
   </div>
   <div id="rightColumn">
-    <app-star-map [(starSystem)]="starSystem"></app-star-map>
+    <app-star-map
+      [(starSystem)]="starSystem"
+      [destStarSystem]="destStarSystem"></app-star-map>
   </div>
 </section>
 

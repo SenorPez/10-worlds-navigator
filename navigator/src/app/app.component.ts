@@ -10,6 +10,7 @@ import {StarSystemService} from "./star-system.service";
 export class AppComponent {
   title = '10 Worlds Navigator';
   starSystem: StarSystem;
+  destStarSystem!: StarSystem;
 
   constructor(private starSystemService: StarSystemService) {
     this.starSystem = starSystemService.getStarSystems()[0];
