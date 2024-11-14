@@ -39,6 +39,7 @@ export class StarMapComponent implements OnChanges, OnInit {
   @Input() starSystem!: StarSystem | undefined;
   @Input() destStarSystem!: StarSystem | undefined;
   @Output() starSystemChange = new EventEmitter<StarSystem>();
+  @Output() destStarSystemChange = new EventEmitter<StarSystem>();
 
   hoveredSystemDiv;
   hoveredSystemLabel;
@@ -46,6 +47,7 @@ export class StarMapComponent implements OnChanges, OnInit {
   raycaster;
   hoverLocation: THREE.Vector2 | null = null;
   clickLocation: THREE.Vector2 | null = null;
+  rightClickLocation: THREE.Vector2 | null = null;
   mouseDownLocation: THREE.Vector2 | null = null
 
   hoverMaterial = new THREE.MeshBasicMaterial({color: 0xffaaaa})
@@ -84,6 +86,7 @@ export class StarMapComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
     const previousSystem = this.scene.getObjectByName(changes['starSystem']?.previousValue?.name);
     if (previousSystem) {
       this.unselectStarSystem(previousSystem);
@@ -197,6 +200,16 @@ export class StarMapComponent implements OnChanges, OnInit {
       -((event.clientY - container.getBoundingClientRect().top) / container.getBoundingClientRect().height) * 2 + 1
     );
     this.addClickEffect();
+  }
+
+  rightClick(event: MouseEvent) {
+    const container = this.container();
+
+    this.rightClickLocation = new THREE.Vector2(
+      ((event.clientX - container.getBoundingClientRect().left) / container.getBoundingClientRect().width) * 2 - 1,
+      -((event.clientY - container.getBoundingClientRect().top) / container.getBoundingClientRect().height) * 2 + 1
+    );
+    this.addRightClickEffect();
   }
 
   mouseDown(event: MouseEvent) {
@@ -388,6 +401,36 @@ export class StarMapComponent implements OnChanges, OnInit {
     }
   }
 
+  addRightClickEffect() {
+    if (this.mouseDownLocation !== null && this.rightClickLocation !== null) {
+      this.raycaster.setFromCamera(this.mouseDownLocation, this.camera);
+      const mouseDownIntersections = this.raycaster.intersectObjects(this.scene.children, false)
+        .filter(intersection => intersection.object.type === "Mesh");
+      this.raycaster.setFromCamera(this.rightClickLocation, this.camera);
+      const clickIntersections = this.raycaster.intersectObjects(this.scene.children, false)
+        .filter(intersection => intersection.object.type === "Mesh");
+
+      console.log(mouseDownIntersections, clickIntersections);
+      if (
+        mouseDownIntersections.length > 0 &&
+        clickIntersections.length > 0 &&
+        _.isEqual(mouseDownIntersections[0].object, clickIntersections[0].object)
+      ) {
+        const targetObject = clickIntersections[0].object;
+        let starSystem = this.starSystemsService.getStarSystem(targetObject.name);
+        if (this.clickDestCurrent !== null) {
+          if (this.clickDestCurrent.uuid === targetObject.uuid) {
+            this.destStarSystemChange.emit(undefined);
+          } else {
+            this.destStarSystemChange.emit(starSystem);
+          }
+        } else {
+          this.destStarSystemChange.emit(starSystem);
+        }
+      }
+    }
+  }
+
   addHoverEffect() {
     if (this.hoverLocation !== null) {
       this.raycaster.setFromCamera(this.hoverLocation, this.camera);
@@ -398,11 +441,17 @@ export class StarMapComponent implements OnChanges, OnInit {
         const targetObject = hoverIntersections[0].object;
         if (this.hoverCurrent !== null) {
           if (this.hoverCurrent.uuid !== targetObject.uuid) {
-            if (this.clickCurrent !== null && this.clickCurrent.uuid === targetObject.uuid) {
+            if (
+              (this.clickCurrent !== null && this.clickCurrent.uuid === targetObject.uuid) ||
+              (this.clickDestCurrent !== null && this.clickDestCurrent.uuid === targetObject.uuid)
+            ) {
               // Don't assign new material or add callout as we're hovering the selected object.
               this.unhoverStarSystem(this.hoverCurrent);
               this.hoverCurrent = targetObject;
-            } else if (this.clickCurrent !== null && this.clickCurrent.uuid === this.hoverCurrent.uuid) {
+            } else if (
+              (this.clickCurrent !== null && this.clickCurrent.uuid === this.hoverCurrent.uuid) ||
+              (this.clickDestCurrent !== null && this.clickDestCurrent.uuid === this.clickDestCurrent.uuid)
+            ) {
               // Don't restore original material as it's selected.
               this.hoverStarSystem(targetObject);
             } else {
@@ -412,7 +461,10 @@ export class StarMapComponent implements OnChanges, OnInit {
             }
           }
         } else {
-          if (this.clickCurrent !== null && this.clickCurrent.uuid === targetObject.uuid) {
+          if (
+            (this.clickCurrent !== null && this.clickCurrent.uuid === targetObject.uuid) ||
+            (this.clickDestCurrent !== null && this.clickDestCurrent.uuid === targetObject.uuid)
+          ) {
             // Don't set a material as we're hovering the selected system.
             this.hoverCurrent = targetObject;
           } else {
@@ -421,7 +473,10 @@ export class StarMapComponent implements OnChanges, OnInit {
         }
       } else {
         if (this.hoverCurrent !== null) {
-          if (this.clickCurrent !== null && this.clickCurrent.uuid === this.hoverCurrent.uuid) {
+          if (
+            (this.clickCurrent !== null && this.clickCurrent.uuid === this.hoverCurrent.uuid) ||
+            (this.clickDestCurrent !== null && this.clickDestCurrent.uuid === this.hoverCurrent.uuid)
+          ) {
             // Don't restore original material as it's selected.
             this.hoverCurrent = null;
           } else {

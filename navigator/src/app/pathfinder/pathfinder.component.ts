@@ -1,7 +1,7 @@
 import {StarSystemService} from "../star-system.service";
 import {StarSystem} from "../star-system";
 import * as _ from "lodash";
-import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from "@angular/core";
 import {MatFormField} from "@angular/material/form-field";
 import {MatLabel, MatOption, MatSelect} from "@angular/material/select";
 import {SortByPipe} from "../sort-by.pipe";
@@ -26,7 +26,7 @@ import {ReactiveFormsModule} from "@angular/forms";
   templateUrl: './pathfinder.component.html',
   styleUrl: './pathfinder.component.css'
 })
-export class PathfinderComponent {
+export class PathfinderComponent implements OnChanges {
   @Input() originStarSystem!: StarSystem;
   @Input() destStarSystem!: StarSystem;
   @Output() originStarSystemChange = new EventEmitter<StarSystem>();
@@ -41,6 +41,12 @@ export class PathfinderComponent {
   iterCount = 0;
 
   constructor(private starSystemsService: StarSystemService) {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.originStarSystem && this.destStarSystem) {
+      this.updatePaths();
+    }
   }
 
   updateOriginStarSystem() {

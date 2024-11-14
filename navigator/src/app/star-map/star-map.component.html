@@ -1,6 +1,7 @@
 <div
   id="divCanvas"
   (click)="click($event)"
+  (contextmenu)="rightClick($event)"
   (mousedown)="mouseDown($event)"
   (pointermove)="pointerMove($event)"
   (window:resize)="windowResize()">
