@@ -33,7 +33,11 @@ export class StarMapComponent implements OnChanges, OnInit {
   selectedSystemDiv;
   selectedSystemLabel;
 
+  selectedDestSystemDiv;
+  selectedDestSystemLabel;
+
   @Input() starSystem!: StarSystem | undefined;
+  @Input() destStarSystem!: StarSystem | undefined;
   @Output() starSystemChange = new EventEmitter<StarSystem>();
 
   hoveredSystemDiv;
@@ -46,9 +50,13 @@ export class StarMapComponent implements OnChanges, OnInit {
 
   hoverMaterial = new THREE.MeshBasicMaterial({color: 0xffaaaa})
   clickMaterial = new THREE.MeshBasicMaterial({color: 0xff0000})
+  destMaterial = new THREE.MeshBasicMaterial({color: 0x0000ff})
 
-  hoverCurrent: {object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial} | null = null;
-  clickCurrent: { object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial; } | null = null;
+  restoreMaterial = (object: THREE.Mesh) => object.material = object.userData['originalMaterial'];
+
+  hoverCurrent: THREE.Object3D | null = null;
+  clickCurrent: THREE.Object3D | null = null;
+  clickDestCurrent: THREE.Object3D | null = null;
 
   container = () => document.getElementById("divCanvas") ?? document.body;
   coordinateLimit = Math.max(...this.starSystemsService.getStarSystems()
@@ -69,21 +77,36 @@ export class StarMapComponent implements OnChanges, OnInit {
 
     this.selectedSystemDiv = document.createElement('div');
     this.selectedSystemLabel = new CSS2DObject(this.selectedSystemDiv);
+    this.selectedDestSystemDiv = document.createElement('div');
+    this.selectedDestSystemLabel = new CSS2DObject(this.selectedDestSystemDiv);
     this.hoveredSystemDiv = document.createElement('div');
     this.hoveredSystemLabel = new CSS2DObject(this.hoveredSystemDiv);
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['starSystem'].previousValue) {
-      const object = this.scene.getObjectByName(changes['starSystem'].previousValue.name);
-      if (object) {
-        this.unselectStarSystem(object);
-      }
+    console.log(changes);
+    const previousSystem = this.scene.getObjectByName(changes['starSystem']?.previousValue?.name);
+    if (previousSystem) {
+      console.log("#1");
+      this.unselectStarSystem(previousSystem);
     }
 
-    const object = this.scene.getObjectByName(changes['starSystem'].currentValue?.name);
-    if (object) {
-      this.selectStarSystem(object);
+    const currentSystem = this.scene.getObjectByName(changes['starSystem']?.currentValue?.name);
+    if (currentSystem) {
+      console.log("#2");
+      this.selectStarSystem(currentSystem);
+    }
+
+    const previousDestSystem = this.scene.getObjectByName(changes['destStarSystem']?.previousValue?.name);
+    if (previousDestSystem) {
+      console.log("#3");
+      this.unselectDestStarSystem(previousDestSystem);
+    }
+
+    const currentDestSystem = this.scene.getObjectByName(changes['destStarSystem']?.currentValue?.name);
+    if (currentDestSystem) {
+      console.log("#4");
+      this.selectDestStarSystem(currentDestSystem);
     }
   }
 
@@ -104,6 +127,7 @@ export class StarMapComponent implements OnChanges, OnInit {
     }
 
     this.selectedSystemLabel.center.set(0, 0);
+    this.selectedDestSystemLabel.center.set(0, 0);
     this.hoveredSystemLabel.center.set(0, 0);
 
     this.renderer.setAnimationLoop(this.animate);
@@ -211,24 +235,46 @@ export class StarMapComponent implements OnChanges, OnInit {
     this.controls.handleResize();
   }
 
+  hoverStarSystem(starSystem: THREE.Object3D) {
+    this.hoverCurrent = starSystem;
+    (starSystem as THREE.Mesh).material = this.hoverMaterial;
+    const selectedSystem = starSystem.name ?? "SYSTEM";
+    this.hoveredSystemDiv.innerHTML = `<div class='selectedSystem'>${selectedSystem}</div>`;
+    starSystem.add(this.hoveredSystemLabel);
+  }
 
   selectStarSystem(starSystem: THREE.Object3D) {
-    // Reset material on current object and select new object.
-    this.clickCurrent = {
-      object: starSystem,
-      replacedMaterial: this.hoverCurrent?.replacedMaterial ?? (starSystem as THREE.Mesh).material as THREE.MeshBasicMaterial,
-    };
+    this.clickCurrent = starSystem;
     (starSystem as THREE.Mesh).material = this.clickMaterial;
     const selectedSystem = starSystem.name ?? "SYSTEM";
-    this.selectedSystemDiv.innerHTML = `<div id='selectedSystem'>${selectedSystem}</div>`;
+    this.selectedSystemDiv.innerHTML = `<div class='selectedSystem'>${selectedSystem}</div>`;
     starSystem.add(this.selectedSystemLabel);
   }
 
+  selectDestStarSystem(starSystem: THREE.Object3D) {
+    this.clickDestCurrent = starSystem;
+    (starSystem as THREE.Mesh).material = this.destMaterial;
+    const selectedSystem = starSystem.name ?? "SYSTEM";
+    this.selectedDestSystemDiv.innerHTML = `<div class='selectedSystem'>${selectedSystem}</div>`;
+    starSystem.add(this.selectedDestSystemLabel);
+  }
+
+  unhoverStarSystem(starSystem: THREE.Object3D) {
+    this.hoverCurrent = null;
+    this.restoreMaterial(starSystem as THREE.Mesh);
+    this.hoveredSystemLabel.removeFromParent();
+  }
+
   unselectStarSystem(starSystem: THREE.Object3D) {
-    const replacedMaterial = this.clickCurrent?.replacedMaterial ?? (starSystem as THREE.Mesh).material as THREE.MeshBasicMaterial;
     this.clickCurrent = null;
-    (starSystem as THREE.Mesh).material = replacedMaterial;
+    this.restoreMaterial(starSystem as THREE.Mesh);
     this.selectedSystemLabel.removeFromParent();
+  }
+
+  unselectDestStarSystem(starSystem: THREE.Object3D) {
+    this.clickDestCurrent = null;
+    this.restoreMaterial(starSystem as THREE.Mesh);
+    this.selectedDestSystemLabel.removeFromParent();
   }
 
   addStars(scene: THREE.Scene) {
@@ -244,7 +290,10 @@ export class StarMapComponent implements OnChanges, OnInit {
           starSystem.coordinates.y,
           starSystem.coordinates.z
         );
-        starMesh.userData = {starSystemName: starSystem.name}
+        starMesh.userData = {
+          starSystemName: starSystem.name,
+          originalMaterial: starMaterial
+        };
         starMesh.name = starSystem.name;
         scene.add(starMesh);
       });
@@ -332,7 +381,7 @@ export class StarMapComponent implements OnChanges, OnInit {
         const targetObject = clickIntersections[0].object;
         let starSystem = this.starSystemsService.getStarSystem(targetObject.name);
         if (this.clickCurrent !== null) {
-          if (this.clickCurrent.object.uuid === targetObject.uuid) {
+          if (this.clickCurrent.uuid === targetObject.uuid) {
             this.starSystemChange.emit(undefined);
           } else {
             this.starSystemChange.emit(starSystem);
@@ -353,64 +402,38 @@ export class StarMapComponent implements OnChanges, OnInit {
       if (hoverIntersections.length > 0) {
         const targetObject = hoverIntersections[0].object;
         if (this.hoverCurrent !== null) {
-          if (this.hoverCurrent.object.uuid !== targetObject.uuid) {
-            if (this.clickCurrent !== null && this.clickCurrent.object.uuid === this.hoverCurrent.object.uuid) {
-              // Don't restore previous object, because it's selected.
-              this.hoverCurrent = this.setCurrent(targetObject, ((targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial));
-              const hoveredSystem = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET";
-              this.hoveredSystemDiv.innerHTML = `<div id='hoveredSystem'>${hoveredSystem}</div>`
-              targetObject.add(this.hoveredSystemLabel);
-              this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverMaterial);
-            } else if (this.clickCurrent !== null && this.clickCurrent.object.uuid === targetObject.uuid) {
-              this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverCurrent.replacedMaterial);
-              // Don't modify the material, because it's selected.
-              this.hoverCurrent = this.setCurrent(targetObject, this.clickCurrent.replacedMaterial);
+          if (this.hoverCurrent.uuid !== targetObject.uuid) {
+            if (this.clickCurrent !== null && this.clickCurrent.uuid === targetObject.uuid) {
+              // Don't assign new material or add callout as we're hovering the selected object.
+              this.unhoverStarSystem(this.hoverCurrent);
+              this.hoverCurrent = targetObject;
+            } else if (this.clickCurrent !== null && this.clickCurrent.uuid === this.hoverCurrent.uuid) {
+              // Don't restore original material as it's selected.
+              this.hoverStarSystem(targetObject);
             } else {
-              // Restore previous object.
-              this.hoveredSystemLabel.removeFromParent();
-              this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverCurrent.replacedMaterial);
-              this.hoverCurrent = this.setCurrent(targetObject, (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial);
-              const hoveredSystem = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET";
-              this.hoveredSystemDiv.innerHTML = `<div id='hoveredSystem'>${hoveredSystem}</div>`
-              targetObject.add(this.hoveredSystemLabel);
-              this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverMaterial);
+              // Restore original material and then hover new object.
+              this.unhoverStarSystem(this.hoverCurrent);
+              this.hoverStarSystem(targetObject);
             }
           }
         } else {
-          if (this.clickCurrent !== null && this.clickCurrent.object.uuid === targetObject.uuid) {
-            this.hoverCurrent = this.setCurrent(targetObject, this.clickCurrent.replacedMaterial);
+          if (this.clickCurrent !== null && this.clickCurrent.uuid === targetObject.uuid) {
+            // Don't set a material as we're hovering the selected system.
+            this.hoverCurrent = targetObject;
           } else {
-            this.hoverCurrent = this.setCurrent(targetObject, (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial);
-            const hoveredSystem = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET";
-            this.hoveredSystemDiv.innerHTML = `<div id='hoveredSystem'>${hoveredSystem}</div>`
-            targetObject.add(this.hoveredSystemLabel);
-            this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverMaterial);
+            this.hoverStarSystem(targetObject);
           }
         }
       } else {
         if (this.hoverCurrent !== null) {
-          if (this.clickCurrent !== null && this.clickCurrent.object.uuid === this.hoverCurrent.object.uuid) {
-            // Don't restore previous object since it's selected.
+          if (this.clickCurrent !== null && this.clickCurrent.uuid === this.hoverCurrent.uuid) {
+            // Don't restore original material as it's selected.
             this.hoverCurrent = null;
           } else {
-            // Restore previous object.
-            this.hoveredSystemLabel.removeFromParent();
-            this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverCurrent.replacedMaterial)
-            this.hoverCurrent = null;
+            this.unhoverStarSystem(this.hoverCurrent);
           }
         }
       }
     }
-  }
-
-  setMaterial(object: THREE.Mesh, material: THREE.MeshBasicMaterial): void {
-    object.material = material;
-  }
-
-  setCurrent(object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial) {
-    return {
-      object: object,
-      replacedMaterial: replacedMaterial
-    };
   }
 }
