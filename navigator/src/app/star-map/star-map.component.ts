@@ -454,6 +454,7 @@ export class StarMapComponent implements OnChanges, OnInit {
           systems: jumpLink.systems,
           originalMaterial: lineMaterial
         };
+        line.layers.set(lineLayer);
         scene.add(line);
       });
   }
