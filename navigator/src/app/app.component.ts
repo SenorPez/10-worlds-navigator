@@ -12,6 +12,7 @@ export class AppComponent {
   starSystem: StarSystem;
   destStarSystem!: StarSystem;
   jumpLevels!: string[];
+  path!: string[][];
 
   constructor(private starSystemService: StarSystemService) {
     this.starSystem = starSystemService.getStarSystems()[0];
@@ -19,5 +20,9 @@ export class AppComponent {
 
   jumpLevelsChange(jumpLevels: string[]) {
     this.jumpLevels = jumpLevels;
+  }
+
+  pathChange(path: string[][]) {
+    this.path = path;
   }
 }

@@ -33,6 +33,7 @@ export class PathfinderComponent implements OnChanges {
   @Output() originStarSystemChange = new EventEmitter<StarSystem>();
   @Output() destStarSystemChange = new EventEmitter<StarSystem>();
   @Output() jumpLevelsChange = new EventEmitter<string[]>();
+  @Output() pathChange = new EventEmitter<string[][]>();
 
   paths: string[][] | undefined;
 
@@ -69,6 +70,7 @@ export class PathfinderComponent implements OnChanges {
   updatePaths() {
     if (this.originStarSystem && this.destStarSystem) {
       this.paths = this.findPath(this.originStarSystem, this.destStarSystem, this.jumpLevels);
+      this.pathChange.emit(this.paths);
     }
   }
 

@@ -14,6 +14,9 @@ import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 import * as _ from 'lodash';
 import {CSS2DObject, CSS2DRenderer} from "three/examples/jsm/renderers/CSS2DRenderer";
 import {StarSystem} from "../star-system";
+import {Line2} from "three/examples/jsm/lines/Line2";
+import {LineGeometry} from "three/examples/jsm/lines/LineGeometry";
+import {LineMaterial} from "three/examples/jsm/lines/LineMaterial";
 
 @Component({
   selector: 'app-star-map',
@@ -43,6 +46,7 @@ export class StarMapComponent implements OnChanges, OnInit {
   @Output() destStarSystemChange = new EventEmitter<StarSystem>();
 
   @Input() jumpLevels!: string[];
+  @Input() path!: string[][];
 
   hoveredSystemDiv;
   hoveredSystemLabel;
@@ -89,7 +93,6 @@ export class StarMapComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
     const previousSystem = this.scene.getObjectByName(changes['starSystem']?.previousValue?.name);
     if (previousSystem) {
       this.unselectStarSystem(previousSystem);
@@ -121,6 +124,55 @@ export class StarMapComponent implements OnChanges, OnInit {
         this.camera.layers.enable(4) : this.camera.layers.disable(4);
       changes['jumpLevels'].currentValue.includes("Epsilon") ?
         this.camera.layers.enable(5) : this.camera.layers.disable(5);
+    }
+
+    if (changes['path']) {
+      if (changes['path'].previousValue) {
+        let previousSystem: string | null = null;
+        const currentPaths: string[][] = changes['path'].previousValue;
+        currentPaths.forEach(path => {
+          path.forEach(system => {
+            if (previousSystem === null) previousSystem = system;
+            else {
+              const objects = this.scene.children.filter(object => {
+                return object.type === 'Line2' &&
+                  object.userData['systems'].includes(previousSystem) &&
+                  object.userData['systems'].includes(system);
+              });
+              objects.forEach(obj => {
+                (obj as Line2).material = obj.userData['originalMaterial'];
+              });
+
+              previousSystem = system;
+            }
+          })
+        })
+      }
+
+      if (changes['path'].currentValue) {
+        let previousSystem: string | null = null;
+        const currentPaths: string[][] = changes['path'].currentValue;
+        currentPaths.forEach(path => {
+          path.forEach(system => {
+            if (previousSystem === null) previousSystem = system;
+            else {
+              const objects = this.scene.children.filter(object => {
+                return object.type === 'Line2' &&
+                  object.userData['systems'].includes(previousSystem) &&
+                  object.userData['systems'].includes(system);
+              });
+              objects.forEach(obj => {
+                (obj as Line2).material = new LineMaterial({
+                  color: 0xff0000,
+                  linewidth: 5
+                });
+              });
+
+              previousSystem = system;
+            }
+          });
+        });
+      }
     }
   }
 
@@ -337,6 +389,7 @@ export class StarMapComponent implements OnChanges, OnInit {
           .map(jumpLink => {
             return {
               jumpLevel: jumpLink.jumpLevel,
+              systems: [jumpLink.destination, starSystem.name],
               coordinates: this.starSystemsService.getStarSystems()
                 .find(starSystem => starSystem.name === jumpLink.destination)
                 ?.coordinates
@@ -344,6 +397,7 @@ export class StarMapComponent implements OnChanges, OnInit {
           })
           .filter((jumpLink): jumpLink is {
             jumpLevel: string,
+            systems: [string, string],
             coordinates: { x: number, y: number, z: number }
           } => jumpLink.coordinates !== undefined)
           .map(jumpLink => {
@@ -353,7 +407,7 @@ export class StarMapComponent implements OnChanges, OnInit {
               jumpLink.coordinates.z
             );
 
-            return {jumpLevel: jumpLink.jumpLevel, origin: origin, destination: destination};
+            return {jumpLevel: jumpLink.jumpLevel, systems: jumpLink.systems, origin: origin, destination: destination};
           });
       });
 
@@ -365,31 +419,41 @@ export class StarMapComponent implements OnChanges, OnInit {
         let lineLayer = 0;
         switch (jumpLink.jumpLevel) {
           case "Alpha":
-            lineMaterial = new THREE.LineBasicMaterial({color: 0xff0000});
+            lineMaterial = new LineMaterial({color: 0xff8080, linewidth: 2});
             lineLayer = 1;
             break;
           case "Beta":
-            lineMaterial = new THREE.LineBasicMaterial({color: 0xffff00});
+            lineMaterial = new LineMaterial({color: 0xffd280, linewidth: 2});
             lineLayer = 2;
             break;
           case "Gamma":
-            lineMaterial = new THREE.LineBasicMaterial({color: 0x00ff00});
+            lineMaterial = new LineMaterial({color: 0xffff80, linewidth: 2});
             lineLayer = 3;
             break;
           case "Delta":
-            lineMaterial = new THREE.LineBasicMaterial({color: 0x00ffff});
+            lineMaterial = new LineMaterial({color: 0x80ff80, linewidth: 2});
             lineLayer = 4;
             break;
           case "Epsilon":
-            lineMaterial = new THREE.LineBasicMaterial({color: 0x0000ff});
+            lineMaterial = new LineMaterial({color: 0x8080ff, linewidth: 2});
             lineLayer = 5;
             break;
         }
 
-        const lineGeometry = new THREE.BufferGeometry()
-          .setFromPoints([jumpLink.origin, jumpLink.destination]);
-        const line = new THREE.Line(lineGeometry, lineMaterial);
-        line.layers.set(lineLayer);
+        const geometry = new LineGeometry();
+        geometry.setPositions([
+          jumpLink.origin.x, jumpLink.origin.y, jumpLink.origin.z,
+          jumpLink.destination.x, jumpLink.destination.y, jumpLink.destination.z
+        ]);
+        geometry.setColors([1, 1, 1, 1, 1, 1]);
+
+        const line = new Line2(geometry, lineMaterial);
+        line.computeLineDistances();
+        line.scale.set(1, 1, 1);
+        line.userData = {
+          systems: jumpLink.systems,
+          originalMaterial: lineMaterial
+        };
         scene.add(line);
       });
   }

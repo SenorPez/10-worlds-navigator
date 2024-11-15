@@ -3,13 +3,15 @@
     <app-pathfinder
       [(originStarSystem)]="starSystem"
       [(destStarSystem)]="destStarSystem"
-      (jumpLevelsChange)="jumpLevelsChange($event)"></app-pathfinder>
+      (jumpLevelsChange)="jumpLevelsChange($event)"
+      (pathChange)="pathChange($event)"></app-pathfinder>
   </div>
   <div id="rightColumn">
     <app-star-map
       [(starSystem)]="starSystem"
       [(destStarSystem)]="destStarSystem"
-      [jumpLevels]="jumpLevels"></app-star-map>
+      [jumpLevels]="jumpLevels"
+      [path]="path"></app-star-map>
   </div>
 </section>
 

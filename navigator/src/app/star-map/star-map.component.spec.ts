@@ -564,8 +564,6 @@ describe('StarMapComponent', () => {
       component.hoverLocation = new Vector2();
 
       raycasterSpy = jest.spyOn(component.raycaster, 'intersectObjects');
-      setMaterialSpy = jest.spyOn(component, 'setMaterial');
-      setCurrentSpy = jest.spyOn(component, 'setCurrent');
     });
 
     // it('should do nothing if no hover intersections are found', function () {
