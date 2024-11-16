@@ -20,7 +20,7 @@
 
 <br/>
 
-<mat-label>Jump Levels</mat-label>
+<p>Jump Levels</p>
 <mat-button-toggle-group [value]="jumpLevels" (change)="updateJumpLevels($event)" hideMultipleSelectionIndicator="true" multiple>
   <mat-button-toggle value="Alpha">Alpha</mat-button-toggle>
   <mat-button-toggle value="Beta">Beta</mat-button-toggle>
@@ -29,6 +29,7 @@
   <mat-button-toggle value="Epsilon">Epsilon</mat-button-toggle>
 </mat-button-toggle-group>
 
+<br/>
 
 <div *ngFor="let path of paths; let i = index">
   <p>Path #{{i+1}}</p>

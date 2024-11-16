@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -26,7 +27,7 @@ import {LineMaterial} from "three/examples/jsm/lines/LineMaterial";
   styleUrl: './star-map.component.css',
   encapsulation: ViewEncapsulation.None
 })
-export class StarMapComponent implements OnChanges, OnInit {
+export class StarMapComponent implements OnChanges, OnInit, AfterViewInit {
   scene;
   camera;
   renderer;
@@ -199,6 +200,10 @@ export class StarMapComponent implements OnChanges, OnInit {
     this.renderer.setAnimationLoop(this.animate);
   }
 
+  ngAfterViewInit() {
+    this.windowResize();
+  }
+
   createScene = () => new THREE.Scene();
   createCamera = () => new THREE.OrthographicCamera();
   createRenderer = () => new THREE.WebGLRenderer();
@@ -215,20 +220,12 @@ export class StarMapComponent implements OnChanges, OnInit {
     const container = this.container();
 
     container.appendChild(renderer.domElement);
-    renderer.setSize(
-      container.getBoundingClientRect().width,
-      container.getBoundingClientRect().height
-    );
   }
 
   initLabelRenderer(labelRenderer: CSS2DRenderer) {
     const container = this.container();
 
     container.appendChild(labelRenderer.domElement);
-    labelRenderer.setSize(
-      container.getBoundingClientRect().width,
-      container.getBoundingClientRect().height
-    )
     labelRenderer.domElement.id = "systemLabel";
   }
 
@@ -300,11 +297,15 @@ export class StarMapComponent implements OnChanges, OnInit {
   }
 
   windowResize() {
-    const container = this.container();
+    const leftColumn = document.getElementById("leftColumn") ?? document.body;
 
     this.renderer.setSize(
-      container.getBoundingClientRect().width,
-      container.getBoundingClientRect().height
+      window.innerWidth - leftColumn.getBoundingClientRect().width,
+      leftColumn.getBoundingClientRect().height
+    );
+    this.labelRenderer.setSize(
+      window.innerWidth - leftColumn.getBoundingClientRect().width,
+      leftColumn.getBoundingClientRect().height
     );
 
     this.setCameraProjectionMatrix(this.camera);
