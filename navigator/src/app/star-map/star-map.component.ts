@@ -163,9 +163,15 @@ export class StarMapComponent implements OnChanges, OnInit, AfterViewInit {
                   object.userData['systems'].includes(system);
               });
               objects.forEach(obj => {
+                if (obj.userData['systems'][0] === system) {
+                  (obj as Line2).geometry.setColors([1, 1, 1, 0, 0, 0]);
+                } else {
+                  (obj as Line2).geometry.setColors([0, 0, 0, 1, 1, 1]);
+                }
                 (obj as Line2).material = new LineMaterial({
                   color: 0xff0000,
-                  linewidth: 5
+                  linewidth: 5,
+                  vertexColors: true
                 });
               });
 
@@ -449,8 +455,6 @@ export class StarMapComponent implements OnChanges, OnInit, AfterViewInit {
         geometry.setColors([1, 1, 1, 1, 1, 1]);
 
         const line = new Line2(geometry, lineMaterial);
-        line.computeLineDistances();
-        line.scale.set(1, 1, 1);
         line.userData = {
           systems: jumpLink.systems,
           originalMaterial: lineMaterial
