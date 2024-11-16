@@ -307,11 +307,11 @@ export class StarMapComponent implements OnChanges, OnInit, AfterViewInit {
 
     this.renderer.setSize(
       window.innerWidth - leftColumn.getBoundingClientRect().width,
-      leftColumn.getBoundingClientRect().height
+      window.innerHeight
     );
     this.labelRenderer.setSize(
       window.innerWidth - leftColumn.getBoundingClientRect().width,
-      leftColumn.getBoundingClientRect().height
+      window.innerHeight
     );
 
     this.setCameraProjectionMatrix(this.camera);
