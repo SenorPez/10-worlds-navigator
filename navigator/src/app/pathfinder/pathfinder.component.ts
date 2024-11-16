@@ -45,9 +45,7 @@ export class PathfinderComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.originStarSystem && this.destStarSystem) {
-      this.updatePaths();
-    }
+    this.updatePaths();
     this.jumpLevelsChange.emit(this.jumpLevels);
   }
 
@@ -70,8 +68,10 @@ export class PathfinderComponent implements OnChanges {
   updatePaths() {
     if (this.originStarSystem && this.destStarSystem) {
       this.paths = this.findPath(this.originStarSystem, this.destStarSystem, this.jumpLevels);
-      this.pathChange.emit(this.paths);
+    } else {
+      this.paths = undefined;
     }
+    this.pathChange.emit(this.paths);
   }
 
   findPath(origin: StarSystem, destination: StarSystem, allowedJumpLevels: string[] = [
