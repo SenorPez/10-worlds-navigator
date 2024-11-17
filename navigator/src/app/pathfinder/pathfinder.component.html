@@ -1,9 +1,9 @@
 <mat-form-field id="formField_originStarSystem">
   <mat-label>Origin</mat-label>
   <mat-select id="select_originStarSystem" [(value)]="originStarSystem" (valueChange)="updateOriginStarSystem()">
-    @for (starSystem of starSystems | sortBy: 'name'; track starSystem) {
-      <mat-option [value]="starSystem">{{starSystem.name}}</mat-option>
-    }
+    <mat-option *ngFor="let starSystem of starSystems | sortBy: 'name'" [value]="starSystem">
+      {{starSystem.name}}
+    </mat-option>
   </mat-select>
 </mat-form-field>
 
@@ -12,9 +12,9 @@
 <mat-form-field id="formField_destStarSystem">
   <mat-label>Destination</mat-label>
   <mat-select id="select_destStarSystem" [(value)]="destStarSystem" (valueChange)="updateDestStarSystem()">
-    @for (starSystem of starSystems | sortBy: 'name'; track starSystem) {
-    <mat-option [value]="starSystem">{{starSystem.name}}</mat-option>
-    }
+    <mat-option *ngFor="let starSystem of starSystems | sortBy: 'name'" [value]="starSystem">
+      {{starSystem.name}}
+    </mat-option>
   </mat-select>
 </mat-form-field>
 

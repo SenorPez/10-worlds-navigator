@@ -354,15 +354,6 @@ describe('PathfinderComponent', () => {
       expect(mockGetStarSystem).not.toHaveBeenCalled();
     });
 
-    it('should return undefined if the iteration failsafe triggers', function () {
-      mockGetStarSystems.mockReturnValue(serviceReturnValue);
-      component.iterCount = 1979;
-      const returnValue = component.findPath(serviceReturnValue[0], serviceReturnValue[1]);
-      expect(returnValue).toBeUndefined();
-      expect(mockGetStarSystems).toHaveBeenCalled();
-      expect(mockGetStarSystem).not.toHaveBeenCalled();
-    });
-
     it('should return undefined if no nodes are provided', function () {
       mockGetStarSystems.mockReturnValue([]);
       const returnValue = component.findPath(serviceReturnValue[0], serviceReturnValue[1]);

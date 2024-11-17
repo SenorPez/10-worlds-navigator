@@ -9,7 +9,8 @@ import {
   Line,
   LineBasicMaterial,
   Mesh,
-  MeshBasicMaterial, Object3D,
+  MeshBasicMaterial,
+  Object3D,
   OrthographicCamera,
   Raycaster,
   Scene,
@@ -158,7 +159,7 @@ describe('StarMapComponent', () => {
         }
       }
       component.ngOnChanges(changes);
-      expect(unselectSpy).not.toHaveBeenCalled();
+      expect(unselectSpy).toHaveBeenCalled();
       expect(selectSpy).toHaveBeenCalled();
     });
   });
@@ -168,10 +169,10 @@ describe('StarMapComponent', () => {
       .mockImplementation();
     const object = new Object3D();
     const material = new MeshBasicMaterial();
-    component.clickCurrent = {
-      object: new Object3D(),
-      replacedMaterial: material
-    };
+    object.userData = {
+      originalMaterial: material
+    }
+    component.clickCurrent = new Object3D();
     component.unselectStarSystem(object);
 
     expect(component.clickCurrent).toBeNull();
@@ -312,11 +313,11 @@ describe('StarMapComponent', () => {
             material.color.getHexString(),
             jumpLinks.get(material.color.getHexString()) + 1 || 1);
         });
-      expect(jumpLinks.get('ff0000')).toEqual(1);
-      expect(jumpLinks.get('ffff00')).toEqual(1);
-      expect(jumpLinks.get('00ff00')).toEqual(1);
-      expect(jumpLinks.get('00ffff')).toEqual(1);
-      expect(jumpLinks.get('0000ff')).toEqual(1);
+      expect(jumpLinks.get('ff8080')).toEqual(1);
+      expect(jumpLinks.get('ffd280')).toEqual(1);
+      expect(jumpLinks.get('ffff80')).toEqual(1);
+      expect(jumpLinks.get('80ff80')).toEqual(1);
+      expect(jumpLinks.get('8080ff')).toEqual(1);
     });
   });
 
@@ -505,22 +506,14 @@ describe('StarMapComponent', () => {
       });
 
       it('should set the material to hover and clear the selection if the target is the selected object', function () {
-        component.clickCurrent = {
-          object: meshTarget,
-          replacedMaterial: new MeshBasicMaterial()
-        }
+        component.clickCurrent = meshTarget;
         component.addClickEffect();
         expect(selectStarSystemSpy).not.toHaveBeenCalled();
         expect(unselectStarSystemSpy).not.toHaveBeenCalled();
       });
 
       it('should reset the original material, change the selection, and set the selected material', function () {
-        const originalMesh = new Mesh();
-        const originalMaterial = new MeshBasicMaterial();
-        component.clickCurrent = {
-          object: originalMesh,
-          replacedMaterial: originalMaterial
-        };
+        component.clickCurrent = new Mesh();
         component.addClickEffect();
         expect(selectStarSystemSpy).not.toHaveBeenCalled();
         expect(unselectStarSystemSpy).not.toHaveBeenCalled();
@@ -542,9 +535,9 @@ describe('StarMapComponent', () => {
   });
 
   describe('addHoverEffect function', function () {
+    let unhoverSpy: jest.SpyInstance;
+    let hoverSpy: jest.SpyInstance;
     let raycasterSpy: jest.SpyInstance;
-    let setMaterialSpy: jest.SpyInstance;
-    let setCurrentSpy: jest.SpyInstance;
 
     const meshTarget = new Mesh();
     const intersections: Intersection[] = [
@@ -563,72 +556,41 @@ describe('StarMapComponent', () => {
     beforeEach(function () {
       component.hoverLocation = new Vector2();
 
+      unhoverSpy = jest.spyOn(component, 'unhoverStarSystem');
+      hoverSpy = jest.spyOn(component, 'hoverStarSystem');
       raycasterSpy = jest.spyOn(component.raycaster, 'intersectObjects');
     });
-
-    // it('should do nothing if no hover intersections are found', function () {
-    //   raycasterSpy.mockImplementation(() => []);
-    //   component.addHoverEffect();
-    //   expect(setMaterialSpy).not.toHaveBeenCalled();
-    //   expect(setCurrentSpy).not.toHaveBeenCalled();
-    // });
 
     describe('with intersections and a currently hovered object', function () {
       beforeEach(function () {
         raycasterSpy.mockImplementation(() => intersections);
       });
 
-      it('should do nothing if the target and current object are the same', function () {
-        component.hoverCurrent = {
-          object: meshTarget,
-          replacedMaterial: new MeshBasicMaterial()
-        }
+      it('with previous not selected and target selected, should reset previous material and only set variable', function () {
+        component.hoverCurrent = new Mesh();
+        component.clickCurrent = meshTarget;
         component.addHoverEffect();
-        expect(setMaterialSpy).not.toHaveBeenCalled();
-        expect(setCurrentSpy).not.toHaveBeenCalled();
+        expect(unhoverSpy).toHaveBeenCalled();
+        expect(hoverSpy).not.toHaveBeenCalled();
+        expect(component.hoverCurrent).toEqual(meshTarget);
       });
 
-      it('should not restore the material if the current hover is selected and update the hover to the target ', function () {
-        const material = new MeshBasicMaterial;
-        const otherMesh = new Mesh();
-        component.clickCurrent = {
-          object: otherMesh,
-          replacedMaterial: material
-        };
-        component.hoverCurrent = {
-          object: otherMesh,
-          replacedMaterial: material
-        };
+      it('with previous selected and target not selected, should do nothing to previous and set target material', function () {
+        component.hoverCurrent = new Mesh();
+        component.clickCurrent = component.hoverCurrent;
         component.addHoverEffect();
-        expect(setMaterialSpy).toHaveBeenCalledTimes(1);
-        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
+        expect(unhoverSpy).not.toHaveBeenCalled();
+        expect(hoverSpy).toHaveBeenCalled();
+        expect(component.hoverCurrent).toEqual(meshTarget);
       });
 
-      it('should not change the material if the target is selected', function () {
-        const material = new MeshBasicMaterial;
-        const otherMesh = new Mesh();
-        component.clickCurrent = {
-          object: meshTarget,
-          replacedMaterial: material
-        };
-        component.hoverCurrent = {
-          object: otherMesh,
-          replacedMaterial: material
-        };
+      it('should reset previous material and set target material', function () {
+        component.hoverCurrent = new Mesh();
+        component.clickCurrent = null;
         component.addHoverEffect();
-        expect(setMaterialSpy).toHaveBeenCalledTimes(1);
-        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
-      });
-
-      it('should restore the previous hover and set the new hover', function () {
-        const otherMesh = new Mesh();
-        component.hoverCurrent = {
-          object: otherMesh,
-          replacedMaterial: new MeshBasicMaterial()
-        }
-        component.addHoverEffect();
-        expect(setMaterialSpy).toHaveBeenCalledTimes(2);
-        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
+        expect(unhoverSpy).toHaveBeenCalled();
+        expect(hoverSpy).toHaveBeenCalled();
+        expect(component.hoverCurrent).toEqual(meshTarget);
       });
     });
 
@@ -637,57 +599,46 @@ describe('StarMapComponent', () => {
         raycasterSpy.mockImplementation(() => intersections);
       });
 
-      it('should not change the material if its selected', function () {
-        component.clickCurrent = {
-          object: intersections[0].object,
-          replacedMaterial: new MeshBasicMaterial()
-        };
+      it('with target selected, should only set variable', function () {
+        component.hoverCurrent = null;
+        component.clickCurrent = meshTarget;
         component.addHoverEffect();
-        expect(setMaterialSpy).not.toHaveBeenCalled();
-        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
+        expect(unhoverSpy).not.toHaveBeenCalled();
+        expect(hoverSpy).not.toHaveBeenCalled();
+        expect(component.hoverCurrent).toEqual(meshTarget);
       });
 
-      it('should change the material if it is not selected', function () {
+      it('with target not selected, should set target material', function () {
+        component.hoverCurrent = null;
+        component.clickCurrent = null;
         component.addHoverEffect();
-        expect(setMaterialSpy).toHaveBeenCalledTimes(1);
-        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
+        expect(unhoverSpy).not.toHaveBeenCalled();
+        expect(hoverSpy).toHaveBeenCalled();
+        expect(component.hoverCurrent).toEqual(meshTarget);
       });
     });
 
-    describe('with no intersections', function () {
+    describe('with no intersections a currently hovered object', function () {
       beforeEach(function () {
         raycasterSpy.mockImplementation(() => []);
       });
 
-      it('should not restore previous material if its selected', function () {
-        const material = new MeshBasicMaterial;
-        component.clickCurrent = {
-          object: meshTarget,
-          replacedMaterial: material
-        };
-        component.hoverCurrent = {
-          object: meshTarget,
-          replacedMaterial: material
-        };
+      it('with current selected, should only set variable', function () {
+        component.hoverCurrent = new Mesh();
+        component.clickCurrent = component.hoverCurrent;
         component.addHoverEffect();
-        expect(setMaterialSpy).not.toHaveBeenCalled();
-        expect(setCurrentSpy).not.toHaveBeenCalled();
+        expect(unhoverSpy).not.toHaveBeenCalled();
+        expect(hoverSpy).not.toHaveBeenCalled();
+        expect(component.hoverCurrent).toBeNull();
       });
 
-      it('should restore previous material', function () {
-        component.hoverCurrent = {
-          object: meshTarget,
-          replacedMaterial: new MeshBasicMaterial()
-        };
+      it('with current not selected, should restore previous material', function () {
+        component.hoverCurrent = new Mesh();
+        component.clickCurrent = new Mesh();
         component.addHoverEffect();
-        expect(setMaterialSpy).toHaveBeenCalledTimes(1);
-        expect(setCurrentSpy).not.toHaveBeenCalled();
-      });
-
-      it('should do nothing if there is no previous', function () {
-        component.addHoverEffect();
-        expect(setMaterialSpy).not.toHaveBeenCalled();
-        expect(setCurrentSpy).not.toHaveBeenCalled();
+        expect(unhoverSpy).toHaveBeenCalled();
+        expect(hoverSpy).not.toHaveBeenCalled();
+        expect(component.hoverCurrent).toBeNull();
       });
     });
   });

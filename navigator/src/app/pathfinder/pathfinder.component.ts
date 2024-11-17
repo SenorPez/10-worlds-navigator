@@ -102,6 +102,7 @@ export class PathfinderComponent implements OnChanges {
         return this.buildPaths(origin, destination, previous, queue);
       }
 
+      // Just in case.
       if (iterCount > 500) {
         queue.clear();
       }
