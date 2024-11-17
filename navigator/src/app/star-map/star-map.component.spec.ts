@@ -213,6 +213,8 @@ describe('StarMapComponent', () => {
     });
 
     it('should restore lines if there is a previous value for paths', function () {
+      const getObjectByNameSpy = jest.spyOn(component.scene, 'getObjectByName');
+      getObjectByNameSpy.mockReturnValue(undefined);
       const changes: Partial<SimpleChanges> = {
         path: {
           previousValue: [["One", "Two"]],
@@ -227,18 +229,23 @@ describe('StarMapComponent', () => {
       const object: Partial<Line2> = {
         material: undefined,
         userData: {
-          originalMaterial: originalMaterial
-        }
+          originalMaterial: originalMaterial,
+          systems: ["One", "Two"]
+        },
+        type: 'Line2'
       };
-      const filterSpy = jest.spyOn(component.scene.children, 'filter');
-      filterSpy.mockReturnValue([object as Line2, object as Line2]);
+      jest.replaceProperty(
+        component.scene,
+        'children',
+        [object as Object3D]);
 
       component.ngOnChanges(changes as SimpleChanges);
       expect(object.material).toEqual(originalMaterial);
-      expect(filterSpy).toHaveBeenCalled();
     });
 
     it('should color lines if there is a current value for paths', function () {
+      const getObjectByNameSpy = jest.spyOn(component.scene, 'getObjectByName');
+      getObjectByNameSpy.mockReturnValue(undefined);
       const changes: Partial<SimpleChanges> = {
         path: {
           previousValue: undefined,
@@ -253,20 +260,55 @@ describe('StarMapComponent', () => {
       const geometry: Partial<LineGeometry> = {
         setColors: setColorsMock
       }
-      const firstObject: Partial<Line2> = {
+      const object: Partial<Line2> = {
         geometry: geometry as LineGeometry,
         material: undefined,
         userData: {
           systems: ["One", "Two"]
-        }
+        },
+        type: 'Line2'
       };
-      const filterSpy = jest.spyOn(component.scene.children, 'filter');
-      filterSpy.mockReturnValue([firstObject as Line2, firstObject as Line2]);
+      jest.replaceProperty(
+        component.scene,
+        'children',
+        [object as Object3D]);
 
       component.ngOnChanges(changes as SimpleChanges);
-      expect(firstObject.material).not.toBeUndefined();
-      expect(filterSpy).toHaveBeenCalled();
+      expect(object.material).not.toBeUndefined();
+    });
 
+    it('should color lines (reversed) if there is a current value for paths', function () {
+      const getObjectByNameSpy = jest.spyOn(component.scene, 'getObjectByName');
+      getObjectByNameSpy.mockReturnValue(undefined);
+      const changes: Partial<SimpleChanges> = {
+        path: {
+          previousValue: undefined,
+          currentValue: [["Two", "One"]],
+          firstChange: false,
+          isFirstChange(): boolean {
+            return false;
+          }
+        }
+      };
+      const setColorsMock = jest.fn();
+      const geometry: Partial<LineGeometry> = {
+        setColors: setColorsMock
+      }
+      const object: Partial<Line2> = {
+        geometry: geometry as LineGeometry,
+        material: undefined,
+        userData: {
+          systems: ["One", "Two"]
+        },
+        type: 'Line2'
+      };
+      jest.replaceProperty(
+        component.scene,
+        'children',
+        [object as Object3D]);
+
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(object.material).not.toBeUndefined();
     });
   });
 
@@ -605,7 +647,9 @@ describe('StarMapComponent', () => {
 
     describe('with a valid right click target and current right click object', function () {
       beforeEach(function () {
-        raycasterSpy.mockImplementation(() => intersections);
+        raycasterSpy.mockReturnValue(intersections);
+        component.mouseDownLocation = new Vector2();
+        component.rightClickLocation = new Vector2();
       });
 
       it('should emit an undefined destination star system if target and object are equal', function () {
@@ -613,21 +657,24 @@ describe('StarMapComponent', () => {
         component.destStarSystemChange.subscribe({
           next: (value: StarSystem) => expect(value).toBeUndefined()
         });
+        component.addRightClickEffect();
       });
 
       it('should emit a new destination star system if target and object are not equal', function () {
-        component.clickDestCurrent = intersections[0].object;
+        component.clickDestCurrent = new Mesh();
         component.destStarSystemChange.subscribe({
           next: (value: StarSystem) => expect(value).toEqual(starSystemServiceReturnValue[0]),
         });
+        component.addRightClickEffect();
       });
     });
 
     it('should emit a new destination star system if valid right click target and no current right click object', function () {
-      component.clickDestCurrent = intersections[0].object;
+      component.clickDestCurrent = null
       component.destStarSystemChange.subscribe({
         next: (value: StarSystem) => expect(value).toEqual(starSystemServiceReturnValue[0]),
       });
+      component.addRightClickEffect();
     });
   });
 
