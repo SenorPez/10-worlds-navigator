@@ -8,6 +8,7 @@ import {
   Intersection,
   Line,
   LineBasicMaterial,
+  Material,
   Mesh,
   MeshBasicMaterial,
   Object3D,
@@ -20,6 +21,8 @@ import {
 } from "three";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 import {SimpleChanges} from "@angular/core";
+import {Line2} from "three/examples/jsm/lines/Line2";
+import {LineGeometry} from "three/examples/jsm/lines/LineGeometry";
 
 let starSystemService: { getStarSystems: jest.Mock, getStarSystem: jest.Mock };
 const starSystemServiceReturnValue: StarSystem[] = [
@@ -113,54 +116,157 @@ describe('StarMapComponent', () => {
   });
 
   describe('ngOnChanges lifecycle function', function () {
-    let unselectSpy: jest.SpyInstance;
-    let selectSpy: jest.SpyInstance;
+    it('should unselect the previous origin star system', function () {
+      const getObjectByNameSpy = jest.spyOn(component.scene, 'getObjectByName');
+      const returnObject= new Object3D();
+      getObjectByNameSpy.mockReturnValueOnce(returnObject)
+        .mockReturnValue(undefined);
+      const unselectStarSystemSpy = jest.spyOn(component, 'unselectStarSystem');
+      const changes: Partial<SimpleChanges> = {};
 
-    beforeEach(function () {
-      unselectSpy = jest.spyOn(component, 'unselectStarSystem').mockImplementation();
-      selectSpy = jest.spyOn(component, 'selectStarSystem').mockImplementation();
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(unselectStarSystemSpy).toHaveBeenCalled();
     });
 
-    it('should unselect the previous value and select the current value', function () {
-      jest.spyOn(component.scene, 'getObjectByName')
-        .mockImplementation(() => {
-            return new Object3D();
-          }
-        );
-      const changes: SimpleChanges = {
-        starSystem: {
-          previousValue: {},
-          currentValue: {},
-          firstChange: false,
-          isFirstChange(): boolean {
-            return false;
-          }
-        }
-      }
-      component.ngOnChanges(changes);
-      expect(unselectSpy).toHaveBeenCalled();
-      expect(selectSpy).toHaveBeenCalled();
+    it('should select the current origin star system', function () {
+      const getObjectByNameSpy = jest.spyOn(component.scene, 'getObjectByName');
+      const returnObject = new Object3D();
+      getObjectByNameSpy.mockReturnValueOnce(undefined)
+        .mockReturnValueOnce(returnObject)
+        .mockReturnValue(undefined);
+      const selectStarSystemSpy = jest.spyOn(component, 'selectStarSystem');
+      const changes: Partial<SimpleChanges> = {};
+
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(selectStarSystemSpy).toHaveBeenCalled();
     });
 
-    it('should set the current value if there is not a previous', function () {
-      jest.spyOn(component.scene, 'getObjectByName')
-        .mockImplementation(() => {
-            return new Object3D();
-          }
-        );
-      const changes: SimpleChanges = {
-        starSystem: {
+    it('should unselect the previous destination star system', function () {
+      const getObjectByNameSpy = jest.spyOn(component.scene, 'getObjectByName');
+      const returnObject= new Object3D();
+      getObjectByNameSpy.mockReturnValueOnce(undefined)
+        .mockReturnValueOnce(undefined)
+        .mockReturnValueOnce(returnObject)
+        .mockReturnValue(undefined);
+      const unselectDestStarSystemSpy = jest.spyOn(component, 'unselectDestStarSystem');
+      const changes: Partial<SimpleChanges> = {};
+
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(unselectDestStarSystemSpy).toHaveBeenCalled();
+    });
+
+    it('should select the current destination star system', function () {
+      const getObjectByNameSpy = jest.spyOn(component.scene, 'getObjectByName');
+      const returnObject = new Object3D();
+      getObjectByNameSpy.mockReturnValueOnce(undefined)
+        .mockReturnValueOnce(undefined)
+        .mockReturnValueOnce(undefined)
+        .mockReturnValueOnce(returnObject)
+        .mockReturnValue(undefined);
+      const selectDestStarSystemSpy = jest.spyOn(component, 'selectDestStarSystem');
+      const changes: Partial<SimpleChanges> = {};
+
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(selectDestStarSystemSpy).toHaveBeenCalled();
+    });
+
+    it('should enable the layers included in the jump levels', function () {
+      const enableSpy = jest.spyOn(component.camera.layers, 'enable');
+      const changes: Partial<SimpleChanges> = {
+        jumpLevels: {
           previousValue: undefined,
-          currentValue: {},
+          currentValue: ["Alpha", "Beta", "Gamma", "Delta", "Epsilon"],
           firstChange: false,
           isFirstChange(): boolean {
             return false;
           }
         }
+      };
+
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(enableSpy).toBeCalledWith(1);
+      expect(enableSpy).toBeCalledWith(2);
+      expect(enableSpy).toBeCalledWith(3);
+      expect(enableSpy).toBeCalledWith(4);
+      expect(enableSpy).toBeCalledWith(5);
+    });
+
+    it('should disable the layers included in the jump levels', function () {
+      const disableSpy = jest.spyOn(component.camera.layers, 'disable');
+      const changes: Partial<SimpleChanges> = {
+        jumpLevels: {
+          previousValue: undefined,
+          currentValue: [],
+          firstChange: false,
+          isFirstChange(): boolean {
+            return false;
+          }
+        }
+      };
+
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(disableSpy).toBeCalledWith(1);
+      expect(disableSpy).toBeCalledWith(2);
+      expect(disableSpy).toBeCalledWith(3);
+      expect(disableSpy).toBeCalledWith(4);
+      expect(disableSpy).toBeCalledWith(5);
+    });
+
+    it('should restore lines if there is a previous value for paths', function () {
+      const changes: Partial<SimpleChanges> = {
+        path: {
+          previousValue: [["One", "Two"]],
+          currentValue: undefined,
+          firstChange: false,
+          isFirstChange(): boolean {
+            return false;
+          }
+        }
+      };
+      const originalMaterial: Partial<Material> = {};
+      const object: Partial<Line2> = {
+        material: undefined,
+        userData: {
+          originalMaterial: originalMaterial
+        }
+      };
+      const filterSpy = jest.spyOn(component.scene.children, 'filter');
+      filterSpy.mockReturnValue([object as Line2, object as Line2]);
+
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(object.material).toEqual(originalMaterial);
+      expect(filterSpy).toHaveBeenCalled();
+    });
+
+    it('should color lines if there is a current value for paths', function () {
+      const changes: Partial<SimpleChanges> = {
+        path: {
+          previousValue: undefined,
+          currentValue: [["One", "Two"]],
+          firstChange: false,
+          isFirstChange(): boolean {
+            return false;
+          }
+        }
+      };
+      const setColorsMock = jest.fn();
+      const geometry: Partial<LineGeometry> = {
+        setColors: setColorsMock
       }
-      component.ngOnChanges(changes);
-      expect(unselectSpy).toHaveBeenCalled();
-      expect(selectSpy).toHaveBeenCalled();
+      const firstObject: Partial<Line2> = {
+        geometry: geometry as LineGeometry,
+        material: undefined,
+        userData: {
+          systems: ["One", "Two"]
+        }
+      };
+      const filterSpy = jest.spyOn(component.scene.children, 'filter');
+      filterSpy.mockReturnValue([firstObject as Line2, firstObject as Line2]);
+
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(firstObject.material).not.toBeUndefined();
+      expect(filterSpy).toHaveBeenCalled();
+
     });
   });
 
@@ -351,6 +457,36 @@ describe('StarMapComponent', () => {
     jest.restoreAllMocks();
   });
 
+  it('should update the right click (context menu) location', () => {
+    const htmlElement = component.container();
+    jest.spyOn(component, 'container').mockImplementation(() => {
+      return {
+        ...htmlElement,
+        getBoundingClientRect: () => {
+          return {
+            ...htmlElement.getBoundingClientRect(),
+            left: 0,
+            top: 0,
+            right: 100,
+            bottom: 100,
+            width: 100,
+            height: 100,
+            x: 0,
+            y: 0
+          }
+        }
+      }
+    });
+
+    const mouseEvent = new MouseEvent('contextmenu', {clientX: 11, clientY: 42})
+    component.rightClick(mouseEvent);
+    const expected = new Vector2(-0.78, 0.16);
+    expect(component.rightClickLocation?.x).toBeCloseTo(expected.x);
+    expect(component.rightClickLocation?.y).toBeCloseTo(expected.y);
+
+    jest.restoreAllMocks();
+  });
+
   it('should update the mouseDown location', () => {
     const htmlElement = component.container();
     jest.spyOn(component, 'container').mockImplementation(() => {
@@ -441,6 +577,58 @@ describe('StarMapComponent', () => {
 
     expect(setCameraProjectionMatrixSpy).toHaveBeenCalled();
     expect(handleResize).toHaveBeenCalled();
+  });
+
+  describe('addRightClickEffect function', function () {
+    let raycasterSpy: jest.SpyInstance;
+
+    const meshTarget = new Mesh();
+    const intersections: Intersection[] = [
+      {
+        distance: 1,
+        point: new Vector3(),
+        object: meshTarget
+      },
+      {
+        distance: 1,
+        point: new Vector3(),
+        object: new Line()
+      }
+    ];
+
+    beforeEach(function () {
+      component.mouseDownLocation = new Vector2();
+      component.rightClickLocation = new Vector2();
+
+      raycasterSpy = jest.spyOn(component.raycaster, 'intersectObjects');
+    });
+
+    describe('with a valid right click target and current right click object', function () {
+      beforeEach(function () {
+        raycasterSpy.mockImplementation(() => intersections);
+      });
+
+      it('should emit an undefined destination star system if target and object are equal', function () {
+        component.clickDestCurrent = intersections[0].object;
+        component.destStarSystemChange.subscribe({
+          next: (value: StarSystem) => expect(value).toBeUndefined()
+        });
+      });
+
+      it('should emit a new destination star system if target and object are not equal', function () {
+        component.clickDestCurrent = intersections[0].object;
+        component.destStarSystemChange.subscribe({
+          next: (value: StarSystem) => expect(value).toEqual(starSystemServiceReturnValue[0]),
+        });
+      });
+    });
+
+    it('should emit a new destination star system if valid right click target and no current right click object', function () {
+      component.clickDestCurrent = intersections[0].object;
+      component.destStarSystemChange.subscribe({
+        next: (value: StarSystem) => expect(value).toEqual(starSystemServiceReturnValue[0]),
+      });
+    });
   });
 
   describe('addClickEffect function', function () {

@@ -94,6 +94,7 @@ export class StarMapComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
     const previousSystem = this.scene.getObjectByName(changes['starSystem']?.previousValue?.name);
     if (previousSystem) {
       this.unselectStarSystem(previousSystem);
