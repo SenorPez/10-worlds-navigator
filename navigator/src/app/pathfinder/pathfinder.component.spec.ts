@@ -7,6 +7,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {ReactiveFormsModule} from "@angular/forms";
+import {SimpleChanges} from "@angular/core";
+import {MatButtonToggleChange} from "@angular/material/button-toggle";
 
 const serviceReturnValue: StarSystem[] = [
   {
@@ -51,7 +53,6 @@ describe('PathfinderComponent', () => {
   let starSystemServiceReturnValue: StarSystem[] = serviceReturnValue;
 
   beforeEach(async function () {
-
     starSystemService = {
       getStarSystems: mockGetStarSystems,
       getStarSystem: mockGetStarSystem
@@ -75,6 +76,92 @@ describe('PathfinderComponent', () => {
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should update paths and emit paths and jump levels when values change', async function () {
+    const updatePathsSpy = jest.spyOn(component, 'updatePaths');
+    updatePathsSpy.mockReturnValue([["One", "Two"]]);
+
+    const changes: SimpleChanges = {};
+    component.jumpLevels = ["Alpha", "Omega"];
+
+    component.ngOnChanges(changes);
+    expect(updatePathsSpy).toHaveBeenCalled();
+    component.pathChange.subscribe({
+      next: (value: string[][] | undefined) => expect(value).toEqual([["One", "Two"]])
+    });
+    component.jumpLevelsChange.subscribe({
+      next: (value: string[]) => expect(value).toEqual(["Alpha", "Omega"])
+    });
+  });
+
+  it('should update paths and emit paths and origin star system when values change', function () {
+    const updatePathsSpy = jest.spyOn(component, 'updatePaths');
+    updatePathsSpy.mockReturnValue([["One", "Two"]]);
+    component.originStarSystem = serviceReturnValue[0];
+
+    component.updateOriginStarSystem();
+    expect(updatePathsSpy).toHaveBeenCalled();
+    component.pathChange.subscribe({
+      next: (value: string[][] | undefined) => expect(value).toEqual([["One", "Two"]])
+    });
+    component.originStarSystemChange.subscribe({
+      next: (value: StarSystem) => expect(value).toEqual(serviceReturnValue[0])
+    });
+  });
+
+  it('should update paths and emit paths and destination star system when values change', function () {
+    const updatePathsSpy = jest.spyOn(component, 'updatePaths');
+    updatePathsSpy.mockReturnValue([["One", "Two"]]);
+    component.destStarSystem = serviceReturnValue[0];
+
+    component.updateDestStarSystem();
+    expect(updatePathsSpy).toHaveBeenCalled();
+    component.pathChange.subscribe({
+      next: (value: string[][] | undefined) => expect(value).toEqual([["One", "Two"]])
+    });
+    component.destStarSystemChange.subscribe({
+      next: (value: StarSystem) => expect(value).toEqual(serviceReturnValue[0])
+    });
+  });
+
+  it('should update jump levels and emit paths and jump levels when values change', function () {
+    const updatePathsSpy = jest.spyOn(component, 'updatePaths');
+    updatePathsSpy.mockReturnValue([["One", "Two"]]);
+
+    const $event: Partial<MatButtonToggleChange> = {
+      value: ["Alpha", "Omega"],
+    };
+
+    component.updateJumpLevels(($event as MatButtonToggleChange));
+    expect(updatePathsSpy).toHaveBeenCalled();
+    component.pathChange.subscribe({
+      next: (value: string[][] | undefined) => expect(value).toEqual([["One", "Two"]])
+    });
+    component.jumpLevelsChange.subscribe({
+      next: (value: string[]) => expect(value).toEqual(["Alpha", "Omega"])
+    });
+  });
+
+  describe('updatePaths function', function () {
+    it('should update the paths if both origin and destination are set', function () {
+      const findPathSpy = jest.spyOn(component, 'findPath');
+      findPathSpy.mockReturnValue([["One", "Two"]]);
+      component.originStarSystem = serviceReturnValue[0];
+      component.destStarSystem = serviceReturnValue[1];
+
+      const paths = component.updatePaths();
+      expect(findPathSpy).toHaveBeenCalled();
+      expect(paths).toEqual([["One", "Two"]]);
+    });
+
+    it('should return undefined if neither origin and destination are set', function () {
+      const findPathSpy = jest.spyOn(component, 'findPath');
+
+      const paths = component.updatePaths();
+      expect(findPathSpy).not.toHaveBeenCalled();
+      expect(paths).toBeUndefined();
+    });
   });
 
   describe('initial queue creation', function () {
