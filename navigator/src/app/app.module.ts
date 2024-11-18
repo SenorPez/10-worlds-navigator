@@ -5,6 +5,7 @@ import {AppComponent} from './app.component';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {JumpLinksComponent} from "./jump-links/jump-links.component";
 import {StarMapComponent} from "./star-map/star-map.component";
+import {PathfinderComponent} from "./pathfinder/pathfinder.component";
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import {StarMapComponent} from "./star-map/star-map.component";
     imports: [
         BrowserModule,
         JumpLinksComponent,
-        StarMapComponent
+        StarMapComponent,
+        PathfinderComponent
     ],
   providers: [
     provideAnimationsAsync()

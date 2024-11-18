@@ -8,8 +8,10 @@ import {
   Intersection,
   Line,
   LineBasicMaterial,
+  Material,
   Mesh,
-  MeshBasicMaterial, Object3D,
+  MeshBasicMaterial,
+  Object3D,
   OrthographicCamera,
   Raycaster,
   Scene,
@@ -19,6 +21,8 @@ import {
 } from "three";
 import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 import {SimpleChanges} from "@angular/core";
+import {Line2} from "three/examples/jsm/lines/Line2";
+import {LineGeometry} from "three/examples/jsm/lines/LineGeometry";
 
 let starSystemService: { getStarSystems: jest.Mock, getStarSystem: jest.Mock };
 const starSystemServiceReturnValue: StarSystem[] = [
@@ -112,54 +116,199 @@ describe('StarMapComponent', () => {
   });
 
   describe('ngOnChanges lifecycle function', function () {
-    let unselectSpy: jest.SpyInstance;
-    let selectSpy: jest.SpyInstance;
+    it('should unselect the previous origin star system', function () {
+      const getObjectByNameSpy = jest.spyOn(component.scene, 'getObjectByName');
+      const returnObject= new Object3D();
+      getObjectByNameSpy.mockReturnValueOnce(returnObject)
+        .mockReturnValue(undefined);
+      const unselectStarSystemSpy = jest.spyOn(component, 'unselectStarSystem');
+      const changes: Partial<SimpleChanges> = {};
 
-    beforeEach(function () {
-      unselectSpy = jest.spyOn(component, 'unselectStarSystem').mockImplementation();
-      selectSpy = jest.spyOn(component, 'selectStarSystem').mockImplementation();
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(unselectStarSystemSpy).toHaveBeenCalled();
     });
 
-    it('should unselect the previous value and select the current value', function () {
-      jest.spyOn(component.scene, 'getObjectByName')
-        .mockImplementation(() => {
-            return new Object3D();
-          }
-        );
-      const changes: SimpleChanges = {
-        starSystem: {
-          previousValue: {},
-          currentValue: {},
-          firstChange: false,
-          isFirstChange(): boolean {
-            return false;
-          }
-        }
-      }
-      component.ngOnChanges(changes);
-      expect(unselectSpy).toHaveBeenCalled();
-      expect(selectSpy).toHaveBeenCalled();
+    it('should select the current origin star system', function () {
+      const getObjectByNameSpy = jest.spyOn(component.scene, 'getObjectByName');
+      const returnObject = new Object3D();
+      getObjectByNameSpy.mockReturnValueOnce(undefined)
+        .mockReturnValueOnce(returnObject)
+        .mockReturnValue(undefined);
+      const selectStarSystemSpy = jest.spyOn(component, 'selectStarSystem');
+      const changes: Partial<SimpleChanges> = {};
+
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(selectStarSystemSpy).toHaveBeenCalled();
     });
 
-    it('should set the current value if there is not a previous', function () {
-      jest.spyOn(component.scene, 'getObjectByName')
-        .mockImplementation(() => {
-            return new Object3D();
-          }
-        );
-      const changes: SimpleChanges = {
-        starSystem: {
+    it('should unselect the previous destination star system', function () {
+      const getObjectByNameSpy = jest.spyOn(component.scene, 'getObjectByName');
+      const returnObject= new Object3D();
+      getObjectByNameSpy.mockReturnValueOnce(undefined)
+        .mockReturnValueOnce(undefined)
+        .mockReturnValueOnce(returnObject)
+        .mockReturnValue(undefined);
+      const unselectDestStarSystemSpy = jest.spyOn(component, 'unselectDestStarSystem');
+      const changes: Partial<SimpleChanges> = {};
+
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(unselectDestStarSystemSpy).toHaveBeenCalled();
+    });
+
+    it('should select the current destination star system', function () {
+      const getObjectByNameSpy = jest.spyOn(component.scene, 'getObjectByName');
+      const returnObject = new Object3D();
+      getObjectByNameSpy.mockReturnValueOnce(undefined)
+        .mockReturnValueOnce(undefined)
+        .mockReturnValueOnce(undefined)
+        .mockReturnValueOnce(returnObject)
+        .mockReturnValue(undefined);
+      const selectDestStarSystemSpy = jest.spyOn(component, 'selectDestStarSystem');
+      const changes: Partial<SimpleChanges> = {};
+
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(selectDestStarSystemSpy).toHaveBeenCalled();
+    });
+
+    it('should enable the layers included in the jump levels', function () {
+      const enableSpy = jest.spyOn(component.camera.layers, 'enable');
+      const changes: Partial<SimpleChanges> = {
+        jumpLevels: {
           previousValue: undefined,
-          currentValue: {},
+          currentValue: ["Alpha", "Beta", "Gamma", "Delta", "Epsilon"],
           firstChange: false,
           isFirstChange(): boolean {
             return false;
           }
         }
+      };
+
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(enableSpy).toBeCalledWith(1);
+      expect(enableSpy).toBeCalledWith(2);
+      expect(enableSpy).toBeCalledWith(3);
+      expect(enableSpy).toBeCalledWith(4);
+      expect(enableSpy).toBeCalledWith(5);
+    });
+
+    it('should disable the layers included in the jump levels', function () {
+      const disableSpy = jest.spyOn(component.camera.layers, 'disable');
+      const changes: Partial<SimpleChanges> = {
+        jumpLevels: {
+          previousValue: undefined,
+          currentValue: [],
+          firstChange: false,
+          isFirstChange(): boolean {
+            return false;
+          }
+        }
+      };
+
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(disableSpy).toBeCalledWith(1);
+      expect(disableSpy).toBeCalledWith(2);
+      expect(disableSpy).toBeCalledWith(3);
+      expect(disableSpy).toBeCalledWith(4);
+      expect(disableSpy).toBeCalledWith(5);
+    });
+
+    it('should restore lines if there is a previous value for paths', function () {
+      const getObjectByNameSpy = jest.spyOn(component.scene, 'getObjectByName');
+      getObjectByNameSpy.mockReturnValue(undefined);
+      const changes: Partial<SimpleChanges> = {
+        path: {
+          previousValue: [["One", "Two"]],
+          currentValue: undefined,
+          firstChange: false,
+          isFirstChange(): boolean {
+            return false;
+          }
+        }
+      };
+      const originalMaterial: Partial<Material> = {};
+      const object: Partial<Line2> = {
+        material: undefined,
+        userData: {
+          originalMaterial: originalMaterial,
+          systems: ["One", "Two"]
+        },
+        type: 'Line2'
+      };
+      jest.replaceProperty(
+        component.scene,
+        'children',
+        [object as Object3D]);
+
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(object.material).toEqual(originalMaterial);
+    });
+
+    it('should color lines if there is a current value for paths', function () {
+      const getObjectByNameSpy = jest.spyOn(component.scene, 'getObjectByName');
+      getObjectByNameSpy.mockReturnValue(undefined);
+      const changes: Partial<SimpleChanges> = {
+        path: {
+          previousValue: undefined,
+          currentValue: [["One", "Two"]],
+          firstChange: false,
+          isFirstChange(): boolean {
+            return false;
+          }
+        }
+      };
+      const setColorsMock = jest.fn();
+      const geometry: Partial<LineGeometry> = {
+        setColors: setColorsMock
       }
-      component.ngOnChanges(changes);
-      expect(unselectSpy).not.toHaveBeenCalled();
-      expect(selectSpy).toHaveBeenCalled();
+      const object: Partial<Line2> = {
+        geometry: geometry as LineGeometry,
+        material: undefined,
+        userData: {
+          systems: ["One", "Two"]
+        },
+        type: 'Line2'
+      };
+      jest.replaceProperty(
+        component.scene,
+        'children',
+        [object as Object3D]);
+
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(object.material).not.toBeUndefined();
+    });
+
+    it('should color lines (reversed) if there is a current value for paths', function () {
+      const getObjectByNameSpy = jest.spyOn(component.scene, 'getObjectByName');
+      getObjectByNameSpy.mockReturnValue(undefined);
+      const changes: Partial<SimpleChanges> = {
+        path: {
+          previousValue: undefined,
+          currentValue: [["Two", "One"]],
+          firstChange: false,
+          isFirstChange(): boolean {
+            return false;
+          }
+        }
+      };
+      const setColorsMock = jest.fn();
+      const geometry: Partial<LineGeometry> = {
+        setColors: setColorsMock
+      }
+      const object: Partial<Line2> = {
+        geometry: geometry as LineGeometry,
+        material: undefined,
+        userData: {
+          systems: ["One", "Two"]
+        },
+        type: 'Line2'
+      };
+      jest.replaceProperty(
+        component.scene,
+        'children',
+        [object as Object3D]);
+
+      component.ngOnChanges(changes as SimpleChanges);
+      expect(object.material).not.toBeUndefined();
     });
   });
 
@@ -168,10 +317,10 @@ describe('StarMapComponent', () => {
       .mockImplementation();
     const object = new Object3D();
     const material = new MeshBasicMaterial();
-    component.clickCurrent = {
-      object: new Object3D(),
-      replacedMaterial: material
-    };
+    object.userData = {
+      originalMaterial: material
+    }
+    component.clickCurrent = new Object3D();
     component.unselectStarSystem(object);
 
     expect(component.clickCurrent).toBeNull();
@@ -312,11 +461,11 @@ describe('StarMapComponent', () => {
             material.color.getHexString(),
             jumpLinks.get(material.color.getHexString()) + 1 || 1);
         });
-      expect(jumpLinks.get('ff0000')).toEqual(1);
-      expect(jumpLinks.get('ffff00')).toEqual(1);
-      expect(jumpLinks.get('00ff00')).toEqual(1);
-      expect(jumpLinks.get('00ffff')).toEqual(1);
-      expect(jumpLinks.get('0000ff')).toEqual(1);
+      expect(jumpLinks.get('ff8080')).toEqual(1);
+      expect(jumpLinks.get('ffd280')).toEqual(1);
+      expect(jumpLinks.get('ffff80')).toEqual(1);
+      expect(jumpLinks.get('80ff80')).toEqual(1);
+      expect(jumpLinks.get('8080ff')).toEqual(1);
     });
   });
 
@@ -346,6 +495,36 @@ describe('StarMapComponent', () => {
     const expected = new Vector2(-0.78, 0.16);
     expect(component.clickLocation?.x).toBeCloseTo(expected.x);
     expect(component.clickLocation?.y).toBeCloseTo(expected.y);
+
+    jest.restoreAllMocks();
+  });
+
+  it('should update the right click (context menu) location', () => {
+    const htmlElement = component.container();
+    jest.spyOn(component, 'container').mockImplementation(() => {
+      return {
+        ...htmlElement,
+        getBoundingClientRect: () => {
+          return {
+            ...htmlElement.getBoundingClientRect(),
+            left: 0,
+            top: 0,
+            right: 100,
+            bottom: 100,
+            width: 100,
+            height: 100,
+            x: 0,
+            y: 0
+          }
+        }
+      }
+    });
+
+    const mouseEvent = new MouseEvent('contextmenu', {clientX: 11, clientY: 42})
+    component.rightClick(mouseEvent);
+    const expected = new Vector2(-0.78, 0.16);
+    expect(component.rightClickLocation?.x).toBeCloseTo(expected.x);
+    expect(component.rightClickLocation?.y).toBeCloseTo(expected.y);
 
     jest.restoreAllMocks();
   });
@@ -442,6 +621,63 @@ describe('StarMapComponent', () => {
     expect(handleResize).toHaveBeenCalled();
   });
 
+  describe('addRightClickEffect function', function () {
+    let raycasterSpy: jest.SpyInstance;
+
+    const meshTarget = new Mesh();
+    const intersections: Intersection[] = [
+      {
+        distance: 1,
+        point: new Vector3(),
+        object: meshTarget
+      },
+      {
+        distance: 1,
+        point: new Vector3(),
+        object: new Line()
+      }
+    ];
+
+    beforeEach(function () {
+      component.mouseDownLocation = new Vector2();
+      component.rightClickLocation = new Vector2();
+
+      raycasterSpy = jest.spyOn(component.raycaster, 'intersectObjects');
+    });
+
+    describe('with a valid right click target and current right click object', function () {
+      beforeEach(function () {
+        raycasterSpy.mockReturnValue(intersections);
+        component.mouseDownLocation = new Vector2();
+        component.rightClickLocation = new Vector2();
+      });
+
+      it('should emit an undefined destination star system if target and object are equal', function () {
+        component.clickDestCurrent = intersections[0].object;
+        component.destStarSystemChange.subscribe({
+          next: (value: StarSystem) => expect(value).toBeUndefined()
+        });
+        component.addRightClickEffect();
+      });
+
+      it('should emit a new destination star system if target and object are not equal', function () {
+        component.clickDestCurrent = new Mesh();
+        component.destStarSystemChange.subscribe({
+          next: (value: StarSystem) => expect(value).toEqual(starSystemServiceReturnValue[0]),
+        });
+        component.addRightClickEffect();
+      });
+    });
+
+    it('should emit a new destination star system if valid right click target and no current right click object', function () {
+      component.clickDestCurrent = null
+      component.destStarSystemChange.subscribe({
+        next: (value: StarSystem) => expect(value).toEqual(starSystemServiceReturnValue[0]),
+      });
+      component.addRightClickEffect();
+    });
+  });
+
   describe('addClickEffect function', function () {
     let raycasterSpy: jest.SpyInstance;
     let selectStarSystemSpy: jest.SpyInstance;
@@ -505,22 +741,14 @@ describe('StarMapComponent', () => {
       });
 
       it('should set the material to hover and clear the selection if the target is the selected object', function () {
-        component.clickCurrent = {
-          object: meshTarget,
-          replacedMaterial: new MeshBasicMaterial()
-        }
+        component.clickCurrent = meshTarget;
         component.addClickEffect();
         expect(selectStarSystemSpy).not.toHaveBeenCalled();
         expect(unselectStarSystemSpy).not.toHaveBeenCalled();
       });
 
       it('should reset the original material, change the selection, and set the selected material', function () {
-        const originalMesh = new Mesh();
-        const originalMaterial = new MeshBasicMaterial();
-        component.clickCurrent = {
-          object: originalMesh,
-          replacedMaterial: originalMaterial
-        };
+        component.clickCurrent = new Mesh();
         component.addClickEffect();
         expect(selectStarSystemSpy).not.toHaveBeenCalled();
         expect(unselectStarSystemSpy).not.toHaveBeenCalled();
@@ -542,9 +770,9 @@ describe('StarMapComponent', () => {
   });
 
   describe('addHoverEffect function', function () {
+    let unhoverSpy: jest.SpyInstance;
+    let hoverSpy: jest.SpyInstance;
     let raycasterSpy: jest.SpyInstance;
-    let setMaterialSpy: jest.SpyInstance;
-    let setCurrentSpy: jest.SpyInstance;
 
     const meshTarget = new Mesh();
     const intersections: Intersection[] = [
@@ -563,74 +791,41 @@ describe('StarMapComponent', () => {
     beforeEach(function () {
       component.hoverLocation = new Vector2();
 
+      unhoverSpy = jest.spyOn(component, 'unhoverStarSystem');
+      hoverSpy = jest.spyOn(component, 'hoverStarSystem');
       raycasterSpy = jest.spyOn(component.raycaster, 'intersectObjects');
-      setMaterialSpy = jest.spyOn(component, 'setMaterial');
-      setCurrentSpy = jest.spyOn(component, 'setCurrent');
     });
-
-    // it('should do nothing if no hover intersections are found', function () {
-    //   raycasterSpy.mockImplementation(() => []);
-    //   component.addHoverEffect();
-    //   expect(setMaterialSpy).not.toHaveBeenCalled();
-    //   expect(setCurrentSpy).not.toHaveBeenCalled();
-    // });
 
     describe('with intersections and a currently hovered object', function () {
       beforeEach(function () {
         raycasterSpy.mockImplementation(() => intersections);
       });
 
-      it('should do nothing if the target and current object are the same', function () {
-        component.hoverCurrent = {
-          object: meshTarget,
-          replacedMaterial: new MeshBasicMaterial()
-        }
+      it('with previous not selected and target selected, should reset previous material and only set variable', function () {
+        component.hoverCurrent = new Mesh();
+        component.clickCurrent = meshTarget;
         component.addHoverEffect();
-        expect(setMaterialSpy).not.toHaveBeenCalled();
-        expect(setCurrentSpy).not.toHaveBeenCalled();
+        expect(unhoverSpy).toHaveBeenCalled();
+        expect(hoverSpy).not.toHaveBeenCalled();
+        expect(component.hoverCurrent).toEqual(meshTarget);
       });
 
-      it('should not restore the material if the current hover is selected and update the hover to the target ', function () {
-        const material = new MeshBasicMaterial;
-        const otherMesh = new Mesh();
-        component.clickCurrent = {
-          object: otherMesh,
-          replacedMaterial: material
-        };
-        component.hoverCurrent = {
-          object: otherMesh,
-          replacedMaterial: material
-        };
+      it('with previous selected and target not selected, should do nothing to previous and set target material', function () {
+        component.hoverCurrent = new Mesh();
+        component.clickCurrent = component.hoverCurrent;
         component.addHoverEffect();
-        expect(setMaterialSpy).toHaveBeenCalledTimes(1);
-        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
+        expect(unhoverSpy).not.toHaveBeenCalled();
+        expect(hoverSpy).toHaveBeenCalled();
+        expect(component.hoverCurrent).toEqual(meshTarget);
       });
 
-      it('should not change the material if the target is selected', function () {
-        const material = new MeshBasicMaterial;
-        const otherMesh = new Mesh();
-        component.clickCurrent = {
-          object: meshTarget,
-          replacedMaterial: material
-        };
-        component.hoverCurrent = {
-          object: otherMesh,
-          replacedMaterial: material
-        };
+      it('should reset previous material and set target material', function () {
+        component.hoverCurrent = new Mesh();
+        component.clickCurrent = null;
         component.addHoverEffect();
-        expect(setMaterialSpy).toHaveBeenCalledTimes(1);
-        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
-      });
-
-      it('should restore the previous hover and set the new hover', function () {
-        const otherMesh = new Mesh();
-        component.hoverCurrent = {
-          object: otherMesh,
-          replacedMaterial: new MeshBasicMaterial()
-        }
-        component.addHoverEffect();
-        expect(setMaterialSpy).toHaveBeenCalledTimes(2);
-        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
+        expect(unhoverSpy).toHaveBeenCalled();
+        expect(hoverSpy).toHaveBeenCalled();
+        expect(component.hoverCurrent).toEqual(meshTarget);
       });
     });
 
@@ -639,57 +834,46 @@ describe('StarMapComponent', () => {
         raycasterSpy.mockImplementation(() => intersections);
       });
 
-      it('should not change the material if its selected', function () {
-        component.clickCurrent = {
-          object: intersections[0].object,
-          replacedMaterial: new MeshBasicMaterial()
-        };
+      it('with target selected, should only set variable', function () {
+        component.hoverCurrent = null;
+        component.clickCurrent = meshTarget;
         component.addHoverEffect();
-        expect(setMaterialSpy).not.toHaveBeenCalled();
-        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
+        expect(unhoverSpy).not.toHaveBeenCalled();
+        expect(hoverSpy).not.toHaveBeenCalled();
+        expect(component.hoverCurrent).toEqual(meshTarget);
       });
 
-      it('should change the material if it is not selected', function () {
+      it('with target not selected, should set target material', function () {
+        component.hoverCurrent = null;
+        component.clickCurrent = null;
         component.addHoverEffect();
-        expect(setMaterialSpy).toHaveBeenCalledTimes(1);
-        expect(setCurrentSpy).toHaveBeenCalledTimes(1);
+        expect(unhoverSpy).not.toHaveBeenCalled();
+        expect(hoverSpy).toHaveBeenCalled();
+        expect(component.hoverCurrent).toEqual(meshTarget);
       });
     });
 
-    describe('with no intersections', function () {
+    describe('with no intersections a currently hovered object', function () {
       beforeEach(function () {
         raycasterSpy.mockImplementation(() => []);
       });
 
-      it('should not restore previous material if its selected', function () {
-        const material = new MeshBasicMaterial;
-        component.clickCurrent = {
-          object: meshTarget,
-          replacedMaterial: material
-        };
-        component.hoverCurrent = {
-          object: meshTarget,
-          replacedMaterial: material
-        };
+      it('with current selected, should only set variable', function () {
+        component.hoverCurrent = new Mesh();
+        component.clickCurrent = component.hoverCurrent;
         component.addHoverEffect();
-        expect(setMaterialSpy).not.toHaveBeenCalled();
-        expect(setCurrentSpy).not.toHaveBeenCalled();
+        expect(unhoverSpy).not.toHaveBeenCalled();
+        expect(hoverSpy).not.toHaveBeenCalled();
+        expect(component.hoverCurrent).toBeNull();
       });
 
-      it('should restore previous material', function () {
-        component.hoverCurrent = {
-          object: meshTarget,
-          replacedMaterial: new MeshBasicMaterial()
-        };
+      it('with current not selected, should restore previous material', function () {
+        component.hoverCurrent = new Mesh();
+        component.clickCurrent = new Mesh();
         component.addHoverEffect();
-        expect(setMaterialSpy).toHaveBeenCalledTimes(1);
-        expect(setCurrentSpy).not.toHaveBeenCalled();
-      });
-
-      it('should do nothing if there is no previous', function () {
-        component.addHoverEffect();
-        expect(setMaterialSpy).not.toHaveBeenCalled();
-        expect(setCurrentSpy).not.toHaveBeenCalled();
+        expect(unhoverSpy).toHaveBeenCalled();
+        expect(hoverSpy).not.toHaveBeenCalled();
+        expect(component.hoverCurrent).toBeNull();
       });
     });
   });

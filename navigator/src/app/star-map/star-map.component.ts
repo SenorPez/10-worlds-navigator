@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -14,6 +15,9 @@ import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 import * as _ from 'lodash';
 import {CSS2DObject, CSS2DRenderer} from "three/examples/jsm/renderers/CSS2DRenderer";
 import {StarSystem} from "../star-system";
+import {Line2} from "three/examples/jsm/lines/Line2";
+import {LineGeometry} from "three/examples/jsm/lines/LineGeometry";
+import {LineMaterial} from "three/examples/jsm/lines/LineMaterial";
 
 @Component({
   selector: 'app-star-map',
@@ -23,7 +27,7 @@ import {StarSystem} from "../star-system";
   styleUrl: './star-map.component.css',
   encapsulation: ViewEncapsulation.None
 })
-export class StarMapComponent implements OnChanges, OnInit {
+export class StarMapComponent implements OnChanges, OnInit, AfterViewInit {
   scene;
   camera;
   renderer;
@@ -33,8 +37,17 @@ export class StarMapComponent implements OnChanges, OnInit {
   selectedSystemDiv;
   selectedSystemLabel;
 
+  selectedDestSystemDiv;
+  selectedDestSystemLabel;
+
   @Input() starSystem!: StarSystem | undefined;
+  @Input() destStarSystem!: StarSystem | undefined;
+
   @Output() starSystemChange = new EventEmitter<StarSystem>();
+  @Output() destStarSystemChange = new EventEmitter<StarSystem>();
+
+  @Input() jumpLevels!: string[];
+  @Input() path!: string[][];
 
   hoveredSystemDiv;
   hoveredSystemLabel;
@@ -42,13 +55,18 @@ export class StarMapComponent implements OnChanges, OnInit {
   raycaster;
   hoverLocation: THREE.Vector2 | null = null;
   clickLocation: THREE.Vector2 | null = null;
+  rightClickLocation: THREE.Vector2 | null = null;
   mouseDownLocation: THREE.Vector2 | null = null
 
   hoverMaterial = new THREE.MeshBasicMaterial({color: 0xffaaaa})
   clickMaterial = new THREE.MeshBasicMaterial({color: 0xff0000})
+  destMaterial = new THREE.MeshBasicMaterial({color: 0x0000ff})
 
-  hoverCurrent: {object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial} | null = null;
-  clickCurrent: { object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial; } | null = null;
+  restoreMaterial = (object: THREE.Mesh) => object.material = object.userData['originalMaterial'];
+
+  hoverCurrent: THREE.Object3D | null = null;
+  clickCurrent: THREE.Object3D | null = null;
+  clickDestCurrent: THREE.Object3D | null = null;
 
   container = () => document.getElementById("divCanvas") ?? document.body;
   coordinateLimit = Math.max(...this.starSystemsService.getStarSystems()
@@ -69,21 +87,99 @@ export class StarMapComponent implements OnChanges, OnInit {
 
     this.selectedSystemDiv = document.createElement('div');
     this.selectedSystemLabel = new CSS2DObject(this.selectedSystemDiv);
+    this.selectedDestSystemDiv = document.createElement('div');
+    this.selectedDestSystemLabel = new CSS2DObject(this.selectedDestSystemDiv);
     this.hoveredSystemDiv = document.createElement('div');
     this.hoveredSystemLabel = new CSS2DObject(this.hoveredSystemDiv);
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['starSystem'].previousValue) {
-      const object = this.scene.getObjectByName(changes['starSystem'].previousValue.name);
-      if (object) {
-        this.unselectStarSystem(object);
-      }
+    const previousSystem = this.scene.getObjectByName(changes['starSystem']?.previousValue?.name);
+    if (previousSystem) {
+      this.unselectStarSystem(previousSystem);
     }
 
-    const object = this.scene.getObjectByName(changes['starSystem'].currentValue?.name);
-    if (object) {
-      this.selectStarSystem(object);
+    const currentSystem = this.scene.getObjectByName(changes['starSystem']?.currentValue?.name);
+    if (currentSystem) {
+      this.selectStarSystem(currentSystem);
+    }
+
+    const previousDestSystem = this.scene.getObjectByName(changes['destStarSystem']?.previousValue?.name);
+    if (previousDestSystem) {
+      this.unselectDestStarSystem(previousDestSystem);
+    }
+
+    const currentDestSystem = this.scene.getObjectByName(changes['destStarSystem']?.currentValue?.name);
+    if (currentDestSystem) {
+      this.selectDestStarSystem(currentDestSystem);
+    }
+
+    if (changes['jumpLevels']) {
+      changes['jumpLevels'].currentValue.includes("Alpha") ?
+        this.camera.layers.enable(1) : this.camera.layers.disable(1);
+      changes['jumpLevels'].currentValue.includes("Beta") ?
+        this.camera.layers.enable(2) : this.camera.layers.disable(2);
+      changes['jumpLevels'].currentValue.includes("Gamma") ?
+        this.camera.layers.enable(3) : this.camera.layers.disable(3);
+      changes['jumpLevels'].currentValue.includes("Delta") ?
+        this.camera.layers.enable(4) : this.camera.layers.disable(4);
+      changes['jumpLevels'].currentValue.includes("Epsilon") ?
+        this.camera.layers.enable(5) : this.camera.layers.disable(5);
+    }
+
+    if (changes['path']) {
+      if (changes['path'].previousValue) {
+        let previousSystem: string | null = null;
+        const currentPaths: string[][] = changes['path'].previousValue;
+        currentPaths.forEach(path => {
+          path.forEach(system => {
+            if (previousSystem === null) previousSystem = system;
+            else {
+              const objects = this.scene.children.filter(object => {
+                return object.type === 'Line2' &&
+                  object.userData['systems'].includes(previousSystem) &&
+                  object.userData['systems'].includes(system);
+              });
+              objects.forEach(obj => {
+                (obj as Line2).material = obj.userData['originalMaterial'];
+              });
+
+              previousSystem = system;
+            }
+          })
+        })
+      }
+
+      if (changes['path'].currentValue) {
+        let previousSystem: string | null = null;
+        const currentPaths: string[][] = changes['path'].currentValue;
+        currentPaths.forEach(path => {
+          path.forEach(system => {
+            if (previousSystem === null) previousSystem = system;
+            else {
+              const objects = this.scene.children.filter(object => {
+                return object.type === 'Line2' &&
+                  object.userData['systems'].includes(previousSystem) &&
+                  object.userData['systems'].includes(system);
+              });
+              objects.forEach(obj => {
+                if (obj.userData['systems'][0] === system) {
+                  (obj as Line2).geometry.setColors([1, 1, 1, 0, 0, 0]);
+                } else {
+                  (obj as Line2).geometry.setColors([0, 0, 0, 1, 1, 1]);
+                }
+                (obj as Line2).material = new LineMaterial({
+                  color: 0xff0000,
+                  linewidth: 5,
+                  vertexColors: true
+                });
+              });
+
+              previousSystem = system;
+            }
+          });
+        });
+      }
     }
   }
 
@@ -104,9 +200,14 @@ export class StarMapComponent implements OnChanges, OnInit {
     }
 
     this.selectedSystemLabel.center.set(0, 0);
+    this.selectedDestSystemLabel.center.set(0, 0);
     this.hoveredSystemLabel.center.set(0, 0);
 
     this.renderer.setAnimationLoop(this.animate);
+  }
+
+  ngAfterViewInit() {
+    this.windowResize();
   }
 
   createScene = () => new THREE.Scene();
@@ -125,20 +226,12 @@ export class StarMapComponent implements OnChanges, OnInit {
     const container = this.container();
 
     container.appendChild(renderer.domElement);
-    renderer.setSize(
-      container.getBoundingClientRect().width,
-      container.getBoundingClientRect().height
-    );
   }
 
   initLabelRenderer(labelRenderer: CSS2DRenderer) {
     const container = this.container();
 
     container.appendChild(labelRenderer.domElement);
-    labelRenderer.setSize(
-      container.getBoundingClientRect().width,
-      container.getBoundingClientRect().height
-    )
     labelRenderer.domElement.id = "systemLabel";
   }
 
@@ -180,6 +273,16 @@ export class StarMapComponent implements OnChanges, OnInit {
     this.addClickEffect();
   }
 
+  rightClick(event: MouseEvent) {
+    const container = this.container();
+
+    this.rightClickLocation = new THREE.Vector2(
+      ((event.clientX - container.getBoundingClientRect().left) / container.getBoundingClientRect().width) * 2 - 1,
+      -((event.clientY - container.getBoundingClientRect().top) / container.getBoundingClientRect().height) * 2 + 1
+    );
+    this.addRightClickEffect();
+  }
+
   mouseDown(event: MouseEvent) {
     const container = this.container();
 
@@ -200,35 +303,61 @@ export class StarMapComponent implements OnChanges, OnInit {
   }
 
   windowResize() {
-    const container = this.container();
+    const leftColumn = document.getElementById("leftColumn") ?? document.body;
 
     this.renderer.setSize(
-      container.getBoundingClientRect().width,
-      container.getBoundingClientRect().height
+      window.innerWidth - leftColumn.getBoundingClientRect().width,
+      window.innerHeight
+    );
+    this.labelRenderer.setSize(
+      window.innerWidth - leftColumn.getBoundingClientRect().width,
+      window.innerHeight
     );
 
     this.setCameraProjectionMatrix(this.camera);
     this.controls.handleResize();
   }
 
+  hoverStarSystem(starSystem: THREE.Object3D) {
+    this.hoverCurrent = starSystem;
+    (starSystem as THREE.Mesh).material = this.hoverMaterial;
+    const selectedSystem = starSystem.name ?? "SYSTEM";
+    this.hoveredSystemDiv.innerHTML = `<div class='hoveredSystem'>${selectedSystem}</div>`;
+    starSystem.add(this.hoveredSystemLabel);
+  }
 
   selectStarSystem(starSystem: THREE.Object3D) {
-    // Reset material on current object and select new object.
-    this.clickCurrent = {
-      object: starSystem,
-      replacedMaterial: this.hoverCurrent?.replacedMaterial ?? (starSystem as THREE.Mesh).material as THREE.MeshBasicMaterial,
-    };
+    this.clickCurrent = starSystem;
     (starSystem as THREE.Mesh).material = this.clickMaterial;
     const selectedSystem = starSystem.name ?? "SYSTEM";
-    this.selectedSystemDiv.innerHTML = `<div id='selectedSystem'>${selectedSystem}</div>`;
+    this.selectedSystemDiv.innerHTML = `<div class='selectedSystem'>${selectedSystem}</div>`;
     starSystem.add(this.selectedSystemLabel);
   }
 
+  selectDestStarSystem(starSystem: THREE.Object3D) {
+    this.clickDestCurrent = starSystem;
+    (starSystem as THREE.Mesh).material = this.destMaterial;
+    const selectedSystem = starSystem.name ?? "SYSTEM";
+    this.selectedDestSystemDiv.innerHTML = `<div class='selectedSystem'>${selectedSystem}</div>`;
+    starSystem.add(this.selectedDestSystemLabel);
+  }
+
+  unhoverStarSystem(starSystem: THREE.Object3D) {
+    this.hoverCurrent = null;
+    this.restoreMaterial(starSystem as THREE.Mesh);
+    this.hoveredSystemLabel.removeFromParent();
+  }
+
   unselectStarSystem(starSystem: THREE.Object3D) {
-    const replacedMaterial = this.clickCurrent?.replacedMaterial ?? (starSystem as THREE.Mesh).material as THREE.MeshBasicMaterial;
     this.clickCurrent = null;
-    (starSystem as THREE.Mesh).material = replacedMaterial;
+    this.restoreMaterial(starSystem as THREE.Mesh);
     this.selectedSystemLabel.removeFromParent();
+  }
+
+  unselectDestStarSystem(starSystem: THREE.Object3D) {
+    this.clickDestCurrent = null;
+    this.restoreMaterial(starSystem as THREE.Mesh);
+    this.selectedDestSystemLabel.removeFromParent();
   }
 
   addStars(scene: THREE.Scene) {
@@ -244,7 +373,10 @@ export class StarMapComponent implements OnChanges, OnInit {
           starSystem.coordinates.y,
           starSystem.coordinates.z
         );
-        starMesh.userData = {starSystemName: starSystem.name}
+        starMesh.userData = {
+          starSystemName: starSystem.name,
+          originalMaterial: starMaterial
+        };
         starMesh.name = starSystem.name;
         scene.add(starMesh);
       });
@@ -264,6 +396,7 @@ export class StarMapComponent implements OnChanges, OnInit {
           .map(jumpLink => {
             return {
               jumpLevel: jumpLink.jumpLevel,
+              systems: [jumpLink.destination, starSystem.name],
               coordinates: this.starSystemsService.getStarSystems()
                 .find(starSystem => starSystem.name === jumpLink.destination)
                 ?.coordinates
@@ -271,6 +404,7 @@ export class StarMapComponent implements OnChanges, OnInit {
           })
           .filter((jumpLink): jumpLink is {
             jumpLevel: string,
+            systems: [string, string],
             coordinates: { x: number, y: number, z: number }
           } => jumpLink.coordinates !== undefined)
           .map(jumpLink => {
@@ -280,7 +414,7 @@ export class StarMapComponent implements OnChanges, OnInit {
               jumpLink.coordinates.z
             );
 
-            return {jumpLevel: jumpLink.jumpLevel, origin: origin, destination: destination};
+            return {jumpLevel: jumpLink.jumpLevel, systems: jumpLink.systems, origin: origin, destination: destination};
           });
       });
 
@@ -289,28 +423,43 @@ export class StarMapComponent implements OnChanges, OnInit {
     })
       .forEach(jumpLink => {
         let lineMaterial;
+        let lineLayer = 0;
         switch (jumpLink.jumpLevel) {
           case "Alpha":
-            lineMaterial = new THREE.LineBasicMaterial({color: 0xff0000});
+            lineMaterial = new LineMaterial({color: 0xff8080, linewidth: 2});
+            lineLayer = 1;
             break;
           case "Beta":
-            lineMaterial = new THREE.LineBasicMaterial({color: 0xffff00})
+            lineMaterial = new LineMaterial({color: 0xffd280, linewidth: 2});
+            lineLayer = 2;
             break;
           case "Gamma":
-            lineMaterial = new THREE.LineBasicMaterial({color: 0x00ff00})
+            lineMaterial = new LineMaterial({color: 0xffff80, linewidth: 2});
+            lineLayer = 3;
             break;
           case "Delta":
-            lineMaterial = new THREE.LineBasicMaterial({color: 0x00ffff})
+            lineMaterial = new LineMaterial({color: 0x80ff80, linewidth: 2});
+            lineLayer = 4;
             break;
           case "Epsilon":
-            lineMaterial = new THREE.LineBasicMaterial({color: 0x0000ff})
+            lineMaterial = new LineMaterial({color: 0x8080ff, linewidth: 2});
+            lineLayer = 5;
             break;
         }
 
-        const lineGeometry = new THREE.BufferGeometry()
-          .setFromPoints([jumpLink.origin, jumpLink.destination]);
+        const geometry = new LineGeometry();
+        geometry.setPositions([
+          jumpLink.origin.x, jumpLink.origin.y, jumpLink.origin.z,
+          jumpLink.destination.x, jumpLink.destination.y, jumpLink.destination.z
+        ]);
+        geometry.setColors([1, 1, 1, 1, 1, 1]);
 
-        const line = new THREE.Line(lineGeometry, lineMaterial);
+        const line = new Line2(geometry, lineMaterial);
+        line.userData = {
+          systems: jumpLink.systems,
+          originalMaterial: lineMaterial
+        };
+        line.layers.set(lineLayer);
         scene.add(line);
       });
   }
@@ -332,13 +481,42 @@ export class StarMapComponent implements OnChanges, OnInit {
         const targetObject = clickIntersections[0].object;
         let starSystem = this.starSystemsService.getStarSystem(targetObject.name);
         if (this.clickCurrent !== null) {
-          if (this.clickCurrent.object.uuid === targetObject.uuid) {
+          if (this.clickCurrent.uuid === targetObject.uuid) {
             this.starSystemChange.emit(undefined);
           } else {
             this.starSystemChange.emit(starSystem);
           }
         } else {
           this.starSystemChange.emit(starSystem);
+        }
+      }
+    }
+  }
+
+  addRightClickEffect() {
+    if (this.mouseDownLocation !== null && this.rightClickLocation !== null) {
+      this.raycaster.setFromCamera(this.mouseDownLocation, this.camera);
+      const mouseDownIntersections = this.raycaster.intersectObjects(this.scene.children, false)
+        .filter(intersection => intersection.object.type === "Mesh");
+      this.raycaster.setFromCamera(this.rightClickLocation, this.camera);
+      const clickIntersections = this.raycaster.intersectObjects(this.scene.children, false)
+        .filter(intersection => intersection.object.type === "Mesh");
+
+      if (
+        mouseDownIntersections.length > 0 &&
+        clickIntersections.length > 0 &&
+        _.isEqual(mouseDownIntersections[0].object, clickIntersections[0].object)
+      ) {
+        const targetObject = clickIntersections[0].object;
+        let starSystem = this.starSystemsService.getStarSystem(targetObject.name);
+        if (this.clickDestCurrent !== null) {
+          if (this.clickDestCurrent.uuid === targetObject.uuid) {
+            this.destStarSystemChange.emit(undefined);
+          } else {
+            this.destStarSystemChange.emit(starSystem);
+          }
+        } else {
+          this.destStarSystemChange.emit(starSystem);
         }
       }
     }
@@ -353,64 +531,50 @@ export class StarMapComponent implements OnChanges, OnInit {
       if (hoverIntersections.length > 0) {
         const targetObject = hoverIntersections[0].object;
         if (this.hoverCurrent !== null) {
-          if (this.hoverCurrent.object.uuid !== targetObject.uuid) {
-            if (this.clickCurrent !== null && this.clickCurrent.object.uuid === this.hoverCurrent.object.uuid) {
-              // Don't restore previous object, because it's selected.
-              this.hoverCurrent = this.setCurrent(targetObject, ((targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial));
-              const hoveredSystem = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET";
-              this.hoveredSystemDiv.innerHTML = `<div id='hoveredSystem'>${hoveredSystem}</div>`
-              targetObject.add(this.hoveredSystemLabel);
-              this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverMaterial);
-            } else if (this.clickCurrent !== null && this.clickCurrent.object.uuid === targetObject.uuid) {
-              this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverCurrent.replacedMaterial);
-              // Don't modify the material, because it's selected.
-              this.hoverCurrent = this.setCurrent(targetObject, this.clickCurrent.replacedMaterial);
+          if (this.hoverCurrent.uuid !== targetObject.uuid) {
+            if (
+              (this.clickCurrent !== null && this.clickCurrent.uuid === targetObject.uuid) ||
+              (this.clickDestCurrent !== null && this.clickDestCurrent.uuid === targetObject.uuid)
+            ) {
+              // Don't assign new material or add callout as we're hovering the selected object.
+              this.unhoverStarSystem(this.hoverCurrent);
+              this.hoverCurrent = targetObject;
+            } else if (
+              (this.clickCurrent !== null && this.clickCurrent.uuid === this.hoverCurrent.uuid) ||
+              (this.clickDestCurrent !== null && this.clickDestCurrent.uuid === this.clickDestCurrent.uuid)
+            ) {
+              // Don't restore original material as it's selected.
+              this.hoverStarSystem(targetObject);
             } else {
-              // Restore previous object.
-              this.hoveredSystemLabel.removeFromParent();
-              this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverCurrent.replacedMaterial);
-              this.hoverCurrent = this.setCurrent(targetObject, (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial);
-              const hoveredSystem = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET";
-              this.hoveredSystemDiv.innerHTML = `<div id='hoveredSystem'>${hoveredSystem}</div>`
-              targetObject.add(this.hoveredSystemLabel);
-              this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverMaterial);
+              // Restore original material and then hover new object.
+              this.unhoverStarSystem(this.hoverCurrent);
+              this.hoverStarSystem(targetObject);
             }
           }
         } else {
-          if (this.clickCurrent !== null && this.clickCurrent.object.uuid === targetObject.uuid) {
-            this.hoverCurrent = this.setCurrent(targetObject, this.clickCurrent.replacedMaterial);
+          if (
+            (this.clickCurrent !== null && this.clickCurrent.uuid === targetObject.uuid) ||
+            (this.clickDestCurrent !== null && this.clickDestCurrent.uuid === targetObject.uuid)
+          ) {
+            // Don't set a material as we're hovering the selected system.
+            this.hoverCurrent = targetObject;
           } else {
-            this.hoverCurrent = this.setCurrent(targetObject, (targetObject as THREE.Mesh).material as THREE.MeshBasicMaterial);
-            const hoveredSystem = targetObject.userData['starSystemName'] ?? "SYSTEM NAME NOT SET";
-            this.hoveredSystemDiv.innerHTML = `<div id='hoveredSystem'>${hoveredSystem}</div>`
-            targetObject.add(this.hoveredSystemLabel);
-            this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverMaterial);
+            this.hoverStarSystem(targetObject);
           }
         }
       } else {
         if (this.hoverCurrent !== null) {
-          if (this.clickCurrent !== null && this.clickCurrent.object.uuid === this.hoverCurrent.object.uuid) {
-            // Don't restore previous object since it's selected.
+          if (
+            (this.clickCurrent !== null && this.clickCurrent.uuid === this.hoverCurrent.uuid) ||
+            (this.clickDestCurrent !== null && this.clickDestCurrent.uuid === this.hoverCurrent.uuid)
+          ) {
+            // Don't restore original material as it's selected.
             this.hoverCurrent = null;
           } else {
-            // Restore previous object.
-            this.hoveredSystemLabel.removeFromParent();
-            this.setMaterial((this.hoverCurrent.object as THREE.Mesh), this.hoverCurrent.replacedMaterial)
-            this.hoverCurrent = null;
+            this.unhoverStarSystem(this.hoverCurrent);
           }
         }
       }
     }
-  }
-
-  setMaterial(object: THREE.Mesh, material: THREE.MeshBasicMaterial): void {
-    object.material = material;
-  }
-
-  setCurrent(object: THREE.Object3D, replacedMaterial: THREE.MeshBasicMaterial) {
-    return {
-      object: object,
-      replacedMaterial: replacedMaterial
-    };
   }
 }

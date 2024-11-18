@@ -7,14 +7,11 @@ import {StarSystem} from "./star-system";
   providedIn: 'root'
 })
 export class StarSystemService {
-  starSystems: StarSystem[];
-
   constructor() {
-    this.starSystems = data as StarSystem[];
   }
 
   getStarSystems(): StarSystem[] {
-    return this.starSystems;
+    return data as StarSystem[];
   }
 
   getStarSystem(starSystemName: string): StarSystem | undefined {

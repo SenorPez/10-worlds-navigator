@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {StarSystem} from "./star-system";
 import {StarSystemService} from "./star-system.service";
 
@@ -10,10 +10,19 @@ import {StarSystemService} from "./star-system.service";
 export class AppComponent {
   title = '10 Worlds Navigator';
   starSystem: StarSystem;
+  destStarSystem!: StarSystem;
+  jumpLevels!: string[];
+  path!: string[][];
 
   constructor(private starSystemService: StarSystemService) {
     this.starSystem = starSystemService.getStarSystems()[0];
   }
 
-  starSystemSelected = (starSystem: StarSystem) => this.starSystem = starSystem;
+  jumpLevelsChange(jumpLevels: string[]) {
+    this.jumpLevels = jumpLevels;
+  }
+
+  pathChange(path: string[][]) {
+    this.path = path;
+  }
 }
