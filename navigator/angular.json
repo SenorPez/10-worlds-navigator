@@ -17,6 +17,7 @@
               "base": "dist/navigator"
             },
             "index": "src/index.html",
+            "baseHref": "/navigator/",
             "polyfills": [
               "src/polyfills.ts"
             ],
