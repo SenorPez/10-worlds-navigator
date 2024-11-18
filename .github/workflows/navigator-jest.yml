@@ -1,0 +1,37 @@
+name: Navigator CI with Jest
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: navigator
+    strategy:
+      matrix:
+        node-version: [ 18, 20 ]
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: navigator/package-lock.json
+      - name: Clean install application
+        run: npm ci
+      - name: Run Jest tests
+        run: npm test
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./navigator/coverage/
+          fail_ci_if_error: true
+          verbose: true

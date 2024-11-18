@@ -1,0 +1,17 @@
+<section class="mat-app-background container">
+  <div id="leftColumn">
+    <app-pathfinder
+      [(originStarSystem)]="starSystem"
+      [(destStarSystem)]="destStarSystem"
+      (jumpLevelsChange)="jumpLevelsChange($event)"
+      (pathChange)="pathChange($event)"></app-pathfinder>
+  </div>
+  <div id="rightColumn">
+    <app-star-map
+      [(starSystem)]="starSystem"
+      [(destStarSystem)]="destStarSystem"
+      [jumpLevels]="jumpLevels"
+      [path]="path"></app-star-map>
+  </div>
+</section>
+
