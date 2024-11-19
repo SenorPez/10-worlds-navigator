@@ -45,28 +45,28 @@ export class PathfinderComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    this.jumpLevelsChange.emit(this.jumpLevels);
     this.paths = this.updatePaths();
     this.pathChange.emit(this.paths);
-    this.jumpLevelsChange.emit(this.jumpLevels);
   }
 
   updateOriginStarSystem() {
+    this.originStarSystemChange.emit(this.originStarSystem);
     this.paths = this.updatePaths();
     this.pathChange.emit(this.paths);
-    this.originStarSystemChange.emit(this.originStarSystem);
   }
 
   updateDestStarSystem() {
+    this.destStarSystemChange.emit(this.destStarSystem);
     this.paths = this.updatePaths();
     this.pathChange.emit(this.paths);
-    this.destStarSystemChange.emit(this.destStarSystem);
   }
 
   updateJumpLevels($event: MatButtonToggleChange) {
-    this.updatePaths();
     this.jumpLevels = $event.value;
-    this.pathChange.emit(this.paths);
     this.jumpLevelsChange.emit(this.jumpLevels);
+    this.paths = this.updatePaths();
+    this.pathChange.emit(this.paths);
   }
 
   updatePaths() {
